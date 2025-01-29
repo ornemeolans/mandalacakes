@@ -1,0 +1,392 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Plus Jakarta Sans', serif;
+    font-style: normal;
+    font-stretch: extra-condensed;
+    font-weight: lighter;
+    position: relative;
+    padding-bottom: 75px;
+    background-color: #8f3a42;
+    min-height: 100vh;
+}
+
+footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 50px;
+    background-color: #e7cec7;
+}
+
+footer img {
+    width: 40px;
+}
+
+header {
+    display: flex;
+}
+
+header img {
+    width: 150px;
+    margin: 10px 10px;
+}
+
+.navbar-expand-lg .navbar-collapse {
+    flex-direction: row-reverse;
+}
+
+.navbar-light .navbar-nav .nav-link.active,
+.navbar-light .navbar-nav .show>.nav-link {
+    color: #9a738a;
+    font-size: 25px;
+}
+
+span {
+    color: #9a738a;
+}
+
+.navbar-light .navbar-toggler {
+    color: #9a738a;
+    border: inset;
+}
+
+.navbar-nav {
+    align-items: flex-end;
+}
+
+.fondo {
+    width: 100%;
+}
+
+navbar-nav {
+    font-family: 'Plus Jakarta Sans', serif;
+}
+
+.banner {
+    height: 500px;
+    background-image: url(assets/banner.jpg);
+    background-position: center;
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 0.5em 0.5em;
+}
+
+.banner .call-to-action {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+.multimedia {
+    margin: 15px 0px;
+    display: flex;
+    flex-direction: column;
+}
+
+.multimedia h2 {
+    display: flex;
+    justify-content: center;
+    font-size: 30px;
+    color: white;
+    margin: 10px 0px;
+}
+
+.multimedia p {
+    display: flex;
+    justify-content: center;
+    font-size: 16px;
+    color: white;
+    margin: 15px 0px;
+}
+
+.multimedia .maps {
+    display: flex;
+    justify-content: space-around;
+    flex-direction: row;
+    margin: 10px 10px;
+}
+
+.multimedia .maps .suc {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 10px 10px;
+}
+
+.multimedia .maps .suc h5 {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    color: white;
+    font-size: 25px;
+    color: white;
+    height: 20px;
+    margin: 10px 10px;
+}
+
+.multimedia .maps .suc iframe {
+    display: flex;
+    width: 500px;
+    height: 300px;
+    margin: 10px 10px;
+}
+
+/* Asegurar que la cuadrícula mantiene las tarjetas alineadas */
+.grid {
+    display: grid;
+    grid-template-areas: "card-1 card-2 card-3 card-4"
+        "card-5 card-6 card-7 card-8"
+        "card-9 card-10 card-11 card-12"
+        "card-13 card-14 card-15 card-16"
+        "card-17 card-18 card-19 card-20"
+        "card-21 card-22 card-23 card-24";
+}
+
+/* Hacer que todas las tarjetas tengan el mismo tamaño */
+.card-1,
+.card-2,
+.card-3,
+.card-4,
+.card-5,
+.card-6,
+.card-7,
+.card-8,
+.card-9,
+.card-10,
+.card-11,
+.card-12,
+.card-13,
+.card-14,
+.card-15,
+.card-16,
+.card-17,
+.card-18,
+.card-19,
+.card-20,
+.card-21,
+.card-22,
+.card-23 {
+    display: flex;
+    flex-direction: column;
+    margin: 0px auto;
+    background-color: #e499ba;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    border-radius: 15px;
+    overflow: hidden;
+    max-width: 80%;
+    height: 100%;
+    /* Hace que todas las tarjetas sean del mismo tamaño */
+}
+
+/* Ajustar el tamaño del cuerpo de la tarjeta */
+.card-body {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    padding: 15px;
+}
+
+/* Mantener la fuente y colores originales */
+.card-body h5 {
+    font-family: 'Plus Jakarta Sans', serif;
+    font-size: 20px;
+    text-align: center;
+    color: black;
+}
+
+.card-body p {
+    font-size: 14px;
+    color: black;
+    flex-grow: 1;
+    /* Hace que el texto ocupe el espacio y empuje el botón */
+}
+
+.count-controls{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    flex-grow: 1;
+    margin: 5px 5px;
+    width: 100%;
+}
+.count-controls button{
+    background-color: #8f3a42;
+    border-color: #8f3a42;
+    border-radius: 0.5em 0.5em;
+    font-size: 12px;
+    height: 25px;
+    width: 25px;
+    flex-grow: 1;
+}
+.count-controls p{
+    margin: 5px;
+    font-size: 12px;
+    text-align: center;
+    width: 100%;
+    flex-grow: 1;
+}
+.card-body .slice-count{
+    display: flex;
+    flex-direction: row;
+    flex-grow: 1;
+}
+
+.card-body .slice-count p{
+    display: flex;
+    flex-grow: 1;
+    margin: 5px;
+    font-size: 12px;
+    color: black;
+}
+.card-body .slice-count span{
+    display: flex;
+    flex-grow: 1;
+    margin: 5px;
+    font-size: 12px;
+    color: black;
+}
+.card-body .cake-count{
+    display: flex;
+    flex-direction: row;
+    flex-grow: 1;
+}
+
+.card-body .cake-count p{
+    display: flex;
+    flex-grow: 1;
+    margin: 5px;
+    font-size: 12px;
+    color: black;
+}
+.card-body .cake-count span{
+    display: flex;
+    flex-grow: 1;
+    margin: 5px;
+    font-size: 12px;
+    color: black;
+}
+
+/* Asegurar que el botón queda al final */
+.add-to-cart {
+    margin-top: auto;
+    text-align: center;
+}
+
+.add-to-cart button {
+    width: 100%;
+    height: 40px;
+    font-size: 15px;
+    background-color: #8f3a42;
+    color: black;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.add-to-cart button:hover {
+    background-color: #732d33;
+}
+
+.carousel-inner img {
+    width: 100%;
+    /* Asegura que se ajuste al ancho del contenedor */
+    height: auto;
+    /* Ajusta la altura según tus necesidades */
+    object-fit: cover;
+    /* Asegura que la imagen mantenga una buena proporción */
+    border-radius: 15px 15px 0 0;
+}
+
+ /* Botón para abrir el carrito */
+ /* Botón para abrir el carrito */
+ #cart-button {
+    position: fixed;
+    bottom: 20px;  /* Siempre en la parte inferior */
+    right: 20px;
+    background: #f0c0d7; /* Color pastel */
+    color: black;
+    border: none;
+    padding: 15px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 30px; /* Bordes redondeados */
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+    font-weight: bold;
+    z-index: 1000; /* Asegura que esté sobre el footer */
+}
+
+/* Panel del carrito */
+#cart-panel {
+    position: fixed;
+    top: 0;
+    right: -350px; /* Oculto inicialmente */
+    width: 300px;
+    height: 100%;
+    background: white;
+    box-shadow: -2px 0px 5px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    transition: right 0.3s ease-in-out;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    z-index: 2000; /* Más alto que el footer */
+}
+
+/* Título del carrito */
+#cart-panel h2 {
+    margin-top: 0;
+}
+
+/* Lista de productos en el carrito */
+#cart-panel ul {
+    list-style: none;
+    padding: 0;
+    flex-grow: 1; /* Permite que la lista se expanda */
+    overflow-y: auto; /* Agrega scroll si hay muchos productos */
+}
+
+#cart-panel ul li {
+    background: #f9f9f9;
+    margin: 5px 0;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+/* Botón para cerrar el carrito */
+#close-cart {
+    background: red;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 18px;
+}
+
+/* Botón para finalizar compra */
+#checkout-button {
+    background: green;
+    color: white;
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 5px;
+    margin-top: auto;
+}
