@@ -312,7 +312,6 @@ navbar-nav {
 }
 
  /* Botón para abrir el carrito */
- /* Botón para abrir el carrito */
 #cart-button {
     position: fixed;
     bottom: 20px;  /* Siempre en la parte inferior */
@@ -336,7 +335,7 @@ navbar-nav {
     right: -350px; /* Oculto inicialmente */
     width: 300px;
     height: 100%;
-    background: white;
+    background: #f0c0d7;
     box-shadow: -2px 0px 5px rgba(0, 0, 0, 0.2);
     padding: 20px;
     transition: right 0.3s ease-in-out;
@@ -360,7 +359,7 @@ navbar-nav {
 }
 
 #cart-panel ul li {
-    background: #f9f9f9;
+    background: #f0c0d7;
     margin: 5px 0;
     padding: 10px;
     border-radius: 5px;
@@ -368,8 +367,8 @@ navbar-nav {
 
 /* Botón para cerrar el carrito */
 #close-cart {
-    background: red;
-    color: white;
+    background: #8f3a42;
+    color: #f0c0d7;
     border: none;
     padding: 5px 10px;
     cursor: pointer;
@@ -381,7 +380,7 @@ navbar-nav {
 
 /* Botón para finalizar compra */
 #checkout-button {
-    background: green;
+    background: #b73f93;
     color: white;
     padding: 10px;
     border: none;
