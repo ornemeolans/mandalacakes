@@ -26,7 +26,9 @@ const products = [
 
 function generateProducts() {
     const container = document.getElementById("grid");
+    if (!container) return; // 🔴 Evita errores si no existe el elemento
     container.innerHTML = "";
+    
 
     products.forEach((product, index) => {
         const cardClass = `card-${index + 1}`;
@@ -159,40 +161,39 @@ function addToCart(button) {
     product.stockCakes -= cakeCount;
 
     // 🔥 Actualizar visualmente la leyenda de "Última en stock"
-    updateStockWarning(card, product);
+updateStockWarning(card, product);
 
-    // Agregar al carrito si hay stock suficiente
-    if (sliceCount > 0 || cakeCount > 0) {
-        let existingItem = cart.find(item => item.title === title);
+// Agregar al carrito si hay stock suficiente
+if (sliceCount > 0 || cakeCount > 0) {
+    let existingItem = cart.find(item => item.title === title);
 
-        if (existingItem) {
-            existingItem.sliceCount += sliceCount;
-            existingItem.cakeCount += cakeCount;
-            existingItem.sliceTotal += sliceTotal;
-            existingItem.cakeTotal += cakeTotal;
-        } else {
-            cart.push({
-                title,
-                sliceCount,
-                cakeCount,
-                sliceTotal,
-                cakeTotal
-            });
-        }
-
-        // Guardar el carrito en localStorage
-        localStorage.setItem("cart", JSON.stringify(cart));
-
-        updateCart();
-
-        // Resetear los contadores
-        if (sliceSpan) sliceSpan.textContent = 0;
-        if (cakeSpan) cakeSpan.textContent = 0;
+    if (existingItem) {
+        existingItem.sliceCount += sliceCount;
+        existingItem.cakeCount += cakeCount;
+        existingItem.sliceTotal += sliceTotal;
+        existingItem.cakeTotal += cakeTotal;
     } else {
-        alert("❌ Por favor, selecciona al menos una porción o una torta entera antes de agregar al carrito.");
+        cart.push({
+            title,
+            sliceCount,
+            cakeCount,
+            sliceTotal,
+            cakeTotal
+        });
     }
-}
 
+    // Guardar el carrito en localStorage
+    localStorage.setItem("cart", JSON.stringify(cart));
+
+    updateCart();
+
+    // Resetear los contadores
+    if (sliceSpan) sliceSpan.textContent = 0;
+    if (cakeSpan) cakeSpan.textContent = 0;
+} else {
+    alert("❌ Por favor, selecciona al menos una porción o una torta entera antes de agregar al carrito.");
+}
+}
 
 function updateCart() {
     let cartContainer = document.getElementById('cart');
@@ -299,14 +300,15 @@ function checkout() {
     // Redirigir a la página de pago
     window.location.href = "pago.html";
 }
-
-document.getElementById("payment-form").addEventListener("submit", function (event) {
-    event.preventDefault();
-    alert("¡Pedido confirmado! Gracias por tu compra.");
-    localStorage.removeItem("cart"); // Vaciar el carrito
-    window.location.href = "../index.html"; // Redirigir al inicio
-});
-
+const paymentForm = document.getElementById("payment-form");
+if (paymentForm) {
+    paymentForm.addEventListener("submit", function (event) {
+        event.preventDefault();
+        alert("¡Pedido confirmado! Gracias por tu compra.");
+        localStorage.removeItem("cart"); // Vaciar el carrito
+        window.location.href = "../index.html"; // Redirigir al inicio
+    });
+}
 
 document.addEventListener("DOMContentLoaded", function () {
     const cart = JSON.parse(localStorage.getItem("cart")) || [];
@@ -332,3 +334,108 @@ document.addEventListener("DOMContentLoaded", function () {
 
     totalPrice.textContent = total;
 });
+
+document.addEventListener("DOMContentLoaded", function () {
+    const cart = JSON.parse(localStorage.getItem("cart")) || [];
+    const orderSummary = document.getElementById("order-summary");
+    const totalPrice = document.getElementById("total-price");
+
+    let total = 0;
+    cart.forEach(item => {
+        // Buscar el producto en el array de productos para obtener la imagen
+        const product = products.find(p => p.name === item.title);
+
+        // Crear el elemento del pedido
+        let listItem = document.createElement("li");
+        listItem.className = "list-group-item";
+
+        // Mostrar la imagen del producto
+        if (product && product.images && product.images.length > 0) {
+            const img = document.createElement("img");
+            img.src = product.images[0]; // Mostrar la primera imagen
+            img.alt = item.title;
+            img.style.width = "100px";
+            img.style.height = "auto";
+            img.style.marginRight = "10px";
+            listItem.appendChild(img);
+        }
+
+        // Mostrar los detalles del producto
+        let text = `${item.title} - `;
+
+        if (item.sliceCount > 0) {
+            text += `Porciones: ${item.sliceCount} ($${item.sliceTotal}) `;
+        }
+
+        if (item.cakeCount > 0) {
+            text += `| Enteras: ${item.cakeCount} ($${item.cakeTotal})`;
+        }
+
+        listItem.appendChild(document.createTextNode(text));
+        orderSummary.appendChild(listItem);
+        total += item.sliceTotal + item.cakeTotal;
+    });
+
+    totalPrice.textContent = total;
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+    const paymentForm = document.getElementById("payment-form");
+    const fechaRetiroInput = document.getElementById("fecha-retiro");
+    const sucursal1Radio = document.getElementById("sucursal1");
+    const sucursal2Radio = document.getElementById("sucursal2");
+    
+    if (!paymentForm || !fechaRetiroInput || !sucursal1Radio || !sucursal2Radio) {
+        console.error("Faltan elementos en el DOM. Revisa los IDs.");
+        return;
+    }
+
+    const submitButton = paymentForm.querySelector('button[type="submit"]');
+
+    function validarFechaRetiro() {
+        const fechaSeleccionada = new Date(fechaRetiroInput.value);
+        const diaSemana = fechaSeleccionada.getDay(); // 6 = Domingo
+
+        // Calcular la fecha mínima permitida (48 horas desde ahora)
+        const fechaActual = new Date();
+        fechaActual.setHours(fechaActual.getHours() + 48);
+
+        if (sucursal1Radio.checked && diaSemana === 6) {
+            alert("🚫 Los domingos la sucursal se encuentra cerrada. Si lo necesitas para ese día selecciona The Gula House.");
+            submitButton.disabled = true;
+            return false;
+        }
+
+        if (fechaSeleccionada.getHours() < 8 || fechaSeleccionada.getHours() > 20) {
+            alert("🚫 Hace tu pedido dentro del horario de atención que es de 8:00 a 20:00hs.");
+            submitButton.disabled = true;
+            return false;
+        }
+
+        if (fechaSeleccionada < fechaActual) {
+            alert("🚫 Debes seleccionar una fecha con al menos 48 horas de anticipación.");
+            submitButton.disabled = true;
+            return false;
+        }
+
+        submitButton.disabled = false;
+        return true;
+    }
+
+    fechaRetiroInput.addEventListener("change", validarFechaRetiro);
+    sucursal1Radio.addEventListener("change", validarFechaRetiro);
+    sucursal2Radio.addEventListener("change", validarFechaRetiro);
+
+    paymentForm.addEventListener("submit", function (event) {
+        if (!validarFechaRetiro()) {
+            event.preventDefault();
+        }
+    });
+
+    const fechaActual = new Date();
+    fechaActual.setHours(fechaActual.getHours() + 48);
+    fechaRetiroInput.min = fechaActual.toISOString().split("T")[0];
+
+    validarFechaRetiro();
+});
+

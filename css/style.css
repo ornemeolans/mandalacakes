@@ -390,13 +390,50 @@ navbar-nav {
     margin-top: auto;
 }
 
-h1{
+/* Estilos para el detalle del pedido */
+.container h1{
+    color: #e7cec7;
+    font-size: 50px;
+}
+#order-summary {
+    list-style: none;
+    padding: 0;
+}
+
+#order-summary li {
     display: flex;
-    flex-direction: column;
-    color: #e499ba;
-    font-family: 'Plus Jakarta Sans', serif;
-    font-style: normal;
-    font-stretch: extra-condensed;
-    font-weight: lighter;
-    font-size: 40px;
+    align-items: center;
+    margin-bottom: 10px;
+    background-color: #8f3a42;
+}
+
+#order-summary img {
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilos para el formulario */
+#payment-form {
+    background: #8f3a42;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+#payment-form h2 {
+    margin-top: 20px;
+    margin-bottom: 15px;
+    font-size: 1.25rem;
+    color: #f0c0d7;
+}
+
+#payment-form .form-check {
+    margin-bottom: 10px;
+}
+
+#payment-form button {
+    margin-top: 20px;
+    width: 100%;
+    background-color: #b73f93;
+    border-color: #b73f93;
 }
