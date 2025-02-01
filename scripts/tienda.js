@@ -24,11 +24,18 @@ const products = [
     { name: "PAN DE CAMPO", description: "Clásico a base de grasa y levadura.", slicePrice: undefined, cakePrice: 4000, stockSlices: 0, stockCakes: 24, images: ["../assets/pan-de-campo (1).jpg", "../assets/pan-de-campo (2).jpg", "../assets/pan-de-campo (3).jpg"] },
 ];
 
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+document.addEventListener("DOMContentLoaded", function () {
+    generateProducts();
+    initializeStockWarnings();
+    updateCart();
+});
+
 function generateProducts() {
     const container = document.getElementById("grid");
-    if (!container) return; // 🔴 Evita errores si no existe el elemento
+    if (!container) return; // Evita errores si no existe el elemento
     container.innerHTML = "";
-    
 
     products.forEach((product, index) => {
         const cardClass = `card-${index + 1}`;
@@ -39,7 +46,6 @@ function generateProducts() {
             </div>
         `).join('');
 
-        // Verificar si slicePrice está definido
         const sliceControlsHTML = product.slicePrice !== undefined ? `
             <p class="stock-warning-slices" style="display: none; color: red; font-weight: bold;">⚠️ Última porción en stock</p>
             <div class="count-controls">
@@ -90,9 +96,6 @@ function generateProducts() {
     });
 }
 
-document.addEventListener("DOMContentLoaded", generateProducts);
-
-
 function incrementSlices(button) {
     let card = button.closest('.card-body');
     let sliceSpan = card.querySelector('.slice-count span');
@@ -128,7 +131,7 @@ function decrementCakes(button) {
 function addToCart(button) {
     let card = button.closest('.card-body');
     let title = card.querySelector('.card-title').textContent;
-    
+
     let sliceSpan = card.querySelector('.slice-count span');
     let cakeSpan = card.querySelector('.cake-count span');
 
@@ -150,7 +153,7 @@ function addToCart(button) {
         alert(`❌ No hay suficientes porciones de ${title}. Stock disponible: ${product.stockSlices}`);
         return;
     }
-    
+
     if (cakeCount > product.stockCakes) {
         alert(`❌ No hay suficientes tortas enteras de ${title}. Stock disponible: ${product.stockCakes}`);
         return;
@@ -160,81 +163,151 @@ function addToCart(button) {
     product.stockSlices -= sliceCount;
     product.stockCakes -= cakeCount;
 
-    // 🔥 Actualizar visualmente la leyenda de "Última en stock"
-updateStockWarning(card, product);
+    // Actualizar visualmente la leyenda de "Última en stock"
+    updateStockWarning(card, product);
 
-// Agregar al carrito si hay stock suficiente
-if (sliceCount > 0 || cakeCount > 0) {
-    let existingItem = cart.find(item => item.title === title);
+    // Agregar al carrito si hay stock suficiente
+    if (sliceCount > 0 || cakeCount > 0) {
+        let existingItem = cart.find(item => item.title === title);
 
-    if (existingItem) {
-        existingItem.sliceCount += sliceCount;
-        existingItem.cakeCount += cakeCount;
-        existingItem.sliceTotal += sliceTotal;
-        existingItem.cakeTotal += cakeTotal;
+        if (existingItem) {
+            existingItem.sliceCount += sliceCount;
+            existingItem.cakeCount += cakeCount;
+            existingItem.sliceTotal += sliceTotal;
+            existingItem.cakeTotal += cakeTotal;
+        } else {
+            cart.push({
+                title,
+                sliceCount,
+                cakeCount,
+                sliceTotal,
+                cakeTotal
+            });
+        }
+
+        // Guardar el carrito en localStorage
+        localStorage.setItem("cart", JSON.stringify(cart));
+
+        updateCart();
+
+        // Resetear los contadores
+        if (sliceSpan) sliceSpan.textContent = 0;
+        if (cakeSpan) cakeSpan.textContent = 0;
     } else {
-        cart.push({
-            title,
-            sliceCount,
-            cakeCount,
-            sliceTotal,
-            cakeTotal
-        });
+        alert("❌ Por favor, selecciona al menos una porción o una torta entera antes de agregar al carrito.");
     }
-
-    // Guardar el carrito en localStorage
-    localStorage.setItem("cart", JSON.stringify(cart));
-
-    updateCart();
-
-    // Resetear los contadores
-    if (sliceSpan) sliceSpan.textContent = 0;
-    if (cakeSpan) cakeSpan.textContent = 0;
-} else {
-    alert("❌ Por favor, selecciona al menos una porción o una torta entera antes de agregar al carrito.");
-}
 }
 
 function updateCart() {
     let cartContainer = document.getElementById('cart');
+    if (!cartContainer) return; // Evita errores si no existe el elemento
     cartContainer.innerHTML = '';
 
     if (cart.length === 0) {
         cartContainer.innerHTML = '<li>El carrito está vacío</li>';
+        updateCartCounter(0); // Actualizar el contador del carrito
         return;
     }
 
-    cart.forEach(item => {
+    cart.forEach((item, index) => {
         let listItem = document.createElement('li');
         let text = `${item.title} - `;
 
         if (item.sliceCount > 0) {
             text += `Porciones: ${item.sliceCount} ($${item.sliceTotal}) `;
+            text += `<button class="btn-eliminar" onclick="removeSlices(${index})">Eliminar porciones</button>`;
         }
 
         if (item.cakeCount > 0) {
             text += `| Enteras: ${item.cakeCount} ($${item.cakeTotal})`;
+            text += `<button class="btn-eliminar" onclick="removeCakes(${index})">Eliminar enteras</button>`;
         }
 
-        listItem.textContent = text.trim(); // Elimina espacios extra
+        listItem.innerHTML = text.trim(); // Usamos innerHTML para permitir los botones
         cartContainer.appendChild(listItem);
     });
+
+    // Actualizar el contador del carrito
+    let totalItems = cart.reduce((total, item) => total + item.sliceCount + item.cakeCount, 0);
+    updateCartCounter(totalItems);
+}
+
+function removeSlices(index) {
+    if (cart[index].sliceCount > 0) {
+        cart[index].sliceCount--;
+        cart[index].sliceTotal -= products.find(p => p.name === cart[index].title).slicePrice;
+        if (cart[index].sliceCount === 0 && cart[index].cakeCount === 0) {
+            cart.splice(index, 1); // Eliminar el producto si no hay más porciones ni tortas enteras
+        }
+        localStorage.setItem("cart", JSON.stringify(cart));
+        updateCart();
+    }
+}
+
+function removeCakes(index) {
+    if (cart[index].cakeCount > 0) {
+        cart[index].cakeCount--;
+        cart[index].cakeTotal -= products.find(p => p.name === cart[index].title).cakePrice;
+        if (cart[index].sliceCount === 0 && cart[index].cakeCount === 0) {
+            cart.splice(index, 1); // Eliminar el producto si no hay más porciones ni tortas enteras
+        }
+        localStorage.setItem("cart", JSON.stringify(cart));
+        updateCart();
+    }
+}
+
+function updateCartCounter(totalItems) {
+    let cartButton = document.getElementById('cart-button');
+    if (cartButton) {
+        cartButton.textContent = `🛒 Ver Carrito (${totalItems})`;
+    }
+}
+
+function removeSlices(index) {
+    if (cart[index].sliceCount > 0) {
+        cart[index].sliceCount--;
+        cart[index].sliceTotal -= products.find(p => p.name === cart[index].title).slicePrice;
+        if (cart[index].sliceCount === 0 && cart[index].cakeCount === 0) {
+            cart.splice(index, 1); // Eliminar el producto si no hay más porciones ni tortas enteras
+        }
+        localStorage.setItem("cart", JSON.stringify(cart));
+        updateCart();
+    }
+}
+
+function removeCakes(index) {
+    if (cart[index].cakeCount > 0) {
+        cart[index].cakeCount--;
+        cart[index].cakeTotal -= products.find(p => p.name === cart[index].title).cakePrice;
+        if (cart[index].sliceCount === 0 && cart[index].cakeCount === 0) {
+            cart.splice(index, 1); // Eliminar el producto si no hay más porciones ni tortas enteras
+        }
+        localStorage.setItem("cart", JSON.stringify(cart));
+        updateCart();
+    }
+}
+
+function updateCartCounter(totalItems) {
+    let cartButton = document.getElementById('cart-button');
+    if (cartButton) {
+        cartButton.textContent = `🛒 Ver Carrito (${totalItems})`;
+    }
 }
 
 function updateStockWarning(card, product) {
     let stockWarningSlices = card.querySelector('.stock-warning-slices');
     let stockWarningCakes = card.querySelector('.stock-warning-cakes');
 
-    if (product.stockSlices === 1) {
-        stockWarningSlices.style.display = "block"; // Mostrar "Última porción en stock"
-    } else {
-        stockWarningSlices.style.display = "none"; // Ocultar si hay más de una
+    if (stockWarningSlices && product.stockSlices === 1) {
+        stockWarningSlices.style.display = "block";
+    } else if (stockWarningSlices) {
+        stockWarningSlices.style.display = "none";
     }
 
-    if (product.stockCakes === 1) {
-        stockWarningCakes.style.display = "block"; // Mostrar "Última torta entera en stock"
-    } else {
-        stockWarningCakes.style.display = "none"; // Ocultar si hay más de una
+    if (stockWarningCakes && product.stockCakes === 1) {
+        stockWarningCakes.style.display = "block";
+    } else if (stockWarningCakes) {
+        stockWarningCakes.style.display = "none";
     }
 }
 
@@ -242,16 +315,15 @@ function initializeStockWarnings() {
     document.querySelectorAll('.card-body').forEach(card => {
         let title = card.querySelector('.card-title').textContent;
         let product = products.find(p => p.name === title);
-        updateStockWarning(card, product);
+        if (product) {
+            updateStockWarning(card, product);
+        }
     });
 }
 
-// Ejecutar al cargar la página
-window.onload = initializeStockWarnings;
-
-
 function toggleCart() {
     let cartPanel = document.getElementById('cart-panel');
+    if (!cartPanel) return; // Evita errores si no existe el elemento
     if (cartPanel.style.right === "0px") {
         cartPanel.style.right = "-350px"; // Ocultar
     } else {
@@ -259,34 +331,6 @@ function toggleCart() {
         updateCart(); // Actualizar carrito al abrir
     }
 }
-
-function updateCart() {
-    let cartContainer = document.getElementById('cart');
-    cartContainer.innerHTML = '';
-
-    if (cart.length === 0) {
-        cartContainer.innerHTML = '<li>El carrito está vacío</li>';
-        return;
-    }
-
-    cart.forEach(item => {
-        let listItem = document.createElement('li');
-        let text = `${item.title} - `;
-
-        if (item.sliceCount > 0) {
-            text += `Porciones: ${item.sliceCount} ($${item.sliceTotal}) `;
-        }
-
-        if (item.cakeCount > 0) {
-            text += `| Enteras: ${item.cakeCount} ($${item.cakeTotal})`;
-        }
-
-        listItem.textContent = text.trim();
-        cartContainer.appendChild(listItem);
-    });
-}
-
-let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
 function checkout() {
     if (cart.length === 0) {
@@ -300,6 +344,8 @@ function checkout() {
     // Redirigir a la página de pago
     window.location.href = "pago.html";
 }
+
+// Manejo del formulario de pago (si existe)
 const paymentForm = document.getElementById("payment-form");
 if (paymentForm) {
     paymentForm.addEventListener("submit", function (event) {
@@ -309,133 +355,3 @@ if (paymentForm) {
         window.location.href = "../index.html"; // Redirigir al inicio
     });
 }
-
-document.addEventListener("DOMContentLoaded", function () {
-    const cart = JSON.parse(localStorage.getItem("cart")) || [];
-    const orderSummary = document.getElementById("order-summary");
-    const totalPrice = document.getElementById("total-price");
-
-    let total = 0;
-    cart.forEach(item => {
-        let listItem = document.createElement("li");
-        listItem.textContent = `${item.title} - `;
-
-        if (item.sliceCount > 0) {
-            listItem.textContent += `Porciones: ${item.sliceCount} ($${item.sliceTotal}) `;
-        }
-
-        if (item.cakeCount > 0) {
-            listItem.textContent += `| Enteras: ${item.cakeCount} ($${item.cakeTotal})`;
-        }
-
-        orderSummary.appendChild(listItem);
-        total += item.sliceTotal + item.cakeTotal;
-    });
-
-    totalPrice.textContent = total;
-});
-
-document.addEventListener("DOMContentLoaded", function () {
-    const cart = JSON.parse(localStorage.getItem("cart")) || [];
-    const orderSummary = document.getElementById("order-summary");
-    const totalPrice = document.getElementById("total-price");
-
-    let total = 0;
-    cart.forEach(item => {
-        // Buscar el producto en el array de productos para obtener la imagen
-        const product = products.find(p => p.name === item.title);
-
-        // Crear el elemento del pedido
-        let listItem = document.createElement("li");
-        listItem.className = "list-group-item";
-
-        // Mostrar la imagen del producto
-        if (product && product.images && product.images.length > 0) {
-            const img = document.createElement("img");
-            img.src = product.images[0]; // Mostrar la primera imagen
-            img.alt = item.title;
-            img.style.width = "100px";
-            img.style.height = "auto";
-            img.style.marginRight = "10px";
-            listItem.appendChild(img);
-        }
-
-        // Mostrar los detalles del producto
-        let text = `${item.title} - `;
-
-        if (item.sliceCount > 0) {
-            text += `Porciones: ${item.sliceCount} ($${item.sliceTotal}) `;
-        }
-
-        if (item.cakeCount > 0) {
-            text += `| Enteras: ${item.cakeCount} ($${item.cakeTotal})`;
-        }
-
-        listItem.appendChild(document.createTextNode(text));
-        orderSummary.appendChild(listItem);
-        total += item.sliceTotal + item.cakeTotal;
-    });
-
-    totalPrice.textContent = total;
-});
-
-document.addEventListener("DOMContentLoaded", function () {
-    const paymentForm = document.getElementById("payment-form");
-    const fechaRetiroInput = document.getElementById("fecha-retiro");
-    const sucursal1Radio = document.getElementById("sucursal1");
-    const sucursal2Radio = document.getElementById("sucursal2");
-    
-    if (!paymentForm || !fechaRetiroInput || !sucursal1Radio || !sucursal2Radio) {
-        console.error("Faltan elementos en el DOM. Revisa los IDs.");
-        return;
-    }
-
-    const submitButton = paymentForm.querySelector('button[type="submit"]');
-
-    function validarFechaRetiro() {
-        const fechaSeleccionada = new Date(fechaRetiroInput.value);
-        const diaSemana = fechaSeleccionada.getDay(); // 6 = Domingo
-
-        // Calcular la fecha mínima permitida (48 horas desde ahora)
-        const fechaActual = new Date();
-        fechaActual.setHours(fechaActual.getHours() + 48);
-
-        if (sucursal1Radio.checked && diaSemana === 6) {
-            alert("🚫 Los domingos la sucursal se encuentra cerrada. Si lo necesitas para ese día selecciona The Gula House.");
-            submitButton.disabled = true;
-            return false;
-        }
-
-        if (fechaSeleccionada.getHours() < 8 || fechaSeleccionada.getHours() > 20) {
-            alert("🚫 Hace tu pedido dentro del horario de atención que es de 8:00 a 20:00hs.");
-            submitButton.disabled = true;
-            return false;
-        }
-
-        if (fechaSeleccionada < fechaActual) {
-            alert("🚫 Debes seleccionar una fecha con al menos 48 horas de anticipación.");
-            submitButton.disabled = true;
-            return false;
-        }
-
-        submitButton.disabled = false;
-        return true;
-    }
-
-    fechaRetiroInput.addEventListener("change", validarFechaRetiro);
-    sucursal1Radio.addEventListener("change", validarFechaRetiro);
-    sucursal2Radio.addEventListener("change", validarFechaRetiro);
-
-    paymentForm.addEventListener("submit", function (event) {
-        if (!validarFechaRetiro()) {
-            event.preventDefault();
-        }
-    });
-
-    const fechaActual = new Date();
-    fechaActual.setHours(fechaActual.getHours() + 48);
-    fechaRetiroInput.min = fechaActual.toISOString().split("T")[0];
-
-    validarFechaRetiro();
-});
-
