@@ -473,3 +473,103 @@ span{
     background-color: #b73f93;
     border-color: #b73f93;
 }
+
+.contact{
+    display: grid;
+    grid-template-areas: "reserva"
+    "drive"
+    "trabajo";
+}
+
+.reserva,
+.drive,
+.trabajo {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    background-color: rgb(190, 190, 190);
+    margin: 20px auto;
+    padding: 20px 0px;
+    border-radius: 4em;
+    width: 50%;
+}
+
+.reserva img{
+    width: 50px;
+    height: 50px;
+    margin: 0px 30px;
+    justify-content: center;
+    align-items: center;
+}
+
+.drive img{
+    width: 50px;
+    height: 50px;
+    margin: 0px 30px;
+    justify-content: center;
+    align-items: center;
+}
+
+.trabajo img{
+    width: 50px;
+    height: 50px;
+    margin: 0px 30px;
+    justify-content: center;
+    align-items: center;
+}
+
+.reserva a{
+    font-size: 20px;
+    text-decoration: none;
+    width: 350px;
+    color: black;
+    margin: 0px 30px;
+}
+
+.drive a{
+    font-size: 20px;
+    text-decoration: none;
+    width: 350px;
+    color: black;
+    margin: 0px 30px;
+}
+
+.trabajo a{
+    font-size: 20px;
+    text-decoration: none;
+    width: 350px;
+    color: black;
+    margin: 0px 30px;
+}
+
+.historia {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas: 
+        "txt-1 txt-1"
+        "txt-2 img-1"
+        "img-2 txt-3"
+        "img-3 img-3"
+        "txt-4 txt-4"
+        "img-4 img-5";
+    gap: 20px;
+    padding: 20px;
+}
+
+.txt-1, .txt-2, .txt-3, .txt-4 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    border-radius: 10px;
+    color: #e7cec7;
+}
+
+.img-1, .img-2, .img-3, .img-4, .img-5 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+}
+
