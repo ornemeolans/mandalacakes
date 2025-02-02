@@ -1536,7 +1536,39 @@ navbar-nav {
         display: block;
         opacity: 1;
     }
+    /* Estilos para el resumen del pedido en escritorio */
+#order-summary li {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    background-color: #8f3a42;
+    padding: 10px;
+    border-radius: 8px;
+}
 
+#order-summary img {
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-right: 10px;
+}
+
+/* Estilos para el resumen del pedido en móvil */
+#order-summary-mobile li {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    color: #e7cec7;
+    background-color: #8f3a42;
+    padding: 10px;
+    border-radius: 8px;
+}
+
+#order-summary-mobile img {
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-right: 10px;
+    width: 40px; /* Ajusta el tamaño para móvil */
+}
     .total-desktop {
         display: none;
     }

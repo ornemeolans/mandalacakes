@@ -83,17 +83,18 @@ document.addEventListener("DOMContentLoaded", function () {
     // Validar la fecha de retiro
     function validarFechaRetiro() {
         const fechaSeleccionadaUTC = new Date(fechaRetiroInput.value + "T00:00:00Z");
-        const offsetBuenosAires = -180;
+        const offsetBuenosAires = -180; // Offset de Buenos Aires en minutos
         const fechaSeleccionada = new Date(fechaSeleccionadaUTC.getTime() + offsetBuenosAires * 60000);
         const diaSemana = fechaSeleccionada.getDay();
-
+    
         const fechaActual = new Date();
         const fechaBuenosAires = new Date(fechaActual.getTime() + (offsetBuenosAires + fechaActual.getTimezoneOffset()) * 60000);
-        const fechaMinima = new Date(fechaBuenosAires.getTime() + 48 * 60 * 60 * 1000);
-
-        if (sucursal1Radio.checked && diaSemana === 6) {
+        const fechaMinima = new Date(fechaBuenosAires.getTime() + 48 * 60 * 60 * 1000); // 48 horas de anticipación
+    
+        // Validar si la sucursal 1 está cerrada los domingos
+        if (sucursal1Radio.checked && diaSemana === 0) { // 0 es domingo
             Swal.fire({
-                text: "🚫 Los domingos la sucursal se encuentra cerrada. Si lo necesitas para ese día selecciona The Gula House.",
+                text: "🚫 Los domingos la sucursal Take Away se encuentra cerrada. Si lo necesitas para ese día, selecciona The Gula House.",
                 icon: "warning",
                 buttonsStyling: false,
                 confirmButtonText: "Aceptar",
@@ -104,22 +105,42 @@ document.addEventListener("DOMContentLoaded", function () {
             submitButton.disabled = true;
             return false;
         }
-
+    
+        // Validar el horario de atención según la sucursal seleccionada
         const horaBuenosAires = fechaSeleccionada.getHours();
-        if (horaBuenosAires < 8 || horaBuenosAires > 20) {
-            Swal.fire({
-                text: "🚫 Hace tu pedido dentro del horario de atención que es de 8:00 a 20:00hs.",
-                icon: "warning",
-                buttonsStyling: false,
-                confirmButtonText: "Aceptar",
-                customClass: {
-                    confirmButton: "btn btn-primary"
-                }
-            });
-            submitButton.disabled = true;
-            return false;
+        if (sucursal1Radio.checked) {
+            // Sucursal 1: Horario de 8:00 a 20:00 hs
+            if (horaBuenosAires < 8 || horaBuenosAires >= 20) {
+                Swal.fire({
+                    text: "🚫 El horario de atención de la sucursal Take Away es de 8:00 a 20:00 hs.",
+                    icon: "warning",
+                    buttonsStyling: false,
+                    confirmButtonText: "Aceptar",
+                    customClass: {
+                        confirmButton: "btn btn-primary"
+                    }
+                });
+                submitButton.disabled = true;
+                return false;
+            }
+        } else if (sucursal2Radio.checked) {
+            // Sucursal 2: Horario de 8:00 a 21:00 hs
+            if (horaBuenosAires < 8 || horaBuenosAires >= 21) {
+                Swal.fire({
+                    text: "🚫 El horario de atención de la sucursal The Gula House es de 8:00 a 21:00 hs.",
+                    icon: "warning",
+                    buttonsStyling: false,
+                    confirmButtonText: "Aceptar",
+                    customClass: {
+                        confirmButton: "btn btn-primary"
+                    }
+                });
+                submitButton.disabled = true;
+                return false;
+            }
         }
-
+    
+        // Validar que la fecha de retiro sea al menos 48 horas después de la fecha actual
         if (fechaSeleccionada < fechaMinima) {
             Swal.fire({
                 text: "🚫 Debes seleccionar una fecha con al menos 48 horas de anticipación.",
@@ -133,7 +154,8 @@ document.addEventListener("DOMContentLoaded", function () {
             submitButton.disabled = true;
             return false;
         }
-
+    
+        // Si todas las validaciones pasan, habilitar el botón de confirmar
         submitButton.disabled = false;
         return true;
     }
@@ -231,20 +253,59 @@ function mostrarResumenPedido() {
         orderSummaryMobile.innerHTML = "<li>No hay productos en el carrito.</li>";
     } else {
         cart.forEach(item => {
-            const listItem = document.createElement("li");
-            let itemText = `${item.title} - `;
+            const product = products.find(p => p.name === item.title);
 
+            // Crear el elemento del pedido para escritorio
+            const listItem = document.createElement("li");
+            listItem.className = "list-group-item";
+
+            // Mostrar la imagen del producto en escritorio
+            if (product && product.images && product.images.length > 0) {
+                const img = document.createElement("img");
+                img.src = product.images[0];
+                img.alt = item.title;
+                img.style.width = "100px";
+                img.style.height = "auto";
+                img.style.marginRight = "10px";
+                listItem.appendChild(img);
+            }
+
+            // Mostrar los detalles del producto en escritorio
+            let itemText = `${item.title} - `;
             if (item.sliceCount > 0) {
                 itemText += `${item.sliceCount} porción(es) ($${item.sliceTotal}) `;
             }
-
             if (item.cakeCount > 0) {
                 itemText += `${item.cakeCount} torta(s) entera(s) ($${item.cakeTotal})`;
             }
-
-            listItem.textContent = itemText.trim();
+            listItem.appendChild(document.createTextNode(itemText));
             orderSummary.appendChild(listItem);
-            orderSummaryMobile.appendChild(listItem.cloneNode(true));
+
+            // Crear el elemento del pedido para móvil
+            const listItemMobile = document.createElement("li");
+            listItemMobile.className = "list-group-item";
+
+            // Mostrar la imagen del producto en móvil
+            if (product && product.images && product.images.length > 0) {
+                const imgMobile = document.createElement("img");
+                imgMobile.src = product.images[0];
+                imgMobile.alt = item.title;
+                imgMobile.style.width = "80px"; // Ajusta el tamaño para móvil
+                imgMobile.style.height = "auto";
+                imgMobile.style.marginRight = "10px";
+                listItemMobile.appendChild(imgMobile);
+            }
+
+            // Mostrar los detalles del producto en móvil
+            let itemTextMobile = `${item.title} - `;
+            if (item.sliceCount > 0) {
+                itemTextMobile += `${item.sliceCount} porción(es) ($${item.sliceTotal}) `;
+            }
+            if (item.cakeCount > 0) {
+                itemTextMobile += `${item.cakeCount} torta(s) entera(s) ($${item.cakeTotal})`;
+            }
+            listItemMobile.appendChild(document.createTextNode(itemTextMobile));
+            orderSummaryMobile.appendChild(listItemMobile);
 
             total += item.sliceTotal + item.cakeTotal;
         });
