@@ -80,16 +80,13 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    // Validar la fecha de retiro
     function validarFechaRetiro() {
-        const fechaSeleccionadaUTC = new Date(fechaRetiroInput.value + "T00:00:00Z");
-        const offsetBuenosAires = -180; // Offset de Buenos Aires en minutos
-        const fechaSeleccionada = new Date(fechaSeleccionadaUTC.getTime() + offsetBuenosAires * 60000);
-        const diaSemana = fechaSeleccionada.getDay();
+        const fechaSeleccionada = new Date(fechaRetiroInput.value + "T00:00:00-03:00"); // Fecha en UTC-3 (Buenos Aires)
+        const diaSemana = fechaSeleccionada.getDay(); // Día de la semana (0 = domingo, 1 = lunes, etc.)
+        const horaSeleccionada = fechaSeleccionada.getHours(); // Hora en UTC-3
     
-        const fechaActual = new Date();
-        const fechaBuenosAires = new Date(fechaActual.getTime() + (offsetBuenosAires + fechaActual.getTimezoneOffset()) * 60000);
-        const fechaMinima = new Date(fechaBuenosAires.getTime() + 48 * 60 * 60 * 1000); // 48 horas de anticipación
+        const fechaActual = new Date(); // Fecha y hora actual en la zona horaria local
+        const fechaMinima = new Date(fechaActual.getTime() + 48 * 60 * 60 * 1000); // 48 horas de anticipación
     
         // Validar si la sucursal 1 está cerrada los domingos
         if (sucursal1Radio.checked && diaSemana === 0) { // 0 es domingo
@@ -107,10 +104,9 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     
         // Validar el horario de atención según la sucursal seleccionada
-        const horaBuenosAires = fechaSeleccionada.getHours();
         if (sucursal1Radio.checked) {
             // Sucursal 1: Horario de 8:00 a 20:00 hs
-            if (horaBuenosAires < 8 || horaBuenosAires >= 20) {
+            if (horaSeleccionada < 8 || horaSeleccionada >= 20) {
                 Swal.fire({
                     text: "🚫 El horario de atención de la sucursal Take Away es de 8:00 a 20:00 hs.",
                     icon: "warning",
@@ -125,7 +121,7 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         } else if (sucursal2Radio.checked) {
             // Sucursal 2: Horario de 8:00 a 21:00 hs
-            if (horaBuenosAires < 8 || horaBuenosAires >= 21) {
+            if (horaSeleccionada < 8 || horaSeleccionada >= 21) {
                 Swal.fire({
                     text: "🚫 El horario de atención de la sucursal The Gula House es de 8:00 a 21:00 hs.",
                     icon: "warning",
