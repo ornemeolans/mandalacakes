@@ -1432,7 +1432,7 @@ navbar-nav {
     
     /* Mostrar el botón desplegable con el total del pedido */
     #toggle-order-summary {
-        display: block !important; /* Forzar visibilidad */
+        display: block; /* Forzar visibilidad */
         width: 100%;
         background: #8f3a42;
         color: white;
