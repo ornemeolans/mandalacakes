@@ -87,7 +87,7 @@ document.addEventListener("DOMContentLoaded", function () {
     
         const fechaActual = new Date(); // Fecha y hora actual en la zona horaria local
         const fechaMinima = new Date(fechaActual.getTime() + 48 * 60 * 60 * 1000); // 48 horas de anticipación
-        const horaActual = fechaActual.getTime();
+        const horaActual = fechaActual.getHours();
         const diaSemanaActual = fechaActual.getDay();
     
         // Validar si la sucursal 1 está cerrada los domingos
