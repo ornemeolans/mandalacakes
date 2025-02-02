@@ -83,11 +83,13 @@ document.addEventListener("DOMContentLoaded", function () {
     function validarFechaRetiro() {
         const fechaSeleccionada = new Date(fechaRetiroInput.value + "T00:00:00-03:00"); // Fecha en UTC-3 (Buenos Aires)
         const diaSemana = fechaSeleccionada.getDay(); // Día de la semana (0 = domingo, 1 = lunes, etc.)
-        const horaSeleccionada = fechaSeleccionada.getHours(); // Hora en UTC-3
+         // Hora en UTC-3
     
         const fechaActual = new Date(); // Fecha y hora actual en la zona horaria local
         const fechaMinima = new Date(fechaActual.getTime() + 48 * 60 * 60 * 1000); // 48 horas de anticipación
-    
+        const horaActual = fechaActual.getHours();
+        const diaSemanaActual = fechaActual.getDay();
+
         // Validar si la sucursal 1 está cerrada los domingos
         if (sucursal1Radio.checked && diaSemana === 0) { // 0 es domingo
             Swal.fire({
@@ -106,9 +108,9 @@ document.addEventListener("DOMContentLoaded", function () {
         // Validar el horario de atención según la sucursal seleccionada
         if (sucursal1Radio.checked) {
             // Sucursal 1: Horario de 8:00 a 20:00 hs
-            if (horaSeleccionada < 8 || horaSeleccionada >= 20) {
+            if (horaActual < 8 || horaActual > 20 || diaSemanaActual === 0) {
                 Swal.fire({
-                    text: "🚫 El horario de atención de la sucursal Take Away es de 8:00 a 20:00 hs.",
+                    text: "🚫 El horario de atención de la sucursal Take Away es de Lunes a Sábados de 8:00 a 20:00 hs.",
                     icon: "warning",
                     buttonsStyling: false,
                     confirmButtonText: "Aceptar",
@@ -121,7 +123,7 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         } else if (sucursal2Radio.checked) {
             // Sucursal 2: Horario de 8:00 a 21:00 hs
-            if (horaSeleccionada < 8 || horaSeleccionada >= 21) {
+            if (horaActual < 8 || horaActual > 21) {
                 Swal.fire({
                     text: "🚫 El horario de atención de la sucursal The Gula House es de 8:00 a 21:00 hs.",
                     icon: "warning",
