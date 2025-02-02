@@ -69,514 +69,10 @@ span {
 navbar-nav {
     font-family: 'Plus Jakarta Sans', serif;
 }
+
 @media screen and (min-width: 1024px) {
-.banner {
-    height: 500px;
-    background-image: url(assets/banner.jpg);
-    background-position: center;
-    background-size: cover;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 0.5em 0.5em;
-}
-
-.banner .call-to-action {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
-}
-
-.multimedia {
-    margin: 15px 0px;
-    display: flex;
-    flex-direction: column;
-}
-
-.multimedia h2 {
-    display: flex;
-    justify-content: center;
-    font-size: 30px;
-    color: white;
-    margin: 10px 0px;
-}
-
-.multimedia p {
-    display: flex;
-    justify-content: center;
-    font-size: 16px;
-    color: white;
-    margin: 15px 0px;
-}
-
-.multimedia .maps {
-    display: flex;
-    justify-content: space-around;
-    flex-direction: row;
-    margin: 10px 10px;
-}
-
-.multimedia .maps .suc {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    margin: 10px 10px;
-}
-
-.multimedia .maps .suc h5 {
-    display: flex;
-    justify-content: center;
-    width: 100%;
-    color: white;
-    font-size: 25px;
-    color: white;
-    height: 20px;
-    margin: 10px 10px;
-}
-
-.multimedia .maps .suc iframe {
-    display: flex;
-    width: 500px;
-    height: 300px;
-    margin: 10px 10px;
-}
-
-/* Asegurar que la cuadrícula mantiene las tarjetas alineadas */
-.grid {
-    display: grid;
-    grid-template-areas: "card-1 card-2 card-3 card-4"
-        "card-5 card-6 card-7 card-8"
-        "card-9 card-10 card-11 card-12"
-        "card-13 card-14 card-15 card-16"
-        "card-17 card-18 card-19 card-20"
-        "card-21 card-22 card-23 card-24";
-}
-
-/* Hacer que todas las tarjetas tengan el mismo tamaño */
-.card-1,
-.card-2,
-.card-3,
-.card-4,
-.card-5,
-.card-6,
-.card-7,
-.card-8,
-.card-9,
-.card-10,
-.card-11,
-.card-12,
-.card-13,
-.card-14,
-.card-15,
-.card-16,
-.card-17,
-.card-18,
-.card-19,
-.card-20,
-.card-21,
-.card-22,
-.card-23 {
-    display: flex;
-    flex-direction: column;
-    margin: 0px auto;
-    background-color: #e499ba;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    border-radius: 15px;
-    overflow: hidden;
-    max-width: 80%;
-    height: 100%;
-    /* Hace que todas las tarjetas sean del mismo tamaño */
-}
-
-/* Ajustar el tamaño del cuerpo de la tarjeta */
-.card-body {
-    display: flex;
-    flex-direction: column;
-    flex-grow: 1;
-    padding: 15px;
-}
-
-/* Mantener la fuente y colores originales */
-.card-body h5 {
-    font-family: 'Plus Jakarta Sans', serif;
-    font-size: 20px;
-    text-align: center;
-    color: black;
-}
-
-.card-body p {
-    font-size: 14px;
-    color: black;
-    flex-grow: 1;
-    /* Hace que el texto ocupe el espacio y empuje el botón */
-}
-
-.count-controls{
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    flex-grow: 1;
-    margin: 5px 5px;
-    width: 100%;
-}
-.count-controls button{
-    background-color: #8f3a42;
-    border-color: #8f3a42;
-    border-radius: 0.5em 0.5em;
-    font-size: 12px;
-    height: 25px;
-    width: 25px;
-    flex-grow: 1;
-}
-.count-controls p{
-    margin: 5px;
-    font-size: 12px;
-    text-align: center;
-    width: 100%;
-    flex-grow: 1;
-}
-.card-body .slice-count{
-    display: flex;
-    flex-direction: row;
-    flex-grow: 1;
-}
-
-.card-body .slice-count p{
-    display: flex;
-    flex-grow: 1;
-    margin: 5px;
-    font-size: 12px;
-    color: black;
-}
-.card-body .slice-count span{
-    display: flex;
-    flex-grow: 1;
-    margin: 5px;
-    font-size: 12px;
-    color: black;
-}
-.card-body .cake-count{
-    display: flex;
-    flex-direction: row;
-    flex-grow: 1;
-}
-
-.card-body .cake-count p{
-    display: flex;
-    flex-grow: 1;
-    margin: 5px;
-    font-size: 12px;
-    color: black;
-}
-.card-body .cake-count span{
-    display: flex;
-    flex-grow: 1;
-    margin: 5px;
-    font-size: 12px;
-    color: black;
-}
-
-/* Asegurar que el botón queda al final */
-.add-to-cart {
-    margin-top: auto;
-    text-align: center;
-}
-
-.add-to-cart button {
-    width: 100%;
-    height: 40px;
-    font-size: 15px;
-    background-color: #8f3a42;
-    color: black;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-}
-
-.add-to-cart button:hover {
-    background-color: #732d33;
-}
-
-.carousel-inner img {
-    width: 100%;
-    /* Asegura que se ajuste al ancho del contenedor */
-    height: auto;
-    /* Ajusta la altura según tus necesidades */
-    object-fit: cover;
-    /* Asegura que la imagen mantenga una buena proporción */
-    border-radius: 15px 15px 0 0;
-}
-
- /* Botón para abrir el carrito */
-/* Estilos para el botón del carrito con contador */
-#cart-button {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    background: #f0c0d7;
-    color: black;
-    border: none;
-    padding: 15px 20px;
-    font-size: 16px;
-    cursor: pointer;
-    border-radius: 30px;
-    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
-    font-weight: bold;
-    z-index: 1000;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-/* Panel del carrito */
-#cart-panel {
-    position: fixed;
-    top: 0;
-    right: -350px; /* Oculto inicialmente */
-    width: 300px;
-    height: 100%;
-    background: #f0c0d7;
-    box-shadow: -2px 0px 5px rgba(0, 0, 0, 0.2);
-    padding: 20px;
-    transition: right 0.3s ease-in-out;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    z-index: 2000; /* Más alto que el footer */
-}
-#cart-panel ul li .btn-eliminar {
-    background-color: #8f3a42;
-    color: #f0c0d7;
-    border: none;
-    padding: 5px 10px;
-    cursor: pointer;
-    border-radius: 5px;
-    font-size: 12px;
-    margin-left: 10px;
-}
-
-/* Título del carrito */
-#cart-panel h2 {
-    margin-top: 0;
-}
-
-/* Lista de productos en el carrito */
-#cart-panel ul {
-    list-style: none;
-    padding: 0;
-    flex-grow: 1; /* Permite que la lista se expanda */
-    overflow-y: auto; /* Agrega scroll si hay muchos productos */
-}
-
-#cart-panel ul li {
-    background: #f0c0d7;
-    margin: 5px 0;
-    padding: 10px;
-    border-radius: 5px;
-}
-
-/* Botón para cerrar el carrito */
-#close-cart {
-    background: #8f3a42;
-    color: #f0c0d7;
-    border: none;
-    padding: 5px 10px;
-    cursor: pointer;
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    font-size: 18px;
-}
-
-/* Botón para finalizar compra */
-#checkout-button {
-    background: #b73f93;
-    color: white;
-    padding: 10px;
-    border: none;
-    cursor: pointer;
-    font-size: 16px;
-    border-radius: 5px;
-    margin-top: auto;
-}
-
-/* Estilos para el detalle del pedido */
-.container h1{
-    color: #e7cec7;
-    font-size: 50px;
-}
-#order-summary {
-    list-style: none;
-    padding: 0;
-}
-
-#order-summary li {
-    display: flex;
-    align-items: center;
-    margin-bottom: 10px;
-    background-color: #8f3a42;
-}
-
-#order-summary img {
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-h2{
-    margin-top: 20px;
-    margin-bottom: 15px;
-    font-size: 2.5rem;
-    color: #f0c0d7;
-}
-h3{
-    margin-top: 20px;
-    margin-bottom: 15px;
-    font-size: 1.8rem;
-    color: black;
-}
-span{
-    color: black;
-}
-.btn-eliminar{
-    background-color: rgb(185, 185, 185);
-    color: #b73f93;
-    border-radius: 0.5em 0.5em;
-    font-size: 10px;
-    padding: 5px 5px;
-}
-/* Estilos para el formulario */
-#payment-form {
-    background: #8f3a42;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-#payment-form h2 {
-    margin-top: 20px;
-    margin-bottom: 15px;
-    font-size: 1.25rem;
-    color: #f0c0d7;
-}
-
-#payment-form .form-check {
-    margin-bottom: 10px;
-}
-
-#payment-form button {
-    margin-top: 20px;
-    width: 100%;
-    background-color: #b73f93;
-    border-color: #b73f93;
-}
-
-.contact{
-    display: grid;
-    grid-template-areas: "reserva"
-    "drive"
-    "trabajo";
-}
-
-.reserva,
-.drive,
-.trabajo {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-around;
-    background-color: rgb(190, 190, 190);
-    margin: 20px auto;
-    padding: 20px 0px;
-    border-radius: 4em;
-    width: 50%;
-}
-
-.reserva img{
-    width: 50px;
-    height: 50px;
-    margin: 0px 30px;
-    justify-content: center;
-    align-items: center;
-}
-
-.drive img{
-    width: 50px;
-    height: 50px;
-    margin: 0px 30px;
-    justify-content: center;
-    align-items: center;
-}
-
-.trabajo img{
-    width: 50px;
-    height: 50px;
-    margin: 0px 30px;
-    justify-content: center;
-    align-items: center;
-}
-
-.reserva a{
-    font-size: 20px;
-    text-decoration: none;
-    width: 350px;
-    color: black;
-    margin: 0px 30px;
-}
-
-.drive a{
-    font-size: 20px;
-    text-decoration: none;
-    width: 350px;
-    color: black;
-    margin: 0px 30px;
-}
-
-.trabajo a{
-    font-size: 20px;
-    text-decoration: none;
-    width: 350px;
-    color: black;
-    margin: 0px 30px;
-}
-
-.historia {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-areas: 
-        "txt-1 txt-1"
-        "txt-2 img-1"
-        "img-2 txt-3"
-        "img-3 img-3"
-        "txt-4 txt-4"
-        "img-4 img-5";
-    gap: 20px;
-    padding: 20px;
-}
-
-.txt-1, .txt-2, .txt-3, .txt-4 {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-    border-radius: 10px;
-    color: #e7cec7;
-}
-
-.img-1, .img-2, .img-3, .img-4, .img-5 {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 10px;
-}
-}
-
-@media screen and (min-width: 768px) and (max-width: 1023px){
     .banner {
-        height: 400px;
+        height: 500px;
         background-image: url(assets/banner.jpg);
         background-position: center;
         background-size: cover;
@@ -585,7 +81,7 @@ span{
         align-items: center;
         border-radius: 0.5em 0.5em;
     }
-    
+
     .banner .call-to-action {
         display: flex;
         flex-direction: column;
@@ -593,36 +89,36 @@ span{
         align-items: center;
         height: 100%;
     }
-    
+
     .multimedia {
-        margin: 7px 0px;
+        margin: 15px 0px;
         display: flex;
         flex-direction: column;
     }
-    
+
     .multimedia h2 {
         display: flex;
         justify-content: center;
-        font-size: 20px;
-        color: white;
-        margin: 7px 0px;
-    }
-    
-    .multimedia p {
-        display: flex;
-        justify-content: center;
-        font-size: 10px;
+        font-size: 30px;
         color: white;
         margin: 10px 0px;
     }
-    
+
+    .multimedia p {
+        display: flex;
+        justify-content: center;
+        font-size: 16px;
+        color: white;
+        margin: 15px 0px;
+    }
+
     .multimedia .maps {
         display: flex;
         justify-content: space-around;
         flex-direction: row;
-        margin: 7px 7px;
+        margin: 10px 10px;
     }
-    
+
     .multimedia .maps .suc {
         display: flex;
         flex-direction: column;
@@ -630,38 +126,36 @@ span{
         align-items: center;
         margin: 10px 10px;
     }
-    
+
     .multimedia .maps .suc h5 {
         display: flex;
         justify-content: center;
         width: 100%;
         color: white;
-        font-size: 15px;
+        font-size: 25px;
         color: white;
-        height: 10px;
+        height: 20px;
         margin: 10px 10px;
     }
-    
+
     .multimedia .maps .suc iframe {
         display: flex;
-        width: 400px;
-        height: 200px;
+        width: 500px;
+        height: 300px;
         margin: 10px 10px;
     }
-    
+
     /* Asegurar que la cuadrícula mantiene las tarjetas alineadas */
     .grid {
         display: grid;
-        grid-template-areas: "card-1 card-2 card-3"
-            "card-4 card-5 card-6"
-            "card-7 card-8 card-9"
-            "card-10 card-11 card-12"
-            "card-13 card-14 card-15"
-            "card-16 card-17 card-18"
-            "card-19 card-20 card-21"
-            "card-22 card-23 card-24";
+        grid-template-areas: "card-1 card-2 card-3 card-4"
+            "card-5 card-6 card-7 card-8"
+            "card-9 card-10 card-11 card-12"
+            "card-13 card-14 card-15 card-16"
+            "card-17 card-18 card-19 card-20"
+            "card-21 card-22 card-23 card-24";
     }
-    
+
     /* Hacer que todas las tarjetas tengan el mismo tamaño */
     .card-1,
     .card-2,
@@ -697,7 +191,7 @@ span{
         height: 100%;
         /* Hace que todas las tarjetas sean del mismo tamaño */
     }
-    
+
     /* Ajustar el tamaño del cuerpo de la tarjeta */
     .card-body {
         display: flex;
@@ -705,23 +199,23 @@ span{
         flex-grow: 1;
         padding: 15px;
     }
-    
+
     /* Mantener la fuente y colores originales */
     .card-body h5 {
         font-family: 'Plus Jakarta Sans', serif;
-        font-size: 15px;
+        font-size: 20px;
         text-align: center;
         color: black;
     }
-    
+
     .card-body p {
-        font-size: 10px;
+        font-size: 14px;
         color: black;
         flex-grow: 1;
         /* Hace que el texto ocupe el espacio y empuje el botón */
     }
-    
-    .count-controls{
+
+    .count-controls {
         display: flex;
         flex-direction: row;
         justify-content: space-between;
@@ -730,69 +224,75 @@ span{
         margin: 5px 5px;
         width: 100%;
     }
-    .count-controls button{
+
+    .count-controls button {
         background-color: #8f3a42;
         border-color: #8f3a42;
         border-radius: 0.5em 0.5em;
-        font-size: 10px;
+        font-size: 12px;
         height: 25px;
         width: 25px;
         flex-grow: 1;
     }
-    .count-controls p{
+
+    .count-controls p {
         margin: 5px;
-        font-size: 10px;
+        font-size: 12px;
         text-align: center;
         width: 100%;
         flex-grow: 1;
     }
-    .card-body .slice-count{
+
+    .card-body .slice-count {
         display: flex;
         flex-direction: row;
         flex-grow: 1;
     }
-    
-    .card-body .slice-count p{
-        display: flex;
-        flex-grow: 1;
-        margin: 5px;
-        font-size: 10px;
-        color: black;
-    }
-    .card-body .slice-count span{
-        display: flex;
-        flex-grow: 1;
-        margin: 5px;
-        font-size: 10px;
-        color: black;
-    }
-    .card-body .cake-count{
-        display: flex;
-        flex-direction: row;
-        flex-grow: 1;
-    }
-    
-    .card-body .cake-count p{
+
+    .card-body .slice-count p {
         display: flex;
         flex-grow: 1;
         margin: 5px;
         font-size: 12px;
         color: black;
     }
-    .card-body .cake-count span{
+
+    .card-body .slice-count span {
         display: flex;
         flex-grow: 1;
         margin: 5px;
-        font-size: 10px;
+        font-size: 12px;
         color: black;
     }
-    
+
+    .card-body .cake-count {
+        display: flex;
+        flex-direction: row;
+        flex-grow: 1;
+    }
+
+    .card-body .cake-count p {
+        display: flex;
+        flex-grow: 1;
+        margin: 5px;
+        font-size: 12px;
+        color: black;
+    }
+
+    .card-body .cake-count span {
+        display: flex;
+        flex-grow: 1;
+        margin: 5px;
+        font-size: 12px;
+        color: black;
+    }
+
     /* Asegurar que el botón queda al final */
     .add-to-cart {
         margin-top: auto;
         text-align: center;
     }
-    
+
     .add-to-cart button {
         width: 100%;
         height: 40px;
@@ -803,11 +303,11 @@ span{
         border-radius: 8px;
         cursor: pointer;
     }
-    
+
     .add-to-cart button:hover {
         background-color: #732d33;
     }
-    
+
     .carousel-inner img {
         width: 100%;
         /* Asegura que se ajuste al ancho del contenedor */
@@ -817,8 +317,538 @@ span{
         /* Asegura que la imagen mantenga una buena proporción */
         border-radius: 15px 15px 0 0;
     }
-    
-     /* Botón para abrir el carrito */
+
+    /* Botón para abrir el carrito */
+    /* Estilos para el botón del carrito con contador */
+    #cart-button {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background: #f0c0d7;
+        color: black;
+        border: none;
+        padding: 15px 20px;
+        font-size: 16px;
+        cursor: pointer;
+        border-radius: 30px;
+        box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+        font-weight: bold;
+        z-index: 1000;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    /* Panel del carrito */
+    #cart-panel {
+        position: fixed;
+        top: 0;
+        right: -350px;
+        /* Oculto inicialmente */
+        width: 300px;
+        height: 100%;
+        background: #f0c0d7;
+        box-shadow: -2px 0px 5px rgba(0, 0, 0, 0.2);
+        padding: 20px;
+        transition: right 0.3s ease-in-out;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        z-index: 2000;
+        /* Más alto que el footer */
+    }
+
+    #cart-panel ul li .btn-eliminar {
+        background-color: #8f3a42;
+        color: #f0c0d7;
+        border: none;
+        padding: 5px 10px;
+        cursor: pointer;
+        border-radius: 5px;
+        font-size: 12px;
+        margin-left: 10px;
+    }
+
+    /* Título del carrito */
+    #cart-panel h2 {
+        margin-top: 0;
+    }
+
+    /* Lista de productos en el carrito */
+    #cart-panel ul {
+        list-style: none;
+        padding: 0;
+        flex-grow: 1;
+        /* Permite que la lista se expanda */
+        overflow-y: auto;
+        /* Agrega scroll si hay muchos productos */
+    }
+
+    #cart-panel ul li {
+        background: #f0c0d7;
+        margin: 5px 0;
+        padding: 10px;
+        border-radius: 5px;
+    }
+
+    /* Botón para cerrar el carrito */
+    #close-cart {
+        background: #8f3a42;
+        color: #f0c0d7;
+        border: none;
+        padding: 5px 10px;
+        cursor: pointer;
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        font-size: 18px;
+    }
+
+    /* Botón para finalizar compra */
+    #checkout-button {
+        background: #b73f93;
+        color: white;
+        padding: 10px;
+        border: none;
+        cursor: pointer;
+        font-size: 16px;
+        border-radius: 5px;
+        margin-top: auto;
+    }
+
+    /* Estilos para el detalle del pedido */
+    .container h1 {
+        color: #e7cec7;
+        font-size: 50px;
+    }
+
+    #order-summary {
+        list-style: none;
+        padding: 0;
+    }
+
+    #order-summary li {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+        background-color: #8f3a42;
+    }
+
+    #order-summary img {
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    h2 {
+        margin-top: 20px;
+        margin-bottom: 15px;
+        font-size: 2.5rem;
+        color: #f0c0d7;
+    }
+
+    h3 {
+        margin-top: 20px;
+        margin-bottom: 15px;
+        font-size: 1.8rem;
+        color: black;
+    }
+
+    span {
+        color: black;
+    }
+
+    .btn-eliminar {
+        background-color: rgb(185, 185, 185);
+        color: #b73f93;
+        border-radius: 0.5em 0.5em;
+        font-size: 10px;
+        padding: 5px 5px;
+    }
+
+    /* Estilos para el formulario */
+    #payment-form {
+        background: #8f3a42;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    #payment-form h2 {
+        margin-top: 20px;
+        margin-bottom: 15px;
+        font-size: 1.25rem;
+        color: #f0c0d7;
+    }
+
+    #payment-form .form-check {
+        margin-bottom: 10px;
+    }
+
+    #payment-form button {
+        margin-top: 20px;
+        width: 100%;
+        background-color: #b73f93;
+        border-color: #b73f93;
+    }
+
+    .contact {
+        display: grid;
+        grid-template-areas: "reserva"
+            "drive"
+            "trabajo";
+    }
+
+    .reserva,
+    .drive,
+    .trabajo {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-around;
+        background-color: rgb(190, 190, 190);
+        margin: 20px auto;
+        padding: 20px 0px;
+        border-radius: 4em;
+        width: 50%;
+    }
+
+    .reserva img {
+        width: 50px;
+        height: 50px;
+        margin: 0px 30px;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .drive img {
+        width: 50px;
+        height: 50px;
+        margin: 0px 30px;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .trabajo img {
+        width: 50px;
+        height: 50px;
+        margin: 0px 30px;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .reserva a {
+        font-size: 20px;
+        text-decoration: none;
+        width: 350px;
+        color: black;
+        margin: 0px 30px;
+    }
+
+    .drive a {
+        font-size: 20px;
+        text-decoration: none;
+        width: 350px;
+        color: black;
+        margin: 0px 30px;
+    }
+
+    .trabajo a {
+        font-size: 20px;
+        text-decoration: none;
+        width: 350px;
+        color: black;
+        margin: 0px 30px;
+    }
+
+    .historia {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-areas:
+            "txt-1 txt-1"
+            "txt-2 img-1"
+            "img-2 txt-3"
+            "img-3 img-3"
+            "txt-4 txt-4"
+            "img-4 img-5";
+        gap: 20px;
+        padding: 20px;
+    }
+
+    .txt-1,
+    .txt-2,
+    .txt-3,
+    .txt-4 {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        border-radius: 10px;
+        color: #e7cec7;
+    }
+
+    .img-1,
+    .img-2,
+    .img-3,
+    .img-4,
+    .img-5 {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 10px;
+    }
+}
+
+@media screen and (min-width: 768px) and (max-width: 1023px) {
+    .banner {
+        height: 400px;
+        background-image: url(assets/banner.jpg);
+        background-position: center;
+        background-size: cover;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 0.5em 0.5em;
+    }
+
+    .banner .call-to-action {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+    }
+
+    .multimedia {
+        margin: 7px 0px;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .multimedia h2 {
+        display: flex;
+        justify-content: center;
+        font-size: 20px;
+        color: white;
+        margin: 7px 0px;
+    }
+
+    .multimedia p {
+        display: flex;
+        justify-content: center;
+        font-size: 10px;
+        color: white;
+        margin: 10px 0px;
+    }
+
+    .multimedia .maps {
+        display: flex;
+        justify-content: space-around;
+        flex-direction: row;
+        margin: 7px 7px;
+    }
+
+    .multimedia .maps .suc {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin: 10px 10px;
+    }
+
+    .multimedia .maps .suc h5 {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        color: white;
+        font-size: 15px;
+        color: white;
+        height: 10px;
+        margin: 10px 10px;
+    }
+
+    .multimedia .maps .suc iframe {
+        display: flex;
+        width: 400px;
+        height: 200px;
+        margin: 10px 10px;
+    }
+
+    /* Asegurar que la cuadrícula mantiene las tarjetas alineadas */
+    .grid {
+        display: grid;
+        grid-template-areas: "card-1 card-2 card-3"
+            "card-4 card-5 card-6"
+            "card-7 card-8 card-9"
+            "card-10 card-11 card-12"
+            "card-13 card-14 card-15"
+            "card-16 card-17 card-18"
+            "card-19 card-20 card-21"
+            "card-22 card-23 card-24";
+    }
+
+    /* Hacer que todas las tarjetas tengan el mismo tamaño */
+    .card-1,
+    .card-2,
+    .card-3,
+    .card-4,
+    .card-5,
+    .card-6,
+    .card-7,
+    .card-8,
+    .card-9,
+    .card-10,
+    .card-11,
+    .card-12,
+    .card-13,
+    .card-14,
+    .card-15,
+    .card-16,
+    .card-17,
+    .card-18,
+    .card-19,
+    .card-20,
+    .card-21,
+    .card-22,
+    .card-23 {
+        display: flex;
+        flex-direction: column;
+        margin: 0px auto;
+        background-color: #e499ba;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        border-radius: 15px;
+        overflow: hidden;
+        max-width: 80%;
+        height: 100%;
+        /* Hace que todas las tarjetas sean del mismo tamaño */
+    }
+
+    /* Ajustar el tamaño del cuerpo de la tarjeta */
+    .card-body {
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+        padding: 15px;
+    }
+
+    /* Mantener la fuente y colores originales */
+    .card-body h5 {
+        font-family: 'Plus Jakarta Sans', serif;
+        font-size: 15px;
+        text-align: center;
+        color: black;
+    }
+
+    .card-body p {
+        font-size: 10px;
+        color: black;
+        flex-grow: 1;
+        /* Hace que el texto ocupe el espacio y empuje el botón */
+    }
+
+    .count-controls {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        flex-grow: 1;
+        margin: 5px 5px;
+        width: 100%;
+    }
+
+    .count-controls button {
+        background-color: #8f3a42;
+        border-color: #8f3a42;
+        border-radius: 0.5em 0.5em;
+        font-size: 10px;
+        height: 25px;
+        width: 25px;
+        flex-grow: 1;
+    }
+
+    .count-controls p {
+        margin: 5px;
+        font-size: 10px;
+        text-align: center;
+        width: 100%;
+        flex-grow: 1;
+    }
+
+    .card-body .slice-count {
+        display: flex;
+        flex-direction: row;
+        flex-grow: 1;
+    }
+
+    .card-body .slice-count p {
+        display: flex;
+        flex-grow: 1;
+        margin: 5px;
+        font-size: 10px;
+        color: black;
+    }
+
+    .card-body .slice-count span {
+        display: flex;
+        flex-grow: 1;
+        margin: 5px;
+        font-size: 10px;
+        color: black;
+    }
+
+    .card-body .cake-count {
+        display: flex;
+        flex-direction: row;
+        flex-grow: 1;
+    }
+
+    .card-body .cake-count p {
+        display: flex;
+        flex-grow: 1;
+        margin: 5px;
+        font-size: 12px;
+        color: black;
+    }
+
+    .card-body .cake-count span {
+        display: flex;
+        flex-grow: 1;
+        margin: 5px;
+        font-size: 10px;
+        color: black;
+    }
+
+    /* Asegurar que el botón queda al final */
+    .add-to-cart {
+        margin-top: auto;
+        text-align: center;
+    }
+
+    .add-to-cart button {
+        width: 100%;
+        height: 40px;
+        font-size: 15px;
+        background-color: #8f3a42;
+        color: black;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+    }
+
+    .add-to-cart button:hover {
+        background-color: #732d33;
+    }
+
+    .carousel-inner img {
+        width: 100%;
+        /* Asegura que se ajuste al ancho del contenedor */
+        height: auto;
+        /* Ajusta la altura según tus necesidades */
+        object-fit: cover;
+        /* Asegura que la imagen mantenga una buena proporción */
+        border-radius: 15px 15px 0 0;
+    }
+
+    /* Botón para abrir el carrito */
     /* Estilos para el botón del carrito con contador */
     #cart-button {
         position: fixed;
@@ -838,12 +868,13 @@ span{
         align-items: center;
         gap: 10px;
     }
-    
+
     /* Panel del carrito */
     #cart-panel {
         position: fixed;
         top: 0;
-        right: -350px; /* Oculto inicialmente */
+        right: -350px;
+        /* Oculto inicialmente */
         width: 300px;
         height: 100%;
         background: #f0c0d7;
@@ -853,8 +884,10 @@ span{
         display: flex;
         flex-direction: column;
         gap: 10px;
-        z-index: 2000; /* Más alto que el footer */
+        z-index: 2000;
+        /* Más alto que el footer */
     }
+
     #cart-panel ul li .btn-eliminar {
         background-color: #8f3a42;
         color: #f0c0d7;
@@ -865,27 +898,29 @@ span{
         font-size: 12px;
         margin-left: 10px;
     }
-    
+
     /* Título del carrito */
     #cart-panel h2 {
         margin-top: 0;
     }
-    
+
     /* Lista de productos en el carrito */
     #cart-panel ul {
         list-style: none;
         padding: 0;
-        flex-grow: 1; /* Permite que la lista se expanda */
-        overflow-y: auto; /* Agrega scroll si hay muchos productos */
+        flex-grow: 1;
+        /* Permite que la lista se expanda */
+        overflow-y: auto;
+        /* Agrega scroll si hay muchos productos */
     }
-    
+
     #cart-panel ul li {
         background: #f0c0d7;
         margin: 5px 0;
         padding: 10px;
         border-radius: 5px;
     }
-    
+
     /* Botón para cerrar el carrito */
     #close-cart {
         background: #8f3a42;
@@ -898,7 +933,7 @@ span{
         right: 10px;
         font-size: 18px;
     }
-    
+
     /* Botón para finalizar compra */
     #checkout-button {
         background: #b73f93;
@@ -910,51 +945,56 @@ span{
         border-radius: 5px;
         margin-top: auto;
     }
-    
+
     /* Estilos para el detalle del pedido */
-    .container h1{
+    .container h1 {
         color: #e7cec7;
         font-size: 40px;
     }
+
     #order-summary {
         list-style: none;
         padding: 0;
     }
-    
+
     #order-summary li {
         display: flex;
         align-items: center;
         margin-bottom: 10px;
         background-color: #8f3a42;
     }
-    
+
     #order-summary img {
         border-radius: 8px;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
-    
-    h2{
+
+    h2 {
         margin-top: 20px;
         margin-bottom: 15px;
         font-size: 2.5rem;
         color: #f0c0d7;
     }
-    h3{
+
+    h3 {
         margin-top: 20px;
         margin-bottom: 15px;
         font-size: 1.8rem;
         color: black;
     }
-    span{
+
+    span {
         color: black;
     }
-    .btn-eliminar{
+
+    .btn-eliminar {
         background-color: rgb(185, 185, 185);
         color: #b73f93;
         border-radius: 0.5em 0.5em;
         font-size: 10px;
         padding: 5px 5px;
     }
+
     /* Estilos para el formulario */
     #payment-form {
         background: #8f3a42;
@@ -962,32 +1002,32 @@ span{
         border-radius: 8px;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
-    
+
     #payment-form h2 {
         margin-top: 20px;
         margin-bottom: 15px;
         font-size: 1rem;
         color: #f0c0d7;
     }
-    
+
     #payment-form .form-check {
         margin-bottom: 10px;
     }
-    
+
     #payment-form button {
         margin-top: 20px;
         width: 100%;
         background-color: #b73f93;
         border-color: #b73f93;
     }
-    
-    .contact{
+
+    .contact {
         display: grid;
         grid-template-areas: "reserva"
-        "drive"
-        "trabajo";
+            "drive"
+            "trabajo";
     }
-    
+
     .reserva,
     .drive,
     .trabajo {
@@ -1001,59 +1041,59 @@ span{
         border-radius: 4em;
         width: 30%;
     }
-    
-    .reserva img{
+
+    .reserva img {
         width: 40px;
         height: 40px;
         margin: 0px 30px;
         justify-content: center;
         align-items: center;
     }
-    
-    .drive img{
+
+    .drive img {
         width: 40px;
         height: 40px;
         margin: 0px 30px;
         justify-content: center;
         align-items: center;
     }
-    
-    .trabajo img{
+
+    .trabajo img {
         width: 40px;
         height: 40px;
         margin: 0px 30px;
         justify-content: center;
         align-items: center;
     }
-    
-    .reserva a{
+
+    .reserva a {
         font-size: 15px;
         text-decoration: none;
         width: 350px;
         color: black;
         margin: 0px 30px;
     }
-    
-    .drive a{
+
+    .drive a {
         font-size: 15px;
         text-decoration: none;
         width: 350px;
         color: black;
         margin: 0px 30px;
     }
-    
-    .trabajo a{
+
+    .trabajo a {
         font-size: 15px;
         text-decoration: none;
         width: 350px;
         color: black;
         margin: 0px 30px;
     }
-    
+
     .historia {
         display: grid;
         grid-template-columns: 1fr 1fr;
-        grid-template-areas: 
+        grid-template-areas:
             "txt-1 txt-1"
             "txt-2 img-1"
             "img-2 txt-3"
@@ -1063,8 +1103,11 @@ span{
         gap: 20px;
         padding: 20px;
     }
-    
-    .txt-1, .txt-2, .txt-3, .txt-4 {
+
+    .txt-1,
+    .txt-2,
+    .txt-3,
+    .txt-4 {
         display: flex;
         align-items: center;
         justify-content: center;
@@ -1072,8 +1115,12 @@ span{
         border-radius: 10px;
         color: #e7cec7;
     }
-    
-    .img-1, .img-2, .img-3, .img-4, .img-5 {
+
+    .img-1,
+    .img-2,
+    .img-3,
+    .img-4,
+    .img-5 {
         display: flex;
         justify-content: center;
         align-items: center;
@@ -1092,7 +1139,7 @@ span{
         align-items: center;
         border-radius: 0.5em 0.5em;
     }
-    
+
     .banner .call-to-action {
         display: flex;
         flex-direction: column;
@@ -1100,13 +1147,13 @@ span{
         align-items: center;
         height: 100%;
     }
-    
+
     .multimedia {
         margin: 15px 0px;
         display: flex;
         flex-direction: column;
     }
-    
+
     .multimedia h2 {
         display: flex;
         justify-content: center;
@@ -1114,7 +1161,7 @@ span{
         color: white;
         margin: 10px 0px;
     }
-    
+
     .multimedia p {
         display: flex;
         justify-content: center;
@@ -1122,14 +1169,14 @@ span{
         color: white;
         margin: 15px 0px;
     }
-    
+
     .multimedia .maps {
         display: flex;
         justify-content: space-around;
         flex-direction: column;
         margin: 10px 10px;
     }
-    
+
     .multimedia .maps .suc {
         display: flex;
         flex-direction: column;
@@ -1137,7 +1184,7 @@ span{
         align-items: center;
         margin: 10px 10px;
     }
-    
+
     .multimedia .maps .suc h5 {
         display: flex;
         justify-content: center;
@@ -1148,14 +1195,14 @@ span{
         height: 20px;
         margin: 10px 10px;
     }
-    
+
     .multimedia .maps .suc iframe {
         display: flex;
         width: 300px;
         height: 100px;
         margin: 10px 10px;
     }
-    
+
     /* Asegurar que la cuadrícula mantiene las tarjetas alineadas */
     .grid {
         display: grid;
@@ -1172,7 +1219,7 @@ span{
             "card-21 card-22"
             "card-23 card-24";
     }
-    
+
     /* Hacer que todas las tarjetas tengan el mismo tamaño */
     .card-1,
     .card-2,
@@ -1208,7 +1255,7 @@ span{
         height: 100%;
         /* Hace que todas las tarjetas sean del mismo tamaño */
     }
-    
+
     /* Ajustar el tamaño del cuerpo de la tarjeta */
     .card-body {
         display: flex;
@@ -1216,7 +1263,7 @@ span{
         flex-grow: 1;
         padding: 15px;
     }
-    
+
     /* Mantener la fuente y colores originales */
     .card-body h5 {
         font-family: 'Plus Jakarta Sans', serif;
@@ -1224,15 +1271,15 @@ span{
         text-align: center;
         color: black;
     }
-    
+
     .card-body p {
         font-size: 7px;
         color: black;
         flex-grow: 1;
         /* Hace que el texto ocupe el espacio y empuje el botón */
     }
-    
-    .count-controls{
+
+    .count-controls {
         display: flex;
         flex-direction: row;
         justify-content: space-between;
@@ -1241,7 +1288,8 @@ span{
         margin: 5px 5px;
         width: 100%;
     }
-    .count-controls button{
+
+    .count-controls button {
         background-color: #8f3a42;
         border-color: #8f3a42;
         border-radius: 0.5em 0.5em;
@@ -1250,60 +1298,65 @@ span{
         width: 25px;
         flex-grow: 1;
     }
-    .count-controls p{
+
+    .count-controls p {
         margin: 5px;
         font-size: 7px;
         text-align: center;
         width: 100%;
         flex-grow: 1;
     }
-    .card-body .slice-count{
+
+    .card-body .slice-count {
         display: flex;
         flex-direction: row;
         flex-grow: 1;
     }
-    
-    .card-body .slice-count p{
+
+    .card-body .slice-count p {
         display: flex;
         flex-grow: 1;
         margin: 5px;
         font-size: 7px;
         color: black;
     }
-    .card-body .slice-count span{
+
+    .card-body .slice-count span {
         display: flex;
         flex-grow: 1;
         margin: 5px;
         font-size: 7px;
         color: black;
     }
-    .card-body .cake-count{
+
+    .card-body .cake-count {
         display: flex;
         flex-direction: row;
         flex-grow: 1;
     }
-    
-    .card-body .cake-count p{
+
+    .card-body .cake-count p {
         display: flex;
         flex-grow: 1;
         margin: 5px;
         font-size: 7px;
         color: black;
     }
-    .card-body .cake-count span{
+
+    .card-body .cake-count span {
         display: flex;
         flex-grow: 1;
         margin: 5px;
         font-size: 7px;
         color: black;
     }
-    
+
     /* Asegurar que el botón queda al final */
     .add-to-cart {
         margin-top: auto;
         text-align: center;
     }
-    
+
     .add-to-cart button {
         width: 100%;
         height: 20px;
@@ -1314,11 +1367,11 @@ span{
         border-radius: 8px;
         cursor: pointer;
     }
-    
+
     .add-to-cart button:hover {
         background-color: #732d33;
     }
-    
+
     .carousel-inner img {
         width: 100%;
         /* Asegura que se ajuste al ancho del contenedor */
@@ -1328,8 +1381,8 @@ span{
         /* Asegura que la imagen mantenga una buena proporción */
         border-radius: 15px 15px 0 0;
     }
-    
-     /* Botón para abrir el carrito */
+
+    /* Botón para abrir el carrito */
     /* Estilos para el botón del carrito con contador */
     #cart-button {
         position: fixed;
@@ -1349,12 +1402,13 @@ span{
         align-items: center;
         gap: 10px;
     }
-    
+
     /* Panel del carrito */
     #cart-panel {
         position: fixed;
         top: 0;
-        right: -350px; /* Oculto inicialmente */
+        right: -350px;
+        /* Oculto inicialmente */
         width: 150px;
         height: 100%;
         background: #f0c0d7;
@@ -1365,8 +1419,10 @@ span{
         display: flex;
         flex-direction: column;
         gap: 10px;
-        z-index: 2000; /* Más alto que el footer */
+        z-index: 2000;
+        /* Más alto que el footer */
     }
+
     #cart-panel ul li .btn-eliminar {
         background-color: #8f3a42;
         color: #f0c0d7;
@@ -1377,27 +1433,29 @@ span{
         font-size: 7px;
         margin-left: 10px;
     }
-    
+
     /* Título del carrito */
     #cart-panel h2 {
         margin-top: 0;
     }
-    
+
     /* Lista de productos en el carrito */
     #cart-panel ul {
         list-style: none;
         padding: 0;
-        flex-grow: 1; /* Permite que la lista se expanda */
-        overflow-y: auto; /* Agrega scroll si hay muchos productos */
+        flex-grow: 1;
+        /* Permite que la lista se expanda */
+        overflow-y: auto;
+        /* Agrega scroll si hay muchos productos */
     }
-    
+
     #cart-panel ul li {
         background: #f0c0d7;
         margin: 5px 0;
         padding: 10px;
         border-radius: 5px;
     }
-    
+
     /* Botón para cerrar el carrito */
     #close-cart {
         background: #8f3a42;
@@ -1410,7 +1468,7 @@ span{
         right: 10px;
         font-size: 8px;
     }
-    
+
     /* Botón para finalizar compra */
     #checkout-button {
         background: #b73f93;
@@ -1422,51 +1480,92 @@ span{
         border-radius: 5px;
         margin-top: auto;
     }
-    
+
     /* Estilos para el detalle del pedido */
-    .container h1{
+    .container h1 {
         color: #e7cec7;
         font-size: 50px;
     }
+    /* Ocultar la lista de pedidos y mostrar solo "Tu Pedido" */
     #order-summary {
-        list-style: none;
-        padding: 0;
+        display: none;
     }
     
-    #order-summary li {
-        display: flex;
-        align-items: center;
-        margin-bottom: 10px;
-        background-color: #8f3a42;
+    .pedido-title {
+        display: block;
+        font-size: 1.5rem;
+        color: black;
+        font-weight: bold;
     }
     
-    #order-summary img {
-        border-radius: 8px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    /* Mostrar el botón desplegable con el total del pedido */
+    #toggle-order-summary {
+        display: block !important; /* Forzar visibilidad */
+        width: 100%;
+        background: #8f3a42;
+        color: white;
+        padding: 10px;
+        font-size: 16px;
+        border-radius: 5px;
+        text-align: center;
+        cursor: pointer;
     }
     
-    h2{
+    #toggle-order-summary span {
+        font-weight: bold;
+    }
+    
+    /* Estilos para el menú desplegable del pedido */
+    #order-summary-panel {
+        display: none;
+        opacity: 0;
+        transition: opacity 0.3s ease-in-out;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        background: #732d33;
+        color: #e7cec7;
+        box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2);
+        padding: 20px;
+        max-height: 50vh;
+        overflow-y: auto;
+    }
+    
+    #order-summary-panel.active {
+        display: block;
+        opacity: 1;
+    }
+
+    .total-desktop {
+        display: none;
+    }
+    h2 {
         margin-top: 20px;
         margin-bottom: 15px;
         font-size: 2.5rem;
         color: #f0c0d7;
     }
-    h3{
+
+    h3 {
         margin-top: 20px;
         margin-bottom: 15px;
         font-size: 1.8rem;
         color: black;
     }
-    span{
+
+    span {
         color: black;
     }
-    .btn-eliminar{
+
+    .btn-eliminar {
         background-color: rgb(185, 185, 185);
         color: #b73f93;
         border-radius: 0.5em 0.5em;
         font-size: 10px;
         padding: 5px 5px;
     }
+
     /* Estilos para el formulario */
     #payment-form {
         background: #8f3a42;
@@ -1474,32 +1573,32 @@ span{
         border-radius: 8px;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
-    
+
     #payment-form h2 {
         margin-top: 20px;
         margin-bottom: 15px;
         font-size: 1.25rem;
         color: #f0c0d7;
     }
-    
+
     #payment-form .form-check {
         margin-bottom: 10px;
     }
-    
+
     #payment-form button {
         margin-top: 20px;
         width: 100%;
         background-color: #b73f93;
         border-color: #b73f93;
     }
-    
-    .contact{
+
+    .contact {
         display: grid;
         grid-template-areas: "reserva"
-        "drive"
-        "trabajo";
+            "drive"
+            "trabajo";
     }
-    
+
     .reserva,
     .drive,
     .trabajo {
@@ -1513,59 +1612,59 @@ span{
         border-radius: 4em;
         width: 50%;
     }
-    
-    .reserva img{
+
+    .reserva img {
         width: 50px;
         height: 50px;
         margin: 0px 30px;
         justify-content: center;
         align-items: center;
     }
-    
-    .drive img{
+
+    .drive img {
         width: 50px;
         height: 50px;
         margin: 0px 30px;
         justify-content: center;
         align-items: center;
     }
-    
-    .trabajo img{
+
+    .trabajo img {
         width: 50px;
         height: 50px;
         margin: 0px 30px;
         justify-content: center;
         align-items: center;
     }
-    
-    .reserva a{
+
+    .reserva a {
         font-size: 20px;
         text-decoration: none;
         width: 350px;
         color: black;
         margin: 0px 30px;
     }
-    
-    .drive a{
+
+    .drive a {
         font-size: 20px;
         text-decoration: none;
         width: 350px;
         color: black;
         margin: 0px 30px;
     }
-    
-    .trabajo a{
+
+    .trabajo a {
         font-size: 20px;
         text-decoration: none;
         width: 350px;
         color: black;
         margin: 0px 30px;
     }
-    
+
     .historia {
         display: grid;
         grid-template-columns: 1fr 1fr;
-        grid-template-areas: 
+        grid-template-areas:
             "txt-1"
             "img-1"
             "txt-2"
@@ -1578,8 +1677,11 @@ span{
         gap: 20px;
         padding: 20px;
     }
-    
-    .txt-1, .txt-2, .txt-3, .txt-4 {
+
+    .txt-1,
+    .txt-2,
+    .txt-3,
+    .txt-4 {
         display: flex;
         align-items: center;
         justify-content: center;
@@ -1587,8 +1689,12 @@ span{
         border-radius: 10px;
         color: #e7cec7;
     }
-    
-    .img-1, .img-2, .img-3, .img-4, .img-5 {
+
+    .img-1,
+    .img-2,
+    .img-3,
+    .img-4,
+    .img-5 {
         display: flex;
         justify-content: center;
         align-items: center;

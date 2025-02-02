@@ -1,3 +1,29 @@
+const products = [
+    { name: "ALASKA", description: "Cheesecake de chocolate blanco y dulce de leche, con una fina capa de chocolate con leche y ganache de chocolate blanco. <br>Rinde 15-20 porciones.", slicePrice: 8500, cakePrice: 51000, stockSlices: 24, stockCakes: 5, images: ["../assets/alaska (1).jpg", "../assets/alaska (2).jpg", "../assets/alaska (3).jpg"] },
+    { name: "RUFINA", description: "Base de oreo, dulce de leche, cream cheese de dulce de leche, merengue italiano. <br>Rinde 15-20 porciones.", slicePrice: 8200, cakePrice: 49200, stockSlices: 24, stockCakes: 5, stockSlices: 24, stockCakes: 5, images: ["../assets/rufina (1).jpg", "../assets/rufina (2).jpg", "../assets/rufina (3).jpg"] },
+    { name: "PATAGONIA", description: "Base de chocolate con nueces, dulce de leche y ganache de chocolate blanco con frutos rojos. <br>Rinde 15-20 porciones.", slicePrice: 8000, cakePrice: 48000, stockSlices: 24, stockCakes: 5, images: ["../assets/patagonia (1).jpg", "../assets/patagonia (2).jpg", "../assets/patagonia (3).jpg"] },
+    { name: "TARTA DE FRUTILLAS", description: "Masa sablée con almendras, dulce de leche, crema y frutillas frescas. <br>IMPORTANTE: RESERVA SUJETA A DISPONIBILIDAD DE FRUTILLA FRESCA. <br>Rinde 15-20 porciones.", slicePrice: 8200, cakePrice: 49200, stockSlices: 24, stockCakes: 5, images: ["../assets/tarta-de-frutilla (1).jpg", "../assets/tarta-de-frutilla (2).jpg", "../assets/tarta-de-frutilla (3).jpg"] },
+    { name: "NUGATON", description: "Base de chocolate y avena, mousse de chocolate blanco. <br>Rinde 15-20 porciones.", slicePrice: 8200, cakePrice: 49200, stockSlices: 24, stockCakes: 5, images: ["../assets/nugaton (1).jpg", "../assets/nugaton (2).jpg", "../assets/nugaton (3).jpg"] },
+    { name: "BEGONIA", description: "Base de chocolate con trocitos de chocolate blanco, cremoso de chocolate semiamargo con frambuesas bañadas y mousse de limón. <br>Rinde 15-20 porciones.", slicePrice: 8600, cakePrice: 51600, stockSlices: 24, stockCakes: 5, images: ["../assets/begonia (1).jpg", "../assets/begonia (2).jpg", "../assets/begonia (3).jpg"] },
+    { name: "HOPIE", description: "Torta helada en doble capa de vainilla y chocolate blanco, crema y maracuyá. <br>Rinde 15-20 porciones.", slicePrice: 8200, cakePrice: 49200, stockSlices: 24, stockCakes: 5, images: ["../assets/hopie (1).jpg", "../assets/hopie (2).jpg", "../assets/hopie (3).jpg"] },
+    { name: "FRIDA", description: "Base de chocolate, cremoso de naranja, crema y frutas de estación. <br>Rinde 15-20 porciones.", slicePrice: 8200, cakePrice: 49200, stockSlices: 24, stockCakes: 5, images: ["../assets/frida (1).jpg", "../assets/frida (2).jpg", "../assets/frida (3).jpg"] },
+    { name: "BLOCK", description: "Base de chocolate, dulce de leche con maní, cremoso de chocolate semiamargo, decorada con crema Bariloche y salsa de caramelo. <br>Rinde 15-20 porciones.", slicePrice: 8600, cakePrice: 51600, stockSlices: 24, stockCakes: 5, images: ["../assets/block (1).jpg", "../assets/block (2).jpg", "../assets/block (3).jpg"] },
+    { name: "MANDI", description: "Base de chocolate con trocitos de chocolate con leche, mousse de frutillas y leche condensada, merengue italiano. <br>Rinde 15-20 porciones.", slicePrice: 8300, cakePrice: 48000, stockSlices: 24, stockCakes: 5, images: ["../assets/mandi (1).jpg", "../assets/mandi (2).jpg", "../assets/mandi (3).jpg"] },
+    { name: "ISADORA", description: "Torta de ricota y limón, dulce de frambuesas y crumble con más frambuesas. <br>Rinde 15-20 porciones.", slicePrice: 8000, cakePrice: 48000, stockSlices: 24, stockCakes: 5, images: ["../assets/isadora (1).jpg", "../assets/isadora (2).jpg", "../assets/isadora (3).jpg"] },
+    { name: "CHEESCAKE FRUTOS ROJOS", description: "Cheesecake New York con dulce de frutos rojos casero y frutos. <br>Rinde 15-20 porciones.", slicePrice: 8200, cakePrice: 49200, stockSlices: 24, stockCakes: 5, images: ["../assets/cheescake-frutos-rojos (1).jpg", "../assets/cheescake-frutos-rojos (2).jpg", "../assets/cheescake-frutos-rojos (3).jpg"] },
+    { name: "MARQUISE CLASICA", description: "Torta de chocolate intenso sin harina, dulce de leche, crema chantilly y merengue italiano. <br>Rinde 15-20 porciones.", slicePrice: 7900, cakePrice: 47400, stockSlices: 24, stockCakes: 5, images: ["../assets/marquise-clasica (1).jpg", "../assets/marquise-clasica (2).jpg", "../assets/marquise-clasica (3).jpg"] },
+    { name: "MAGNOLIA", description: "Bizcochuelo húmedo de vainilla, dulce de leche, duraznos, disco de merengue, decorada con cream cheese y maracuyá. <br>Rinde 15-20 porciones.", slicePrice: 7800, cakePrice: 46800, stockSlices: 24, stockCakes: 5, images: ["../assets/magnolia (1).jpg", "../assets/magnolia (2).jpg", "../assets/magnolia (3).jpg"] },
+    { name: "OREO DOBLE", description: "Torta helada. Doble capa de oreo, dulce de leche y crema. <br>Rinde 15-20 porciones.", slicePrice: 8200, cakePrice: 49200, stockSlices: 24, stockCakes: 5, images: ["../assets/oreo-doble (1).jpg", "../assets/oreo-doble (2).jpg", "../assets/oreo-doble (3).jpg"] },
+    { name: "AMBAR", description: "Base de chocolate, cremoso de limón y merengue italiano. <br>Rinde 15-20 porciones.", slicePrice: 7800, cakePrice: 46800, stockSlices: 24, stockCakes: 5, images: ["../assets/ambar (1).jpg", "../assets/ambar (2).jpg", "../assets/ambar (3).jpg"] },
+    { name: "MARGOT", description: "Cheesecake de limón super cremoso, reducción de frutillas y crema chantilly. <br>Rinde 15-20 porciones.", slicePrice: 8300, cakePrice: 49800, stockSlices: 24, stockCakes: 5, images: ["../assets/margot (1).jpg", "../assets/margot (2).jpg", "../assets/margot (3).jpg"] },
+    { name: "CHOCOTORTA", description: "Capas de cream cheese de dulce de leche intercaladas con galletitas de chocolate. <br>Rinde 15-20 porciones.", slicePrice: 8300, cakePrice: 49800, stockSlices: 24, stockCakes: 5, images: ["../assets/chocotorta (1).jpg", "../assets/chocotorta (2).jpg", "../assets/chocotorta (3).jpg"] },
+    { name: "DOMINGA", description: "Bizcochuelo húmedo de chocolate, ganache de chocolate especiada con naranjas, dulce de leche con cacao. <br>Rinde 15-20 porciones.", slicePrice: 8500, cakePrice: 51000, stockSlices: 24, stockCakes: 5, images: ["../assets/dominga (1).jpg", "../assets/dominga (2).jpg", "../assets/dominga (3).jpg"] },
+    { name: "AURORA", description: "Bizcochuelo húmedo de chocolate con dulce de leche, crema y frutos de estación. <br>Rinde 15-20 porciones.", slicePrice: 7800, cakePrice: 46800, stockSlices: 24, stockCakes: 5, images: ["../assets/aurora (1).jpg", "../assets/aurora (2).jpg", "../assets/aurora (3).jpg"] },
+    { name: "POPURRI", description: "• CHEESECAKE: frutos rojos. <br>• ALASKA: cheesecake de chocolate blanco relleno de dulce de leche, cubierto con doble ganache de chocolate. <br>• BROWNIE CLÁSICO: nueces, dulce de leche, crema y merengue. <br>• MARGOT: cheesecake de limón, reducción de frutillas y crema chantilly. <br>• NUGATON: base de chocolate y avena, mousse de chocolate blanco. <br>• FRIDA: base de chocolate, cremoso de naranja con leche condensada, crema y frutas de estación.heesecake de limón super cremoso, reducción de frutillas y crema chantilly.", slicePrice: undefined, cakePrice: 18000, stockSlices: 0, stockCakes: 24, images: ["../assets/popurri (1).jpg", "../assets/popurri (2).jpg", "../assets/popurri (3).jpg"] },
+    { name: "HOGAZA", description: "Mix de harina blanca y harina integral. Masa madre de centeno.", slicePrice: undefined, cakePrice: 4800, stockSlices: 0, stockCakes: 24, images: ["../assets/hogaza (1).jpg", "../assets/hogaza (2).jpg", "../assets/hogaza (3).jpg"] },
+    { name: "PAN DE CAMPO", description: "Clásico a base de grasa y levadura.", slicePrice: undefined, cakePrice: 4000, stockSlices: 0, stockCakes: 24, images: ["../assets/pan-de-campo (1).jpg", "../assets/pan-de-campo (2).jpg", "../assets/pan-de-campo (3).jpg"] },
+];
+
 document.addEventListener("DOMContentLoaded", function () {
     const paymentForm = document.getElementById("payment-form");
     const fechaRetiroInput = document.getElementById("fecha-retiro");
@@ -6,8 +32,10 @@ document.addEventListener("DOMContentLoaded", function () {
     const orderSummary = document.getElementById("order-summary");
     const totalPrice = document.getElementById("total-price");
 
-    if (!paymentForm || !fechaRetiroInput || !sucursal1Radio || !sucursal2Radio || !orderSummary || !totalPrice) {
-        console.error("Faltan elementos en el DOM. Revisa los IDs.");
+    // Definir el botón de envío del formulario
+    const submitButton = paymentForm.querySelector('button[type="submit"]');
+
+    if (!paymentForm || !fechaRetiroInput || !sucursal1Radio || !sucursal2Radio || !orderSummary || !totalPrice || !submitButton) {
         return;
     }
 
@@ -20,11 +48,10 @@ document.addEventListener("DOMContentLoaded", function () {
             const horaActual = new Date().getTime();
             const tiempoTranscurrido = horaActual - parseInt(horaCreacionCarrito, 10);
 
-            // 3 horas en milisegundos (12 * 60 * 60 * 1000)
+            // 3 horas en milisegundos (3 * 60 * 60 * 1000)
             if (tiempoTranscurrido > 3 * 60 * 60 * 1000) {
                 localStorage.removeItem("cart");
                 localStorage.removeItem("horaCreacionCarrito");
-                console.log("El carrito ha sido eliminado por inactividad.");
             }
         }
     }
@@ -39,113 +66,21 @@ document.addEventListener("DOMContentLoaded", function () {
         localStorage.setItem("horaCreacionCarrito", new Date().getTime().toString());
     }
 
-    const products = [
-        { name: "ALASKA", images: ["../assets/alaska (1).jpg", "../assets/alaska (2).jpg", "../assets/alaska (3).jpg"] },
-        { name: "RUFINA", images: ["../assets/rufina (1).jpg", "../assets/rufina (2).jpg", "../assets/rufina (3).jpg"] },
-        { name: "PATAGONIA", images: ["../assets/patagonia (1).jpg", "../assets/patagonia (2).jpg", "../assets/patagonia (3).jpg"] },
-        { name: "TARTA DE FRUTILLAS", images: ["../assets/tarta-de-frutilla (1).jpg", "../assets/tarta-de-frutilla (2).jpg", "../assets/tarta-de-frutilla (3).jpg"] },
-        { name: "NUGATON", images: ["../assets/nugaton (1).jpg", "../assets/nugaton (2).jpg", "../assets/nugaton (3).jpg"] },
-        { name: "BEGONIA", images: ["../assets/begonia (1).jpg", "../assets/begonia (2).jpg", "../assets/begonia (3).jpg"] },
-        { name: "HOPIE", images: ["../assets/hopie (1).jpg", "../assets/hopie (2).jpg", "../assets/hopie (3).jpg"] },
-        { name: "FRIDA", images: ["../assets/frida (1).jpg", "../assets/frida (2).jpg", "../assets/frida (3).jpg"] },
-        { name: "BLOCK", images: ["../assets/block (1).jpg", "../assets/block (2).jpg", "../assets/block (3).jpg"] },
-        { name: "MANDI", images: ["../assets/mandi (1).jpg", "../assets/mandi (2).jpg", "../assets/mandi (3).jpg"] },
-        { name: "ISADORA", images: ["../assets/isadora (1).jpg", "../assets/isadora (2).jpg", "../assets/isadora (3).jpg"] },
-        { name: "CHEESCAKE FRUTOS ROJOS", images: ["../assets/cheescake-frutos-rojos (1).jpg", "../assets/cheescake-frutos-rojos (2).jpg", "../assets/cheescake-frutos-rojos (3).jpg"] },
-        { name: "MARQUISE CLASICA", images: ["../assets/marquise-clasica (1).jpg", "../assets/marquise-clasica (2).jpg", "../assets/marquise-clasica (3).jpg"] },
-        { name: "MAGNOLIA", images: ["../assets/magnolia (1).jpg", "../assets/magnolia (2).jpg", "../assets/magnolia (3).jpg"] },
-        { name: "OREO DOBLE", images: ["../assets/oreo-doble (1).jpg", "../assets/oreo-doble (2).jpg", "../assets/oreo-doble (3).jpg"] },
-        { name: "AMBAR", images: ["../assets/ambar (1).jpg", "../assets/ambar (2).jpg", "../assets/ambar (3).jpg"] },
-        { name: "MARGOT", images: ["../assets/margot (1).jpg", "../assets/margot (2).jpg", "../assets/margot (3).jpg"] },
-        { name: "CHOCOTORTA", images: ["../assets/chocotorta (1).jpg", "../assets/chocotorta (2).jpg", "../assets/chocotorta (3).jpg"] },
-        { name: "DOMINGA", images: ["../assets/dominga (1).jpg", "../assets/dominga (2).jpg", "../assets/dominga (3).jpg"] },
-        { name: "AURORA", images: ["../assets/aurora (1).jpg", "../assets/aurora (2).jpg", "../assets/aurora (3).jpg"] },
-        { name: "POPURRI", images: ["../assets/popurri (1).jpg", "../assets/popurri (2).jpg", "../assets/popurri (3).jpg"] },
-        { name: "HOGAZA", images: ["../assets/hogaza (1).jpg", "../assets/hogaza (2).jpg", "../assets/hogaza (3).jpg"] },
-        { name: "PAN DE CAMPO", images: ["../assets/pan-de-campo (1).jpg", "../assets/pan-de-campo (2).jpg", "../assets/pan-de-campo (3).jpg"] },
-    ];
-
-    function mostrarResumenPedido() {
-        orderSummary.innerHTML = "";
-        let total = 0;
-
-        if (cart.length === 0) {
-            orderSummary.innerHTML = "<li>No hay productos en el carrito.</li>";
-        } else {
-            cart.forEach((item, index) => {
-                const listItem = document.createElement("li");
-                listItem.className = "list-group-item";
-
-                const product = products.find(p => p.name === item.title);
-
-                if (product && product.images && product.images.length > 0) {
-                    const img = document.createElement("img");
-                    img.src = product.images[0];
-                    img.alt = item.title;
-                    img.style.width = "100px";
-                    img.style.height = "auto";
-                    img.style.marginRight = "10px";
-                    listItem.appendChild(img);
-                }
-
-                let text = `${item.title} - `;
-
-                if (item.sliceCount > 0) {
-                    text += `Porciones: ${item.sliceCount} ($${item.sliceTotal}) `;
-                    const removeSliceButton = document.createElement("button");
-                    removeSliceButton.textContent = "Eliminar porción";
-                    removeSliceButton.className = "btn-eliminar";
-                    removeSliceButton.onclick = () => eliminarPorcion(index);
-                    listItem.appendChild(removeSliceButton);
-                }
-
-                if (item.cakeCount > 0) {
-                    text += `| Enteras: ${item.cakeCount} ($${item.cakeTotal})`;
-                    const removeCakeButton = document.createElement("button");
-                    removeCakeButton.textContent = "Eliminar torta";
-                    removeCakeButton.className = "btn-eliminar";
-                    removeCakeButton.onclick = () => eliminarTorta(index);
-                    listItem.appendChild(removeCakeButton);
-                }
-
-                listItem.appendChild(document.createTextNode(text.trim()));
-                orderSummary.appendChild(listItem);
-
-                total += item.sliceTotal + item.cakeTotal;
-            });
-        }
-
-        totalPrice.textContent = total;
-    }
-
-    function eliminarPorcion(index) {
-        if (cart[index].sliceCount > 0) {
-            cart[index].sliceCount -= 1;
-            cart[index].sliceTotal = cart[index].sliceCount * (cart[index].sliceTotal / (cart[index].sliceCount + 1));
-            if (cart[index].sliceCount === 0 && cart[index].cakeCount === 0) {
-                cart.splice(index, 1);
-            }
-            localStorage.setItem("cart", JSON.stringify(cart));
-            mostrarResumenPedido();
-        }
-    }
-
-    function eliminarTorta(index) {
-        if (cart[index].cakeCount > 0) {
-            cart[index].cakeCount -= 1;
-            cart[index].cakeTotal = cart[index].cakeCount * (cart[index].cakeTotal / (cart[index].cakeCount + 1));
-            if (cart[index].sliceCount === 0 && cart[index].cakeCount === 0) {
-                cart.splice(index, 1);
-            }
-            localStorage.setItem("cart", JSON.stringify(cart));
-            mostrarResumenPedido();
-        }
-    }
-
+    // Llamar a la función al cargar la página
     mostrarResumenPedido();
 
-    const submitButton = paymentForm.querySelector('button[type="submit"]');
+    // Event listener para el botón de desplegar el resumen del pedido
+    const toggleOrderSummaryButton = document.getElementById("toggle-order-summary");
+    const orderSummaryPanel = document.getElementById("order-summary-panel");
 
+    if (toggleOrderSummaryButton && orderSummaryPanel) {
+        toggleOrderSummaryButton.addEventListener("click", function () {
+            orderSummaryPanel.classList.toggle("active");
+            mostrarResumenPedido(); // Asegurar que siempre muestra los datos actualizados
+        });
+    }
+
+    // Validar la fecha de retiro
     function validarFechaRetiro() {
         const fechaSeleccionadaUTC = new Date(fechaRetiroInput.value + "T00:00:00Z");
         const offsetBuenosAires = -180;
@@ -273,3 +208,116 @@ document.addEventListener("DOMContentLoaded", function () {
 
     validarFechaRetiro();
 });
+
+function mostrarResumenPedido() {
+    const cart = JSON.parse(localStorage.getItem("cart")) || [];
+    const orderSummary = document.getElementById("order-summary");
+    const orderSummaryMobile = document.getElementById("order-summary-mobile");
+    const totalPedidoMobile = document.getElementById("total-pedido-mobile");
+    const totalPedidoPanel = document.getElementById("total-pedido-panel");
+    const totalPrice = document.getElementById("total-price");
+
+    if (!orderSummary || !orderSummaryMobile || !totalPedidoMobile || !totalPedidoPanel || !totalPrice) {
+        console.error("Faltan elementos en pago.html. Verifica los IDs.");
+        return;
+    }
+
+    orderSummary.innerHTML = "";
+    orderSummaryMobile.innerHTML = "";
+    let total = 0;
+
+    if (cart.length === 0) {
+        orderSummary.innerHTML = "<li>No hay productos en el carrito.</li>";
+        orderSummaryMobile.innerHTML = "<li>No hay productos en el carrito.</li>";
+    } else {
+        cart.forEach(item => {
+            const listItem = document.createElement("li");
+            let itemText = `${item.title} - `;
+
+            if (item.sliceCount > 0) {
+                itemText += `${item.sliceCount} porción(es) ($${item.sliceTotal}) `;
+            }
+
+            if (item.cakeCount > 0) {
+                itemText += `${item.cakeCount} torta(s) entera(s) ($${item.cakeTotal})`;
+            }
+
+            listItem.textContent = itemText.trim();
+            orderSummary.appendChild(listItem);
+            orderSummaryMobile.appendChild(listItem.cloneNode(true));
+
+            total += item.sliceTotal + item.cakeTotal;
+        });
+    }
+
+    totalPedidoMobile.textContent = total;
+    totalPedidoPanel.textContent = total;
+    totalPrice.textContent = total;
+}
+
+
+const toggleOrderSummaryButton = document.getElementById("toggle-order-summary");
+const orderSummaryPanel = document.getElementById("order-summary-panel");
+
+toggleOrderSummaryButton.addEventListener("click", function () {
+
+    if (orderSummaryPanel.className.includes("active")) {
+        orderSummaryPanel.className = orderSummaryPanel.className.replace("active", "").trim();
+        orderSummaryPanel.style.display = "none"; // Ocultar el panel
+    } else {
+        orderSummaryPanel.className += " active";
+        orderSummaryPanel.style.display = "block"; // Mostrar el panel
+    }
+
+    mostrarResumenPedido();
+});
+
+
+document.addEventListener("DOMContentLoaded", function () {
+    const toggleOrderSummaryButton = document.getElementById("toggle-order-summary");
+    const orderSummaryPanel = document.getElementById("order-summary-panel");
+
+    if (!toggleOrderSummaryButton || !orderSummaryPanel) {
+        return;
+    }
+
+    // Asegurar que el panel inicia oculto
+    orderSummaryPanel.classList.remove("active");
+    orderSummaryPanel.style.display = "none"; // Ocultarlo al inicio
+
+    toggleOrderSummaryButton.addEventListener("click", function () {
+
+        if (orderSummaryPanel.classList.contains("active")) {
+            orderSummaryPanel.classList.remove("active");
+            orderSummaryPanel.style.display = "none"; // Forzar ocultar
+        } else {
+            orderSummaryPanel.classList.add("active");
+            orderSummaryPanel.style.display = "block"; // Forzar mostrar
+        }
+
+        mostrarResumenPedido();
+    });
+});
+
+
+document.getElementById("order-summary-panel").classList;
+document.getElementById("order-summary-panel").classList.add("active");
+
+document.getElementById("order-summary-panel").style.display = "block";
+
+
+
+function checkScreenSize() {
+    if (window.innerWidth <= 767) {
+        toggleOrderSummaryButton.style.display = "block";
+    } else {
+        toggleOrderSummaryButton.style.display = "none";
+    }
+}
+checkScreenSize();
+window.addEventListener("resize", checkScreenSize);
+document.addEventListener("DOMContentLoaded", function () {
+    mostrarResumenPedido();
+});
+
+window.mostrarResumenPedido = mostrarResumenPedido;

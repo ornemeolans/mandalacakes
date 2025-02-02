@@ -150,12 +150,28 @@ function addToCart(button) {
 
     // Verificar si hay suficiente stock
     if (sliceCount > product.stockSlices) {
-        alert(`❌ No hay suficientes porciones de ${title}. Stock disponible: ${product.stockSlices}`);
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: `❌ No hay suficientes porciones de ${title}. Stock disponible: ${product.stockSlices}`,
+            confirmButtonText: 'Aceptar',
+            customClass: {
+                confirmButton: 'btn btn-primary'
+            }
+        });
         return;
     }
 
     if (cakeCount > product.stockCakes) {
-        alert(`❌ No hay suficientes tortas enteras de ${title}. Stock disponible: ${product.stockCakes}`);
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: `❌ No hay suficientes tortas enteras de ${title}. Stock disponible: ${product.stockCakes}`,
+            confirmButtonText: 'Aceptar',
+            customClass: {
+                confirmButton: 'btn btn-primary'
+            }
+        });
         return;
     }
 
@@ -194,7 +210,15 @@ function addToCart(button) {
         if (sliceSpan) sliceSpan.textContent = 0;
         if (cakeSpan) cakeSpan.textContent = 0;
     } else {
-        alert("❌ Por favor, selecciona al menos una porción o una torta entera antes de agregar al carrito.");
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: '❌ Por favor, selecciona al menos una porción o una torta entera antes de agregar al carrito.',
+            confirmButtonText: 'Aceptar',
+            customClass: {
+                confirmButton: 'btn btn-primary'
+            }
+        });
     }
 }
 
@@ -334,7 +358,15 @@ function toggleCart() {
 
 function checkout() {
     if (cart.length === 0) {
-        alert("Tu carrito está vacío. Agrega productos antes de finalizar la compra.");
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'Tu carrito está vacío. Agrega productos antes de finalizar la compra.',
+            confirmButtonText: 'Aceptar',
+            customClass: {
+                confirmButton: 'btn btn-primary'
+            }
+        });
         return;
     }
 
@@ -345,13 +377,23 @@ function checkout() {
     window.location.href = "pago.html";
 }
 
+
 // Manejo del formulario de pago (si existe)
 const paymentForm = document.getElementById("payment-form");
 if (paymentForm) {
     paymentForm.addEventListener("submit", function (event) {
         event.preventDefault();
-        alert("¡Pedido confirmado! Gracias por tu compra.");
-        localStorage.removeItem("cart"); // Vaciar el carrito
-        window.location.href = "../index.html"; // Redirigir al inicio
+        Swal.fire({
+            icon: 'success',
+            title: '¡Pedido confirmado!',
+            text: 'Gracias por tu compra.',
+            confirmButtonText: 'Aceptar',
+            customClass: {
+                confirmButton: 'btn btn-primary'
+            }
+        }).then(() => {
+            localStorage.removeItem("cart"); // Vaciar el carrito
+            window.location.href = "../index.html"; // Redirigir al inicio
+        });
     });
 }
