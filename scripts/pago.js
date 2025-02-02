@@ -87,7 +87,7 @@ document.addEventListener("DOMContentLoaded", function () {
     
         const fechaActual = new Date(); // Fecha y hora actual en la zona horaria local
         const fechaMinima = new Date(fechaActual.getTime() + 48 * 60 * 60 * 1000); // 48 horas de anticipación
-        const horaActual = fechaAcutal.getTime();
+        const horaActual = fechaActual.getTime();
         const diaSemanaActual = fechaActual.getDay();
     
         // Validar si la sucursal 1 está cerrada los domingos
@@ -108,7 +108,7 @@ document.addEventListener("DOMContentLoaded", function () {
         // Validar el horario de atención según la sucursal seleccionada
         if (sucursal1Radio.checked) {
             // Sucursal 1: Horario de 8:00 a 20:00 hs
-            if (horaActual < 8 || horaActual >= 20) {
+            if (horaActual < 8 || horaActual >= 20 || diaSemanaActual === 0) {
                 Swal.fire({
                     text: "🚫 El horario de atención de la sucursal Take Away es de Lunes a Sábado de 8:00 a 20:00 hs.",
                     icon: "warning",
