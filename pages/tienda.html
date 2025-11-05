@@ -21,7 +21,7 @@
     <header>
         <nav class="navbar navbar-expand-lg navbar-light fondo">
             <div class="container-fluid">
-                <a class="navbar-brand" href="index.html"><img src="../assets/logo-nuevo.png" alt="Mandala Cakes"></a>
+                <a class="navbar-brand" href="../index.html"><img src="../assets/logo-nuevo.png" alt="Mandala Cakes"></a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                     aria-expanded="false" aria-label="Toggle navigation">
@@ -45,6 +45,19 @@
             </div>
         </nav>
     </header>
+    <div class="container my-4">
+        <div class="filter-controls">
+            <input type="text" id="search-input" placeholder="Buscar producto por nombre..." class="form-control mb-3">
+            <div id="filter-buttons" class="d-flex flex-wrap justify-content-center gap-2">
+                <button class="filter-btn active" data-filter="all">Todas las Categorías</button>
+                <button class="filter-btn" data-filter="Tortas">Tortas</button>
+                <button class="filter-btn" data-filter="Cheesecakes">Cheesecakes</button>
+                <button class="filter-btn" data-filter="Tartas">Tartas</button>
+                <button class="filter-btn" data-filter="Panadería">Panadería</button>
+                <button class="filter-btn" data-filter="Popurrí">Popurrí</button>
+            </div>
+        </div>
+    </div>
     <div id="grid" class="grid">
     </div>
     <button id="cart-button" onclick="toggleCart()">🛒 Ver Carrito</button>

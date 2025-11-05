@@ -1,44 +1,84 @@
-const products = [
-    { name: "ALASKA", description: "Cheesecake de chocolate blanco y dulce de leche, con una fina capa de chocolate con leche y ganache de chocolate blanco. <br>Rinde 15-20 porciones.", slicePrice: 8500, cakePrice: 51000, stockSlices: 24, stockCakes: 5, images: ["../assets/alaska (1).jpg", "../assets/alaska (2).jpg", "../assets/alaska (3).jpg"] },
-    { name: "RUFINA", description: "Base de oreo, dulce de leche, cream cheese de dulce de leche, merengue italiano. <br>Rinde 15-20 porciones.", slicePrice: 8200, cakePrice: 49200, stockSlices: 24, stockCakes: 5, stockSlices: 24, stockCakes: 5, images: ["../assets/rufina (1).jpg", "../assets/rufina (2).jpg", "../assets/rufina (3).jpg"] },
-    { name: "PATAGONIA", description: "Base de chocolate con nueces, dulce de leche y ganache de chocolate blanco con frutos rojos. <br>Rinde 15-20 porciones.", slicePrice: 8000, cakePrice: 48000, stockSlices: 24, stockCakes: 5, images: ["../assets/patagonia (1).jpg", "../assets/patagonia (2).jpg", "../assets/patagonia (3).jpg"] },
-    { name: "TARTA DE FRUTILLAS", description: "Masa sablée con almendras, dulce de leche, crema y frutillas frescas. <br>IMPORTANTE: RESERVA SUJETA A DISPONIBILIDAD DE FRUTILLA FRESCA. <br>Rinde 15-20 porciones.", slicePrice: 8200, cakePrice: 49200, stockSlices: 24, stockCakes: 5, images: ["../assets/tarta-de-frutilla (1).jpg", "../assets/tarta-de-frutilla (2).jpg", "../assets/tarta-de-frutilla (3).jpg"] },
-    { name: "NUGATON", description: "Base de chocolate y avena, mousse de chocolate blanco. <br>Rinde 15-20 porciones.", slicePrice: 8200, cakePrice: 49200, stockSlices: 24, stockCakes: 5, images: ["../assets/nugaton (1).jpg", "../assets/nugaton (2).jpg", "../assets/nugaton (3).jpg"] },
-    { name: "BEGONIA", description: "Base de chocolate con trocitos de chocolate blanco, cremoso de chocolate semiamargo con frambuesas bañadas y mousse de limón. <br>Rinde 15-20 porciones.", slicePrice: 8600, cakePrice: 51600, stockSlices: 24, stockCakes: 5, images: ["../assets/begonia (1).jpg", "../assets/begonia (2).jpg", "../assets/begonia (3).jpg"] },
-    { name: "HOPIE", description: "Torta helada en doble capa de vainilla y chocolate blanco, crema y maracuyá. <br>Rinde 15-20 porciones.", slicePrice: 8200, cakePrice: 49200, stockSlices: 24, stockCakes: 5, images: ["../assets/hopie (1).jpg", "../assets/hopie (2).jpg", "../assets/hopie (3).jpg"] },
-    { name: "FRIDA", description: "Base de chocolate, cremoso de naranja, crema y frutas de estación. <br>Rinde 15-20 porciones.", slicePrice: 8200, cakePrice: 49200, stockSlices: 24, stockCakes: 5, images: ["../assets/frida (1).jpg", "../assets/frida (2).jpg", "../assets/frida (3).jpg"] },
-    { name: "BLOCK", description: "Base de chocolate, dulce de leche con maní, cremoso de chocolate semiamargo, decorada con crema Bariloche y salsa de caramelo. <br>Rinde 15-20 porciones.", slicePrice: 8600, cakePrice: 51600, stockSlices: 24, stockCakes: 5, images: ["../assets/block (1).jpg", "../assets/block (2).jpg", "../assets/block (3).jpg"] },
-    { name: "MANDI", description: "Base de chocolate con trocitos de chocolate con leche, mousse de frutillas y leche condensada, merengue italiano. <br>Rinde 15-20 porciones.", slicePrice: 8300, cakePrice: 48000, stockSlices: 24, stockCakes: 5, images: ["../assets/mandi (1).jpg", "../assets/mandi (2).jpg", "../assets/mandi (3).jpg"] },
-    { name: "ISADORA", description: "Torta de ricota y limón, dulce de frambuesas y crumble con más frambuesas. <br>Rinde 15-20 porciones.", slicePrice: 8000, cakePrice: 48000, stockSlices: 24, stockCakes: 5, images: ["../assets/isadora (1).jpg", "../assets/isadora (2).jpg", "../assets/isadora (3).jpg"] },
-    { name: "CHEESCAKE FRUTOS ROJOS", description: "Cheesecake New York con dulce de frutos rojos casero y frutos. <br>Rinde 15-20 porciones.", slicePrice: 8200, cakePrice: 49200, stockSlices: 24, stockCakes: 5, images: ["../assets/cheescake-frutos-rojos (1).jpg", "../assets/cheescake-frutos-rojos (2).jpg", "../assets/cheescake-frutos-rojos (3).jpg"] },
-    { name: "MARQUISE CLASICA", description: "Torta de chocolate intenso sin harina, dulce de leche, crema chantilly y merengue italiano. <br>Rinde 15-20 porciones.", slicePrice: 7900, cakePrice: 47400, stockSlices: 24, stockCakes: 5, images: ["../assets/marquise-clasica (1).jpg", "../assets/marquise-clasica (2).jpg", "../assets/marquise-clasica (3).jpg"] },
-    { name: "MAGNOLIA", description: "Bizcochuelo húmedo de vainilla, dulce de leche, duraznos, disco de merengue, decorada con cream cheese y maracuyá. <br>Rinde 15-20 porciones.", slicePrice: 7800, cakePrice: 46800, stockSlices: 24, stockCakes: 5, images: ["../assets/magnolia (1).jpg", "../assets/magnolia (2).jpg", "../assets/magnolia (3).jpg"] },
-    { name: "OREO DOBLE", description: "Torta helada. Doble capa de oreo, dulce de leche y crema. <br>Rinde 15-20 porciones.", slicePrice: 8200, cakePrice: 49200, stockSlices: 24, stockCakes: 5, images: ["../assets/oreo-doble (1).jpg", "../assets/oreo-doble (2).jpg", "../assets/oreo-doble (3).jpg"] },
-    { name: "AMBAR", description: "Base de chocolate, cremoso de limón y merengue italiano. <br>Rinde 15-20 porciones.", slicePrice: 7800, cakePrice: 46800, stockSlices: 24, stockCakes: 5, images: ["../assets/ambar (1).jpg", "../assets/ambar (2).jpg", "../assets/ambar (3).jpg"] },
-    { name: "MARGOT", description: "Cheesecake de limón super cremoso, reducción de frutillas y crema chantilly. <br>Rinde 15-20 porciones.", slicePrice: 8300, cakePrice: 49800, stockSlices: 24, stockCakes: 5, images: ["../assets/margot (1).jpg", "../assets/margot (2).jpg", "../assets/margot (3).jpg"] },
-    { name: "CHOCOTORTA", description: "Capas de cream cheese de dulce de leche intercaladas con galletitas de chocolate. <br>Rinde 15-20 porciones.", slicePrice: 8300, cakePrice: 49800, stockSlices: 24, stockCakes: 5, images: ["../assets/chocotorta (1).jpg", "../assets/chocotorta (2).jpg", "../assets/chocotorta (3).jpg"] },
-    { name: "DOMINGA", description: "Bizcochuelo húmedo de chocolate, ganache de chocolate especiada con naranjas, dulce de leche con cacao. <br>Rinde 15-20 porciones.", slicePrice: 8500, cakePrice: 51000, stockSlices: 24, stockCakes: 5, images: ["../assets/dominga (1).jpg", "../assets/dominga (2).jpg", "../assets/dominga (3).jpg"] },
-    { name: "AURORA", description: "Bizcochuelo húmedo de chocolate con dulce de leche, crema y frutos de estación. <br>Rinde 15-20 porciones.", slicePrice: 7800, cakePrice: 46800, stockSlices: 24, stockCakes: 5, images: ["../assets/aurora (1).jpg", "../assets/aurora (2).jpg", "../assets/aurora (3).jpg"] },
-    { name: "POPURRI", description: "• CHEESECAKE: frutos rojos. <br>• ALASKA: cheesecake de chocolate blanco relleno de dulce de leche, cubierto con doble ganache de chocolate. <br>• BROWNIE CLÁSICO: nueces, dulce de leche, crema y merengue. <br>• MARGOT: cheesecake de limón, reducción de frutillas y crema chantilly. <br>• NUGATON: base de chocolate y avena, mousse de chocolate blanco. <br>• FRIDA: base de chocolate, cremoso de naranja con leche condensada, crema y frutas de estación.heesecake de limón super cremoso, reducción de frutillas y crema chantilly.", slicePrice: undefined, cakePrice: 18000, stockSlices: 0, stockCakes: 24, images: ["../assets/popurri (1).jpg", "../assets/popurri (2).jpg", "../assets/popurri (3).jpg"] },
-    { name: "HOGAZA", description: "Mix de harina blanca y harina integral. Masa madre de centeno.", slicePrice: undefined, cakePrice: 4800, stockSlices: 0, stockCakes: 24, images: ["../assets/hogaza (1).jpg", "../assets/hogaza (2).jpg", "../assets/hogaza (3).jpg"] },
-    { name: "PAN DE CAMPO", description: "Clásico a base de grasa y levadura.", slicePrice: undefined, cakePrice: 4000, stockSlices: 0, stockCakes: 24, images: ["../assets/pan-de-campo (1).jpg", "../assets/pan-de-campo (2).jpg", "../assets/pan-de-campo (3).jpg"] },
-];
-
+let productsData = []; // Variable para almacenar los productos cargados
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
 document.addEventListener("DOMContentLoaded", function () {
-    generateProducts();
-    initializeStockWarnings();
-    updateCart();
+    // 1. Cargar productos de forma asíncrona
+    fetch('../productos.json')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('No se pudo cargar productos.json');
+            }
+            return response.json();
+        })
+        .then(products => {
+            productsData = products; // Almacenar los productos en la variable global
+            generateProducts(productsData);
+            initializeStockWarnings(productsData);
+            updateCart(productsData);
+            setupEventListeners(productsData); // Configurar eventos después de cargar
+        })
+        .catch(error => {
+            console.error(error);
+            Swal.fire({
+                icon: 'error',
+                title: 'Error de Carga',
+                text: 'No se pudo cargar el catálogo de productos.',
+                confirmButtonText: 'Aceptar'
+            });
+        });
 });
 
-function generateProducts() {
+function setupEventListeners(products) {
+    const searchInput = document.getElementById('search-input');
+    const filterButtons = document.querySelectorAll('.filter-btn');
+
+    // Listener para la búsqueda
+    searchInput.addEventListener('keyup', () => filterAndSearchProducts(products));
+
+    // Listeners para los filtros de categoría
+    filterButtons.forEach(button => {
+        button.addEventListener('click', (event) => {
+            // Manejo de la clase 'active' para el estilo
+            filterButtons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            filterAndSearchProducts(products);
+        });
+    });
+}
+
+function filterAndSearchProducts(products) {
+    const searchInput = document.getElementById('search-input');
+    const searchTerm = searchInput.value.toLowerCase();
+    const activeFilter = document.querySelector('.filter-btn.active').getAttribute('data-filter');
+
+    let filteredProducts = products.filter(product => {
+        // Filtro por término de búsqueda (nombre)
+        const matchesSearch = product.name.toLowerCase().includes(searchTerm);
+        
+        // Filtro por categoría
+        const matchesCategory = activeFilter === 'all' || product.category === activeFilter;
+
+        return matchesSearch && matchesCategory;
+    });
+
+    generateProducts(filteredProducts);
+    initializeStockWarnings(filteredProducts);
+}
+
+function generateProducts(products) {
     const container = document.getElementById("grid");
-    if (!container) return; // Evita errores si no existe el elemento
+    if (!container) return; 
     container.innerHTML = "";
+    
+    // Si no hay productos, mostrar mensaje
+    if (products.length === 0) {
+        container.innerHTML = '<p class="no-results-msg">No se encontraron productos que coincidan con los filtros.</p>';
+        return;
+    }
 
     products.forEach((product, index) => {
-        const cardClass = `card-${index + 1}`;
+        // ... (Tu lógica de generación de HTML de producto)
         const carouselId = `carousel-${product.name.replace(/\s+/g, '')}`;
         const imagesHTML = product.images.map((img, i) => `
             <div class="carousel-item ${i === 0 ? 'active' : ''}">
@@ -46,7 +86,7 @@ function generateProducts() {
             </div>
         `).join('');
 
-        const sliceControlsHTML = product.slicePrice !== undefined ? `
+        const sliceControlsHTML = product.slicePrice !== null ? `
             <p class="stock-warning-slices" style="display: none; color: red; font-weight: bold;">⚠️ Última porción en stock</p>
             <div class="count-controls">
                 <button onclick="decrementSlices(this)">-1</button>
@@ -59,7 +99,7 @@ function generateProducts() {
         ` : '';
 
         const productHTML = `
-            <div class="${cardClass}" style="grid-area: ${cardClass};">
+            <div class="card-${index + 1}">
                 <div id="${carouselId}" class="carousel slide" data-bs-ride="carousel">
                     <div class="carousel-inner">
                         ${imagesHTML}
@@ -95,6 +135,7 @@ function generateProducts() {
         container.innerHTML += productHTML;
     });
 }
+
 
 function incrementSlices(button) {
     let card = button.closest('.card-body');
@@ -138,15 +179,15 @@ function addToCart(button) {
     let sliceCount = sliceSpan ? parseInt(sliceSpan.textContent) || 0 : 0;
     let cakeCount = cakeSpan ? parseInt(cakeSpan.textContent) || 0 : 0;
 
-    let priceElements = card.querySelectorAll('.count-controls p');
-    let slicePrice = priceElements.length > 1 ? parseFloat(priceElements[0].textContent.match(/\d+/)[0]) : 0;
-    let cakePrice = priceElements.length > 1 ? parseFloat(priceElements[1].textContent.match(/\d+/)[0]) : parseFloat(priceElements[0].textContent.match(/\d+/)[0]);
+    // Buscar el producto en los datos cargados
+    let product = productsData.find(p => p.name === title);
+    if (!product) return;
+
+    let slicePrice = product.slicePrice || 0;
+    let cakePrice = product.cakePrice || 0;
 
     let sliceTotal = sliceCount * slicePrice;
     let cakeTotal = cakeCount * cakePrice;
-
-    // Buscar el producto en el array
-    let product = products.find(p => p.name === title);
 
     // Verificar si hay suficiente stock
     if (sliceCount > product.stockSlices) {
@@ -155,9 +196,7 @@ function addToCart(button) {
             title: 'Error',
             text: `❌ No hay suficientes porciones de ${title}. Stock disponible: ${product.stockSlices}`,
             confirmButtonText: 'Aceptar',
-            customClass: {
-                confirmButton: 'btn btn-primary'
-            }
+            customClass: { confirmButton: 'btn btn-primary' }
         });
         return;
     }
@@ -168,14 +207,12 @@ function addToCart(button) {
             title: 'Error',
             text: `❌ No hay suficientes tortas enteras de ${title}. Stock disponible: ${product.stockCakes}`,
             confirmButtonText: 'Aceptar',
-            customClass: {
-                confirmButton: 'btn btn-primary'
-            }
+            customClass: { confirmButton: 'btn btn-primary' }
         });
         return;
     }
 
-    // Descontar del stock
+    // Descontar del stock (simulación)
     product.stockSlices -= sliceCount;
     product.stockCakes -= cakeCount;
 
@@ -197,14 +234,16 @@ function addToCart(button) {
                 sliceCount,
                 cakeCount,
                 sliceTotal,
-                cakeTotal
+                cakeTotal,
+                slicePrice: product.slicePrice, // Guardar precio para la eliminación en el carrito
+                cakePrice: product.cakePrice // Guardar precio para la eliminación en el carrito
             });
         }
 
         // Guardar el carrito en localStorage
         localStorage.setItem("cart", JSON.stringify(cart));
 
-        updateCart();
+        updateCart(productsData);
 
         // Resetear los contadores
         if (sliceSpan) sliceSpan.textContent = 0;
@@ -215,21 +254,32 @@ function addToCart(button) {
             title: 'Error',
             text: '❌ Por favor, selecciona al menos una porción o una torta entera antes de agregar al carrito.',
             confirmButtonText: 'Aceptar',
-            customClass: {
-                confirmButton: 'btn btn-primary'
-            }
+            customClass: { confirmButton: 'btn btn-primary' }
         });
     }
 }
 
-function updateCart() {
+// Función para inicializar warnings
+function initializeStockWarnings(products) {
+    // Se asegura de que los warnings se inicialicen usando los productos cargados
+    document.querySelectorAll('.card-body').forEach(card => {
+        let title = card.querySelector('.card-title').textContent;
+        let product = products.find(p => p.name === title);
+        if (product) {
+            updateStockWarning(card, product);
+        }
+    });
+}
+
+// Función para actualizar el carrito (Se llama con productsData)
+function updateCart(products) {
     let cartContainer = document.getElementById('cart');
-    if (!cartContainer) return; // Evita errores si no existe el elemento
+    if (!cartContainer) return; 
     cartContainer.innerHTML = '';
 
     if (cart.length === 0) {
         cartContainer.innerHTML = '<li>El carrito está vacío</li>';
-        updateCartCounter(0); // Actualizar el contador del carrito
+        updateCartCounter(0); 
         return;
     }
 
@@ -247,69 +297,56 @@ function updateCart() {
             text += `<button class="btn-eliminar" onclick="removeCakes(${index})">Eliminar enteras</button>`;
         }
 
-        listItem.innerHTML = text.trim(); // Usamos innerHTML para permitir los botones
+        listItem.innerHTML = text.trim(); 
         cartContainer.appendChild(listItem);
     });
 
-    // Actualizar el contador del carrito
     let totalItems = cart.reduce((total, item) => total + item.sliceCount + item.cakeCount, 0);
     updateCartCounter(totalItems);
 }
 
+// Las funciones removeSlices y removeCakes deben acceder a los precios guardados en el item.
+// Además, la lógica de stock debería corregir el stock simulado en productsData si se desea un control de stock real. 
+// Por simplicidad, y ya que el stock se reinicia al recargar, mantendremos la lógica básica de carrito:
+
 function removeSlices(index) {
     if (cart[index].sliceCount > 0) {
+        // Usa el precio guardado en el ítem del carrito
         cart[index].sliceCount--;
-        cart[index].sliceTotal -= products.find(p => p.name === cart[index].title).slicePrice;
+        cart[index].sliceTotal -= cart[index].slicePrice;
+        
+        // Simular devolución de stock (Opcional)
+        let product = productsData.find(p => p.name === cart[index].title);
+        if(product && product.stockSlices !== undefined) product.stockSlices++;
+
         if (cart[index].sliceCount === 0 && cart[index].cakeCount === 0) {
-            cart.splice(index, 1); // Eliminar el producto si no hay más porciones ni tortas enteras
+            cart.splice(index, 1);
         }
         localStorage.setItem("cart", JSON.stringify(cart));
-        updateCart();
+        updateCart(productsData);
+        filterAndSearchProducts(productsData); // Para actualizar el warning de stock en la tienda
     }
 }
 
 function removeCakes(index) {
     if (cart[index].cakeCount > 0) {
+        // Usa el precio guardado en el ítem del carrito
         cart[index].cakeCount--;
-        cart[index].cakeTotal -= products.find(p => p.name === cart[index].title).cakePrice;
+        cart[index].cakeTotal -= cart[index].cakePrice;
+        
+        // Simular devolución de stock (Opcional)
+        let product = productsData.find(p => p.name === cart[index].title);
+        if(product && product.stockCakes !== undefined) product.stockCakes++;
+
         if (cart[index].sliceCount === 0 && cart[index].cakeCount === 0) {
-            cart.splice(index, 1); // Eliminar el producto si no hay más porciones ni tortas enteras
+            cart.splice(index, 1);
         }
         localStorage.setItem("cart", JSON.stringify(cart));
-        updateCart();
+        updateCart(productsData);
+        filterAndSearchProducts(productsData); // Para actualizar el warning de stock en la tienda
     }
 }
 
-function updateCartCounter(totalItems) {
-    let cartButton = document.getElementById('cart-button');
-    if (cartButton) {
-        cartButton.textContent = `🛒 Ver Carrito (${totalItems})`;
-    }
-}
-
-function removeSlices(index) {
-    if (cart[index].sliceCount > 0) {
-        cart[index].sliceCount--;
-        cart[index].sliceTotal -= products.find(p => p.name === cart[index].title).slicePrice;
-        if (cart[index].sliceCount === 0 && cart[index].cakeCount === 0) {
-            cart.splice(index, 1); // Eliminar el producto si no hay más porciones ni tortas enteras
-        }
-        localStorage.setItem("cart", JSON.stringify(cart));
-        updateCart();
-    }
-}
-
-function removeCakes(index) {
-    if (cart[index].cakeCount > 0) {
-        cart[index].cakeCount--;
-        cart[index].cakeTotal -= products.find(p => p.name === cart[index].title).cakePrice;
-        if (cart[index].sliceCount === 0 && cart[index].cakeCount === 0) {
-            cart.splice(index, 1); // Eliminar el producto si no hay más porciones ni tortas enteras
-        }
-        localStorage.setItem("cart", JSON.stringify(cart));
-        updateCart();
-    }
-}
 
 function updateCartCounter(totalItems) {
     let cartButton = document.getElementById('cart-button');
@@ -335,24 +372,14 @@ function updateStockWarning(card, product) {
     }
 }
 
-function initializeStockWarnings() {
-    document.querySelectorAll('.card-body').forEach(card => {
-        let title = card.querySelector('.card-title').textContent;
-        let product = products.find(p => p.name === title);
-        if (product) {
-            updateStockWarning(card, product);
-        }
-    });
-}
-
 function toggleCart() {
     let cartPanel = document.getElementById('cart-panel');
-    if (!cartPanel) return; // Evita errores si no existe el elemento
+    if (!cartPanel) return; 
     if (cartPanel.style.right === "0px") {
-        cartPanel.style.right = "-350px"; // Ocultar
+        cartPanel.style.right = "-350px"; 
     } else {
-        cartPanel.style.right = "0px"; // Mostrar
-        updateCart(); // Actualizar carrito al abrir
+        cartPanel.style.right = "0px"; 
+        updateCart(productsData); 
     }
 }
 
@@ -363,37 +390,22 @@ function checkout() {
             title: 'Error',
             text: 'Tu carrito está vacío. Agrega productos antes de finalizar la compra.',
             confirmButtonText: 'Aceptar',
-            customClass: {
-                confirmButton: 'btn btn-primary'
-            }
+            customClass: { confirmButton: 'btn btn-primary' }
         });
         return;
     }
 
-    // Guardar carrito en localStorage para recuperarlo en pago.html
     localStorage.setItem("cart", JSON.stringify(cart));
-
-    // Redirigir a la página de pago
     window.location.href = "pago.html";
 }
 
-
-// Manejo del formulario de pago (si existe)
-const paymentForm = document.getElementById("payment-form");
-if (paymentForm) {
-    paymentForm.addEventListener("submit", function (event) {
-        event.preventDefault();
-        Swal.fire({
-            icon: 'success',
-            title: '¡Pedido confirmado!',
-            text: 'Gracias por tu compra.',
-            confirmButtonText: 'Aceptar',
-            customClass: {
-                confirmButton: 'btn btn-primary'
-            }
-        }).then(() => {
-            localStorage.removeItem("cart"); // Vaciar el carrito
-            window.location.href = "../index.html"; // Redirigir al inicio
-        });
-    });
-}
+// Exponer funciones necesarias para el HTML
+window.incrementSlices = incrementSlices;
+window.decrementSlices = decrementSlices;
+window.incrementCakes = incrementCakes;
+window.decrementCakes = decrementCakes;
+window.addToCart = addToCart;
+window.removeSlices = removeSlices;
+window.removeCakes = removeCakes;
+window.toggleCart = toggleCart;
+window.checkout = checkout;

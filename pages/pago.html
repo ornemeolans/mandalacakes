@@ -14,7 +14,6 @@
     </style>
     <link rel="stylesheet" href="../css/style.css">
     <link rel="shortcut icon" href="../assets/logo-letra.png">
-    <!-- SweetAlert CSS -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
@@ -51,23 +50,19 @@
         <h1 class="text-center my-4">Finalizar Compra</h1>
         </div>
         <div class="row">
-            <!-- Detalle del pedido -->
             <div class="col-md-6">
                 <h2>Tu Pedido</h2>
                 <ul id="order-summary" class="list-group mb-4"></ul>
                 <h3 class="total-desktop">Total: $<span id="total-price">0</span></h3>
-                <!-- Botón para abrir/cerrar el menú desplegable (solo en móviles) -->
                 <button id="toggle-order-summary" style="display: none;">
                     🛒 Detalle ($<span id="total-pedido-mobile">0</span>)
                 </button>
-                <!-- Panel desplegable con los productos -->
                 <div id="order-summary-panel" style="display: none;">
                     <ul id="order-summary-mobile"></ul>
                     <h3>Total: $<span id="total-pedido-panel">0</span></h3>
                 </div>
             </div>
 
-            <!-- Formulario de datos del cliente -->
             <div class="col-md-6">
                 <form id="payment-form">
                     <h2>Datos de quien retira</h2>
@@ -120,7 +115,10 @@
                     <div class="mb-3">
                         <input type="date" class="form-control" id="fecha-retiro" required>
                     </div>
-
+                    <div class="mb-3">
+                        <label for="hora-retiro" class="form-label">Hora de retiro (entre 08:00 y 21:00)</label>
+                        <input type="time" class="form-control" id="hora-retiro" required>
+                    </div>
                     <button type="submit" class="btn btn-primary">Confirmar Pedido</button>
                 </form>
             </div>
