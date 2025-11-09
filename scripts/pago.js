@@ -1,6 +1,12 @@
 // Variable global para productos cargados de forma asíncrona
 let productsData = []; 
 
+// FUNCIÓN DE UTILIDAD: Centraliza el formato de precios (Mejora en formato)
+function formatPrice(price) {
+    if (price === null || price === undefined) return "";
+    return `$${price.toLocaleString('es-AR')}`;
+}
+
 // --- I. FUNCIONES AUXILIARES DE UTILIDAD (Definición prioritaria) ---
 
 function saveClientData() {
@@ -64,7 +70,6 @@ function mostrarResumenPedido() {
     const totalPedidoPanel = document.getElementById("total-pedido-panel");
     const totalPrice = document.getElementById("total-price");
 
-    // Verificar si los elementos del DOM y los datos están listos
     if (!orderSummary || !orderSummaryMobile || !totalPedidoMobile || !totalPedidoPanel || !totalPrice || productsData.length === 0) {
         return;
     }
@@ -80,7 +85,6 @@ function mostrarResumenPedido() {
         cart.forEach(item => {
             const product = productsData.find(p => p.name === item.title);
 
-            // Función para construir el list item
             const baseItem = (isMobile) => {
                 const li = document.createElement("li");
                 li.className = "list-group-item";
@@ -95,10 +99,12 @@ function mostrarResumenPedido() {
                 }
                 let itemText = `${item.title} - `;
                 if (item.sliceCount > 0) {
-                    itemText += `${item.sliceCount} porción(es) ($${item.sliceTotal}) `;
+                    // Uso de formatPrice (Mejora en formato)
+                    itemText += `${item.sliceCount} porción(es) (${formatPrice(item.sliceTotal)}) `;
                 }
                 if (item.cakeCount > 0) {
-                    itemText += `${item.cakeCount} torta(s) entera(s) ($${item.cakeTotal})`;
+                    // Uso de formatPrice (Mejora en formato)
+                    itemText += `${item.cakeCount} torta(s) entera(s) (${formatPrice(item.cakeTotal)})`;
                 }
                 li.appendChild(document.createTextNode(itemText));
                 return li;
@@ -111,6 +117,7 @@ function mostrarResumenPedido() {
         });
     }
 
+    // Se mantiene la asignación sin formatPrice ya que el '$' ya está en el HTML (pago.html)
     totalPedidoMobile.textContent = total;
     totalPedidoPanel.textContent = total;
     totalPrice.textContent = total;
@@ -257,7 +264,7 @@ function initializePageLogic() {
     // 1. Ejecutar funciones auxiliares
     loadClientData();
     eliminarCarritoSiExpirado();
-    mostrarResumenPedido(); // Este es el que ahora debería funcionar
+    mostrarResumenPedido(); 
     
     // 2. Establecer el mínimo del input date.
     const fechaMinima = getMinPickupDate();
@@ -302,15 +309,18 @@ function initializePageLogic() {
 
             cart.forEach(item => {
                 if (item.sliceCount > 0) {
-                    mensaje += `- ${item.title}: ${item.sliceCount} porción(es) ($${item.sliceTotal})%0A`;
+                    // Uso de formatPrice (Mejora en formato)
+                    mensaje += `- ${item.title}: ${item.sliceCount} porción(es) (${formatPrice(item.sliceTotal)})%0A`;
                 }
                 if (item.cakeCount > 0) {
-                    mensaje += `- ${item.title}: ${item.cakeCount} torta(s) entera(s) ($${item.cakeTotal})`;
+                    // Uso de formatPrice (Mejora en formato)
+                    mensaje += `- ${item.title}: ${item.cakeCount} torta(s) entera(s) (${formatPrice(item.cakeTotal)})`;
                 }
                 total += item.sliceTotal + item.cakeTotal;
             });
 
-            mensaje += `%0A*Total:* $${total}`;
+            // Uso de formatPrice (Mejora en formato)
+            mensaje += `%0A*Total:* ${formatPrice(total)}`;
 
             const numeroWhatsApp = sucursal === "sucursal1" ? "3517326453" : "3516431879";
 
@@ -369,11 +379,12 @@ document.addEventListener("DOMContentLoaded", function () {
 // --- III. PUNTO DE ENTRADA DE LA APLICACIÓN (Llamada asíncrona) ---
 
 document.addEventListener("DOMContentLoaded", function () {
-    // 1. Cargar productos de forma asíncrona
+    // 1. Cargar productos de forma asíncrona y manejar errores de red (Mejora en error handling)
     fetch('../productos.json')
         .then(response => {
             if (!response.ok) {
-                throw new Error('No se pudo cargar productos.json. Asegúrate de usar un servidor local.');
+                // Lanza un error si la respuesta HTTP no es exitosa
+                throw new Error(`Error de red o archivo no encontrado: ${response.status}`);
             }
             return response.json();
         })
@@ -382,11 +393,11 @@ document.addEventListener("DOMContentLoaded", function () {
             initializePageLogic(); // Llamar a la lógica principal AHORA que todo está definido
         })
         .catch(error => {
-            console.error(error);
+            console.error("Error al cargar productos:", error);
             Swal.fire({
                 icon: 'error',
                 title: 'Error de Carga',
-                text: 'No se pudo cargar el catálogo de productos. Si estás en local, utiliza Live Server o un servidor web.',
+                text: `No se pudo cargar el catálogo de productos. Si estás en local, utiliza Live Server o un servidor web. Detalle: ${error.message}`,
                 confirmButtonText: 'Aceptar'
             });
         });

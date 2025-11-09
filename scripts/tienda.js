@@ -1,36 +1,68 @@
 let productsData = []; // Variable para almacenar los productos cargados
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
+// FUNCIÓN DE UTILIDAD: Centraliza el formato de precios
+function formatPrice(price) {
+    if (price === null || price === undefined) return "";
+    // Formato de moneda, usando `es-AR` para localización si es necesario, pero manteniendo solo enteros como en productos.json
+    return `$${price.toLocaleString('es-AR')}`;
+}
+
 document.addEventListener("DOMContentLoaded", function () {
-    // 1. Cargar productos de forma asíncrona
+    // 1. Cargar productos de forma asíncrona y manejar errores de red (mejora en error handling)
     fetch('../productos.json')
         .then(response => {
             if (!response.ok) {
-                throw new Error('No se pudo cargar productos.json');
+                // Lanza un error si la respuesta HTTP no es exitosa
+                throw new Error(`Error de red o archivo no encontrado: ${response.status}`);
             }
             return response.json();
         })
         .then(products => {
-            productsData = products; // Almacenar los productos en la variable global
+            productsData = products;
             generateProducts(productsData);
             initializeStockWarnings(productsData);
             updateCart(productsData);
             setupEventListeners(productsData); // Configurar eventos después de cargar
         })
         .catch(error => {
-            console.error(error);
+            console.error("Error al cargar productos:", error);
             Swal.fire({
                 icon: 'error',
                 title: 'Error de Carga',
-                text: 'No se pudo cargar el catálogo de productos.',
+                text: `No se pudo cargar el catálogo de productos. Detalle: ${error.message}`,
                 confirmButtonText: 'Aceptar'
             });
         });
 });
 
+// Implementación de Delegación de Eventos para botones de la tienda (Mejora en delegación de eventos)
+function handleGridClick(event) {
+    const target = event.target;
+    // Usamos data-action para identificar la acción y nos aseguramos de que el click sea en un botón
+    const action = target.getAttribute('data-action');
+    
+    if (action) {
+        // En lugar de usar un switch, llamamos a la función directamente.
+        // Las funciones increment/decrement/addToCart siguen esperando el botón (target) como argumento.
+        if (action === 'decrementSlices' && target.classList.contains('btn-count')) {
+            decrementSlices(target);
+        } else if (action === 'incrementSlices' && target.classList.contains('btn-count')) {
+            incrementSlices(target);
+        } else if (action === 'decrementCakes' && target.classList.contains('btn-count')) {
+            decrementCakes(target);
+        } else if (action === 'incrementCakes' && target.classList.contains('btn-count')) {
+            incrementCakes(target);
+        } else if (action === 'addToCart' && target.classList.contains('btn-add-to-cart')) {
+            addToCart(target);
+        }
+    }
+}
+
 function setupEventListeners(products) {
     const searchInput = document.getElementById('search-input');
     const filterButtons = document.querySelectorAll('.filter-btn');
+    const gridContainer = document.getElementById('grid'); // Contenedor de productos
 
     // Listener para la búsqueda
     searchInput.addEventListener('keyup', () => filterAndSearchProducts(products));
@@ -38,13 +70,16 @@ function setupEventListeners(products) {
     // Listeners para los filtros de categoría
     filterButtons.forEach(button => {
         button.addEventListener('click', (event) => {
-            // Manejo de la clase 'active' para el estilo
             filterButtons.forEach(btn => btn.classList.remove('active'));
             event.target.classList.add('active');
-            
             filterAndSearchProducts(products);
         });
     });
+
+    // Delegación de eventos en el contenedor principal (Mejora en delegación de eventos)
+    if (gridContainer) {
+        gridContainer.addEventListener('click', handleGridClick);
+    }
 }
 
 function filterAndSearchProducts(products) {
@@ -53,12 +88,8 @@ function filterAndSearchProducts(products) {
     const activeFilter = document.querySelector('.filter-btn.active').getAttribute('data-filter');
 
     let filteredProducts = products.filter(product => {
-        // Filtro por término de búsqueda (nombre)
         const matchesSearch = product.name.toLowerCase().includes(searchTerm);
-        
-        // Filtro por categoría
         const matchesCategory = activeFilter === 'all' || product.category === activeFilter;
-
         return matchesSearch && matchesCategory;
     });
 
@@ -71,14 +102,12 @@ function generateProducts(products) {
     if (!container) return; 
     container.innerHTML = "";
     
-    // Si no hay productos, mostrar mensaje
     if (products.length === 0) {
         container.innerHTML = '<p class="no-results-msg">No se encontraron productos que coincidan con los filtros.</p>';
         return;
     }
 
     products.forEach((product, index) => {
-        // ... (Tu lógica de generación de HTML de producto)
         const carouselId = `carousel-${product.name.replace(/\s+/g, '')}`;
         const imagesHTML = product.images.map((img, i) => `
             <div class="carousel-item ${i === 0 ? 'active' : ''}">
@@ -89,9 +118,8 @@ function generateProducts(products) {
         const sliceControlsHTML = product.slicePrice !== null ? `
             <p class="stock-warning-slices" style="display: none; color: red; font-weight: bold;">⚠️ Última porción en stock</p>
             <div class="count-controls">
-                <button onclick="decrementSlices(this)">-1</button>
-                <p>Porciones: $${product.slicePrice}</p>
-                <button onclick="incrementSlices(this)">+1</button>
+                <button class="btn-count" data-action="decrementSlices">-1</button> 
+                <p>Porciones: ${formatPrice(product.slicePrice)}</p> <button class="btn-count" data-action="incrementSlices">+1</button> 
             </div>
             <div class="slice-count">
                 <p>Porciones:</p> <span id="sliceCount">0</span>
@@ -119,15 +147,14 @@ function generateProducts(products) {
                     ${sliceControlsHTML}
                     <p class="stock-warning-cakes" style="display: none; color: red; font-weight: bold;">⚠️ Último en stock</p>
                     <div class="count-controls">
-                        <button onclick="decrementCakes(this)">-1</button>
-                        <p>Entera: $${product.cakePrice}</p>
-                        <button onclick="incrementCakes(this)">+1</button>
+                        <button class="btn-count" data-action="decrementCakes">-1</button> 
+                        <p>Entera: ${formatPrice(product.cakePrice)}</p> <button class="btn-count" data-action="incrementCakes">+1</button> 
                     </div>
                     <div class="cake-count">
                         <p>Entera:</p> <span id="cakeCount">0</span>
                     </div>
                     <div class="add-to-cart">
-                        <button onclick="addToCart(this)">Agregar al carrito</button>
+                        <button class="btn-add-to-cart" data-action="addToCart">Agregar al carrito</button>
                     </div>
                 </div>
             </div>
@@ -136,7 +163,8 @@ function generateProducts(products) {
     });
 }
 
-
+// Las funciones de conteo siguen siendo compatibles con el Event Delegation,
+// ya que el 'target' (el botón) tiene la función 'closest'.
 function incrementSlices(button) {
     let card = button.closest('.card-body');
     let sliceSpan = card.querySelector('.slice-count span');
@@ -179,7 +207,6 @@ function addToCart(button) {
     let sliceCount = sliceSpan ? parseInt(sliceSpan.textContent) || 0 : 0;
     let cakeCount = cakeSpan ? parseInt(cakeSpan.textContent) || 0 : 0;
 
-    // Buscar el producto en los datos cargados
     let product = productsData.find(p => p.name === title);
     if (!product) return;
 
@@ -189,7 +216,7 @@ function addToCart(button) {
     let sliceTotal = sliceCount * slicePrice;
     let cakeTotal = cakeCount * cakePrice;
 
-    // Verificar si hay suficiente stock
+    // ... (rest of the stock and cart logic remains the same)
     if (sliceCount > product.stockSlices) {
         Swal.fire({
             icon: 'error',
@@ -212,14 +239,11 @@ function addToCart(button) {
         return;
     }
 
-    // Descontar del stock (simulación)
     product.stockSlices -= sliceCount;
     product.stockCakes -= cakeCount;
 
-    // Actualizar visualmente la leyenda de "Última en stock"
     updateStockWarning(card, product);
 
-    // Agregar al carrito si hay stock suficiente
     if (sliceCount > 0 || cakeCount > 0) {
         let existingItem = cart.find(item => item.title === title);
 
@@ -235,17 +259,15 @@ function addToCart(button) {
                 cakeCount,
                 sliceTotal,
                 cakeTotal,
-                slicePrice: product.slicePrice, // Guardar precio para la eliminación en el carrito
-                cakePrice: product.cakePrice // Guardar precio para la eliminación en el carrito
+                slicePrice: product.slicePrice,
+                cakePrice: product.cakePrice
             });
         }
 
-        // Guardar el carrito en localStorage
         localStorage.setItem("cart", JSON.stringify(cart));
 
         updateCart(productsData);
 
-        // Resetear los contadores
         if (sliceSpan) sliceSpan.textContent = 0;
         if (cakeSpan) cakeSpan.textContent = 0;
     } else {
@@ -259,9 +281,7 @@ function addToCart(button) {
     }
 }
 
-// Función para inicializar warnings
 function initializeStockWarnings(products) {
-    // Se asegura de que los warnings se inicialicen usando los productos cargados
     document.querySelectorAll('.card-body').forEach(card => {
         let title = card.querySelector('.card-title').textContent;
         let product = products.find(p => p.name === title);
@@ -271,11 +291,12 @@ function initializeStockWarnings(products) {
     });
 }
 
-// Función para actualizar el carrito (Se llama con productsData)
 function updateCart(products) {
     let cartContainer = document.getElementById('cart');
     if (!cartContainer) return; 
     cartContainer.innerHTML = '';
+
+    let totalItems = cart.reduce((total, item) => total + item.sliceCount + item.cakeCount, 0);
 
     if (cart.length === 0) {
         cartContainer.innerHTML = '<li>El carrito está vacío</li>';
@@ -287,13 +308,15 @@ function updateCart(products) {
         let listItem = document.createElement('li');
         let text = `${item.title} - `;
 
+        // Uso de formatPrice (Mejora)
         if (item.sliceCount > 0) {
-            text += `Porciones: ${item.sliceCount} ($${item.sliceTotal}) `;
+            text += `Porciones: ${item.sliceCount} (${formatPrice(item.sliceTotal)}) `; 
             text += `<button class="btn-eliminar" onclick="removeSlices(${index})">Eliminar porciones</button>`;
         }
 
+        // Uso de formatPrice (Mejora)
         if (item.cakeCount > 0) {
-            text += `| Enteras: ${item.cakeCount} ($${item.cakeTotal})`;
+            text += `| Enteras: ${item.cakeCount} (${formatPrice(item.cakeTotal)})`; 
             text += `<button class="btn-eliminar" onclick="removeCakes(${index})">Eliminar enteras</button>`;
         }
 
@@ -301,21 +324,14 @@ function updateCart(products) {
         cartContainer.appendChild(listItem);
     });
 
-    let totalItems = cart.reduce((total, item) => total + item.sliceCount + item.cakeCount, 0);
     updateCartCounter(totalItems);
 }
 
-// Las funciones removeSlices y removeCakes deben acceder a los precios guardados en el item.
-// Además, la lógica de stock debería corregir el stock simulado en productsData si se desea un control de stock real. 
-// Por simplicidad, y ya que el stock se reinicia al recargar, mantendremos la lógica básica de carrito:
-
 function removeSlices(index) {
     if (cart[index].sliceCount > 0) {
-        // Usa el precio guardado en el ítem del carrito
         cart[index].sliceCount--;
         cart[index].sliceTotal -= cart[index].slicePrice;
         
-        // Simular devolución de stock (Opcional)
         let product = productsData.find(p => p.name === cart[index].title);
         if(product && product.stockSlices !== undefined) product.stockSlices++;
 
@@ -324,17 +340,15 @@ function removeSlices(index) {
         }
         localStorage.setItem("cart", JSON.stringify(cart));
         updateCart(productsData);
-        filterAndSearchProducts(productsData); // Para actualizar el warning de stock en la tienda
+        filterAndSearchProducts(productsData); 
     }
 }
 
 function removeCakes(index) {
     if (cart[index].cakeCount > 0) {
-        // Usa el precio guardado en el ítem del carrito
         cart[index].cakeCount--;
         cart[index].cakeTotal -= cart[index].cakePrice;
         
-        // Simular devolución de stock (Opcional)
         let product = productsData.find(p => p.name === cart[index].title);
         if(product && product.stockCakes !== undefined) product.stockCakes++;
 
@@ -343,7 +357,7 @@ function removeCakes(index) {
         }
         localStorage.setItem("cart", JSON.stringify(cart));
         updateCart(productsData);
-        filterAndSearchProducts(productsData); // Para actualizar el warning de stock en la tienda
+        filterAndSearchProducts(productsData); 
     }
 }
 
@@ -399,12 +413,8 @@ function checkout() {
     window.location.href = "pago.html";
 }
 
-// Exponer funciones necesarias para el HTML
-window.incrementSlices = incrementSlices;
-window.decrementSlices = decrementSlices;
-window.incrementCakes = incrementCakes;
-window.decrementCakes = decrementCakes;
-window.addToCart = addToCart;
+// Exponer funciones necesarias para el HTML (aunque ya no se usan para conteo/añadir al carrito, 
+// se mantienen para las funciones de eliminar del carrito y los botones de toggle)
 window.removeSlices = removeSlices;
 window.removeCakes = removeCakes;
 window.toggleCart = toggleCart;
