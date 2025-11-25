@@ -322,7 +322,7 @@ function initializePageLogic() {
             // Uso de formatPrice (Mejora en formato)
             mensaje += `%0A*Total:* ${formatPrice(total)}`;
 
-            const numeroWhatsApp = sucursal === "sucursal1" ? "3517326453" : "3516431879";
+            const numeroWhatsApp = sucursal === "sucursal1" ? "3517657602" : "3512106878";
 
             const urlWhatsApp = `https://wa.me/${numeroWhatsApp}?text=${mensaje}`;
             window.open(urlWhatsApp, "_blank");
