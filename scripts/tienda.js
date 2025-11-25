@@ -1,19 +1,34 @@
+
 let productsData = []; // Variable para almacenar los productos cargados
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
 // FUNCIÓN DE UTILIDAD: Centraliza el formato de precios
 function formatPrice(price) {
     if (price === null || price === undefined) return "";
-    // Formato de moneda, usando `es-AR` para localización si es necesario, pero manteniendo solo enteros como en productos.json
     return `$${price.toLocaleString('es-AR')}`;
 }
 
 document.addEventListener("DOMContentLoaded", function () {
-    // 1. Cargar productos de forma asíncrona y manejar errores de red (mejora en error handling)
+    // Configurar el botón del carrito (Mejora: addEventListener en lugar de onclick en HTML)
+    const cartButton = document.getElementById('cart-button');
+    if (cartButton) {
+        cartButton.addEventListener('click', toggleCart);
+    }
+
+    const closeCartButton = document.getElementById('close-cart');
+    if (closeCartButton) {
+        closeCartButton.addEventListener('click', toggleCart);
+    }
+
+    const checkoutButton = document.getElementById('checkout-button');
+    if (checkoutButton) {
+        checkoutButton.addEventListener('click', checkout);
+    }
+
+    // 1. Cargar productos de forma asíncrona
     fetch('../productos.json')
         .then(response => {
             if (!response.ok) {
-                // Lanza un error si la respuesta HTTP no es exitosa
                 throw new Error(`Error de red o archivo no encontrado: ${response.status}`);
             }
             return response.json();
@@ -23,7 +38,7 @@ document.addEventListener("DOMContentLoaded", function () {
             generateProducts(productsData);
             initializeStockWarnings(productsData);
             updateCart(productsData);
-            setupEventListeners(productsData); // Configurar eventos después de cargar
+            setupEventListeners(productsData);
         })
         .catch(error => {
             console.error("Error al cargar productos:", error);
@@ -36,15 +51,11 @@ document.addEventListener("DOMContentLoaded", function () {
         });
 });
 
-// Implementación de Delegación de Eventos para botones de la tienda (Mejora en delegación de eventos)
 function handleGridClick(event) {
     const target = event.target;
-    // Usamos data-action para identificar la acción y nos aseguramos de que el click sea en un botón
     const action = target.getAttribute('data-action');
-    
+   
     if (action) {
-        // En lugar de usar un switch, llamamos a la función directamente.
-        // Las funciones increment/decrement/addToCart siguen esperando el botón (target) como argumento.
         if (action === 'decrementSlices' && target.classList.contains('btn-count')) {
             decrementSlices(target);
         } else if (action === 'incrementSlices' && target.classList.contains('btn-count')) {
@@ -62,12 +73,12 @@ function handleGridClick(event) {
 function setupEventListeners(products) {
     const searchInput = document.getElementById('search-input');
     const filterButtons = document.querySelectorAll('.filter-btn');
-    const gridContainer = document.getElementById('grid'); // Contenedor de productos
+    const gridContainer = document.getElementById('grid');
 
-    // Listener para la búsqueda
-    searchInput.addEventListener('keyup', () => filterAndSearchProducts(products));
+    if (searchInput) {
+        searchInput.addEventListener('keyup', () => filterAndSearchProducts(products));
+    }
 
-    // Listeners para los filtros de categoría
     filterButtons.forEach(button => {
         button.addEventListener('click', (event) => {
             filterButtons.forEach(btn => btn.classList.remove('active'));
@@ -76,7 +87,6 @@ function setupEventListeners(products) {
         });
     });
 
-    // Delegación de eventos en el contenedor principal (Mejora en delegación de eventos)
     if (gridContainer) {
         gridContainer.addEventListener('click', handleGridClick);
     }
@@ -84,8 +94,10 @@ function setupEventListeners(products) {
 
 function filterAndSearchProducts(products) {
     const searchInput = document.getElementById('search-input');
+    if (!searchInput) return;
     const searchTerm = searchInput.value.toLowerCase();
-    const activeFilter = document.querySelector('.filter-btn.active').getAttribute('data-filter');
+    const activeFilterBtn = document.querySelector('.filter-btn.active');
+    const activeFilter = activeFilterBtn ? activeFilterBtn.getAttribute('data-filter') : 'all';
 
     let filteredProducts = products.filter(product => {
         const matchesSearch = product.name.toLowerCase().includes(searchTerm);
@@ -99,16 +111,16 @@ function filterAndSearchProducts(products) {
 
 function generateProducts(products) {
     const container = document.getElementById("grid");
-    if (!container) return; 
+    if (!container) return;
     container.innerHTML = "";
-    
+   
     if (products.length === 0) {
         container.innerHTML = '<p class="no-results-msg">No se encontraron productos que coincidan con los filtros.</p>';
         return;
     }
 
     products.forEach((product, index) => {
-        const carouselId = `carousel-${product.name.replace(/\s+/g, '')}`;
+        const carouselId = `carousel-${product.name.replace(/[^a-zA-Z0-9]/g, '')}`;
         const imagesHTML = product.images.map((img, i) => `
             <div class="carousel-item ${i === 0 ? 'active' : ''}">
                 <img src="${img}" class="d-block w-100" alt="${product.name}">
@@ -118,8 +130,8 @@ function generateProducts(products) {
         const sliceControlsHTML = product.slicePrice !== null ? `
             <p class="stock-warning-slices" style="display: none; color: red; font-weight: bold;">⚠️ Última porción en stock</p>
             <div class="count-controls">
-                <button class="btn-count" data-action="decrementSlices">-1</button> 
-                <p>Porciones: ${formatPrice(product.slicePrice)}</p> <button class="btn-count" data-action="incrementSlices">+1</button> 
+                <button class="btn-count" data-action="decrementSlices">-1</button>
+                <p>Porciones: ${formatPrice(product.slicePrice)}</p> <button class="btn-count" data-action="incrementSlices">+1</button>
             </div>
             <div class="slice-count">
                 <p>Porciones:</p> <span id="sliceCount">0</span>
@@ -127,7 +139,7 @@ function generateProducts(products) {
         ` : '';
 
         const productHTML = `
-            <div class="card-${index + 1}">
+            <div class="product-card">
                 <div id="${carouselId}" class="carousel slide" data-bs-ride="carousel">
                     <div class="carousel-inner">
                         ${imagesHTML}
@@ -147,8 +159,8 @@ function generateProducts(products) {
                     ${sliceControlsHTML}
                     <p class="stock-warning-cakes" style="display: none; color: red; font-weight: bold;">⚠️ Último en stock</p>
                     <div class="count-controls">
-                        <button class="btn-count" data-action="decrementCakes">-1</button> 
-                        <p>Entera: ${formatPrice(product.cakePrice)}</p> <button class="btn-count" data-action="incrementCakes">+1</button> 
+                        <button class="btn-count" data-action="decrementCakes">-1</button>
+                        <p>Entera: ${formatPrice(product.cakePrice)}</p> <button class="btn-count" data-action="incrementCakes">+1</button>
                     </div>
                     <div class="cake-count">
                         <p>Entera:</p> <span id="cakeCount">0</span>
@@ -163,8 +175,6 @@ function generateProducts(products) {
     });
 }
 
-// Las funciones de conteo siguen siendo compatibles con el Event Delegation,
-// ya que el 'target' (el botón) tiene la función 'closest'.
 function incrementSlices(button) {
     let card = button.closest('.card-body');
     let sliceSpan = card.querySelector('.slice-count span');
@@ -216,7 +226,6 @@ function addToCart(button) {
     let sliceTotal = sliceCount * slicePrice;
     let cakeTotal = cakeCount * cakePrice;
 
-    // ... (rest of the stock and cart logic remains the same)
     if (sliceCount > product.stockSlices) {
         Swal.fire({
             icon: 'error',
@@ -293,14 +302,14 @@ function initializeStockWarnings(products) {
 
 function updateCart(products) {
     let cartContainer = document.getElementById('cart');
-    if (!cartContainer) return; 
+    if (!cartContainer) return;
     cartContainer.innerHTML = '';
 
     let totalItems = cart.reduce((total, item) => total + item.sliceCount + item.cakeCount, 0);
 
     if (cart.length === 0) {
         cartContainer.innerHTML = '<li>El carrito está vacío</li>';
-        updateCartCounter(0); 
+        updateCartCounter(0);
         return;
     }
 
@@ -308,19 +317,17 @@ function updateCart(products) {
         let listItem = document.createElement('li');
         let text = `${item.title} - `;
 
-        // Uso de formatPrice (Mejora)
         if (item.sliceCount > 0) {
-            text += `Porciones: ${item.sliceCount} (${formatPrice(item.sliceTotal)}) `; 
+            text += `Porciones: ${item.sliceCount} (${formatPrice(item.sliceTotal)}) `;
             text += `<button class="btn-eliminar" onclick="removeSlices(${index})">Eliminar porciones</button>`;
         }
 
-        // Uso de formatPrice (Mejora)
         if (item.cakeCount > 0) {
-            text += `| Enteras: ${item.cakeCount} (${formatPrice(item.cakeTotal)})`; 
+            text += `| Enteras: ${item.cakeCount} (${formatPrice(item.cakeTotal)})`;
             text += `<button class="btn-eliminar" onclick="removeCakes(${index})">Eliminar enteras</button>`;
         }
 
-        listItem.innerHTML = text.trim(); 
+        listItem.innerHTML = text.trim();
         cartContainer.appendChild(listItem);
     });
 
@@ -331,7 +338,7 @@ function removeSlices(index) {
     if (cart[index].sliceCount > 0) {
         cart[index].sliceCount--;
         cart[index].sliceTotal -= cart[index].slicePrice;
-        
+       
         let product = productsData.find(p => p.name === cart[index].title);
         if(product && product.stockSlices !== undefined) product.stockSlices++;
 
@@ -340,7 +347,7 @@ function removeSlices(index) {
         }
         localStorage.setItem("cart", JSON.stringify(cart));
         updateCart(productsData);
-        filterAndSearchProducts(productsData); 
+        filterAndSearchProducts(productsData);
     }
 }
 
@@ -348,7 +355,7 @@ function removeCakes(index) {
     if (cart[index].cakeCount > 0) {
         cart[index].cakeCount--;
         cart[index].cakeTotal -= cart[index].cakePrice;
-        
+       
         let product = productsData.find(p => p.name === cart[index].title);
         if(product && product.stockCakes !== undefined) product.stockCakes++;
 
@@ -357,10 +364,9 @@ function removeCakes(index) {
         }
         localStorage.setItem("cart", JSON.stringify(cart));
         updateCart(productsData);
-        filterAndSearchProducts(productsData); 
+        filterAndSearchProducts(productsData);
     }
 }
-
 
 function updateCartCounter(totalItems) {
     let cartButton = document.getElementById('cart-button');
@@ -388,12 +394,12 @@ function updateStockWarning(card, product) {
 
 function toggleCart() {
     let cartPanel = document.getElementById('cart-panel');
-    if (!cartPanel) return; 
+    if (!cartPanel) return;
     if (cartPanel.style.right === "0px") {
-        cartPanel.style.right = "-350px"; 
+        cartPanel.style.right = "-350px";
     } else {
-        cartPanel.style.right = "0px"; 
-        updateCart(productsData); 
+        cartPanel.style.right = "0px";
+        updateCart(productsData);
     }
 }
 
@@ -413,9 +419,10 @@ function checkout() {
     window.location.href = "pago.html";
 }
 
-// Exponer funciones necesarias para el HTML (aunque ya no se usan para conteo/añadir al carrito, 
-// se mantienen para las funciones de eliminar del carrito y los botones de toggle)
+// Exponer funciones globales para botones en línea (remove/eliminar)
 window.removeSlices = removeSlices;
 window.removeCakes = removeCakes;
+// toggleCart y checkout ya no se necesitan exponer si usamos addEventListener,
+// pero no hace daño dejarlas por si acaso hay otros botones
 window.toggleCart = toggleCart;
 window.checkout = checkout;
