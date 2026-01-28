@@ -30,10 +30,17 @@ header img:hover {
     transform: scale(1.05);
 }
 
+/* Navbar Global */
+.navbar {
+    transition: 0.3s ease;
+    padding: 10px 0;
+}
+
 .navbar-expand-lg .navbar-collapse {
     flex-direction: row-reverse;
 }
 
+/* Estilos de los links del menú */
 .navbar-light .navbar-nav .nav-link.active,
 .navbar-light .navbar-nav .show>.nav-link {
     color: #e7cec7 !important;
@@ -52,13 +59,30 @@ header img:hover {
     transform: translateY(-2px);
 }
 
+/* CORRECCIÓN BOTÓN MENÚ MÓVIL */
 .navbar-light .navbar-toggler {
     color: #e7cec7;
-    border-color: #e7cec7;
+    border: 2px solid #e7cec7; /* Borde más visible */
+    background-color: rgba(143, 58, 66, 0.8); /* Fondo bordó semi-transparente para contraste */
+    border-radius: 10px; /* Bordes redondeados */
+    padding: 5px 15px;
+    font-size: 14px;
+    font-weight: 700; /* Texto en negrita */
+    letter-spacing: 1px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2); /* Sombrita para que flote */
+}
+
+.navbar-light .navbar-toggler:focus {
+    box-shadow: 0 0 0 0.25rem rgba(231, 206, 199, 0.5); /* Focus en beige */
+}
+
+/* El texto "MENU" dentro del botón */
+.navbar-toggler span {
+    color: #e7cec7;
 }
 
 span {
-    color: #8f3a42;
+    color: #e7cec7;
 }
 
 /* --- FOOTER --- */
@@ -81,6 +105,16 @@ footer img {
 
 footer img:hover {
     transform: rotate(15deg) scale(1.1);
+}
+
+/* --- BANNER PRINCIPAL (CORRECCIÓN IMAGEN) --- */
+.banner {
+    /* Estas propiedades aplican AHORA a móvil y escritorio */
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    width: 100%;
+    /* La altura se define por dispositivo abajo */
 }
 
 /* =========================================
@@ -595,13 +629,13 @@ footer img:hover {
     outline: none;
 }
 
-/* --- RADIO BUTTONS CORREGIDOS (Alineación Perfecta) --- */
+/* --- RADIO BUTTONS (ALINEACIÓN PERFECTA) --- */
 .form-check {
-    display: flex;           /* Flexbox para alinear ítems */
-    align-items: center;     /* Centrado vertical perfecto */
-    padding-left: 0;         /* Reset padding bootstrap */
+    display: flex;
+    align-items: center;
+    padding-left: 0;
     margin-bottom: 0.8rem;
-    padding: 8px 10px;       /* Espacio cómodo para clic */
+    padding: 8px 10px;
     border-radius: 10px;
     transition: background-color 0.2s;
     cursor: pointer;
@@ -611,26 +645,29 @@ footer img:hover {
     background-color: rgba(252, 235, 244, 0.5); 
 }
 
-/* El círculo del input */
 .form-check-input {
-    width: 1em;              /* Tamaño reducido (era 1.2em) */
+    width: 1em;
     height: 1em;
-    min-width: 1em;          /* Evita que se aplaste */
+    min-width: 1em;
     border: 2px solid #8f3a42; 
-    margin-top: 0;           /* Clave: Quitar margen superior */
-    margin-right: 12px;      /* Espacio entre punto y texto */
+    margin-top: 0;
+    margin-right: 12px;
     background-color: white;
     background-image: none;
     cursor: pointer;
-    float: none;             /* Reset float */
-    margin-left: 0;          /* Reset margen */
+    float: none;
+    margin-left: 0;
 }
 
-/* Cuando está seleccionado */
 .form-check-input:checked {
     background-color: #8f3a42;
     border-color: #8f3a42;
     background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='2' fill='%23fff'/%3e%3c/svg%3e");
+}
+
+.form-check-input:focus {
+    box-shadow: 0 0 0 0.25rem rgba(143, 58, 66, 0.25);
+    border-color: #8f3a42;
 }
 
 .form-check-label {
@@ -638,8 +675,8 @@ footer img:hover {
     font-weight: 500;
     cursor: pointer;
     line-height: 1.2;
-    margin-top: 0;           /* Asegurar que no tenga margen extra */
-    padding-top: 2px;        /* Ajuste óptico fino para fuente */
+    margin-top: 0;
+    padding-top: 2px;
 }
 
 /* Resumen del pedido lateral */
@@ -659,17 +696,15 @@ footer img:hover {
     margin-bottom: 15px;
 }
 
-/* --- TOTAL DESTACADO (Corrección de visibilidad) --- */
+/* --- TOTAL DESTACADO (ETIQUETA) --- */
 #total-amount {
-    font-size: 26px; /* Más grande */
-    color: #fff;     /* Texto Blanco */
+    font-size: 26px;
+    color: #fff;
     font-weight: 800;
     display: block;
     margin-top: 20px;
-    text-align: center; /* Centrado */
-    
-    /* Nuevo estilo tipo etiqueta */
-    background-color: #8f3a42; /* Fondo Bordó */
+    text-align: center;
+    background-color: #8f3a42;
     padding: 15px;
     border-radius: 15px;
     box-shadow: 0 4px 10px rgba(0,0,0,0.1);
@@ -712,8 +747,10 @@ footer img:hover {
 @media screen and (min-width: 1024px) {
     .banner {
         height: 500px;
+        /* Corrección para que la imagen no se corte en Desktop */
         background-position: center;
         background-size: cover;
+        
         display: flex;
         justify-content: center;
         align-items: center;
@@ -727,7 +764,6 @@ footer img:hover {
         gap: 30px;
         padding: 20px;
     }
-    /* Grid de pagos en escritorio */
     .payment-grid {
         display: grid;
         grid-template-columns: 1.5fr 1fr;
@@ -740,7 +776,13 @@ footer img:hover {
 }
 
 @media screen and (min-width: 768px) and (max-width: 1023px) {
-    .banner { height: 400px; margin: 20px; border-radius: 20px; }
+    .banner { 
+        height: 400px; 
+        margin: 20px; 
+        border-radius: 20px; 
+        background-position: center;
+        background-size: cover;
+    }
     .grid {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
@@ -757,7 +799,13 @@ footer img:hover {
 }
 
 @media screen and (max-width: 767px) {
-    .banner { height: 250px; border-radius: 0; }
+    .banner {
+        height: 250px;
+        border-radius: 0;
+        /* CORRECCIÓN DE BANNER MÓVIL */
+        background-position: center;
+        background-size: cover;
+    }
     
     .grid {
         display: grid;
@@ -771,28 +819,16 @@ footer img:hover {
     .count-controls button { width: 25px; height: 25px; }
     .container h1 { font-size: 35px; }
     
-    /* Ajustes Index Móvil */
     .multimedia .maps { flex-direction: column; align-items: center; }
     .multimedia .maps .suc { width: 90%; margin-bottom: 20px; }
     .multimedia .maps .suc iframe { width: 100%; height: 200px; }
     
-    /* Ajustes Contacto Móvil */
     .reserva, .drive, .trabajo { width: 95%; flex-direction: column; text-align: center; border-radius: 30px; }
     .reserva img, .drive img, .trabajo img { margin: 0 0 10px 0; }
     
-    /* Ajustes Nosotros Móvil */
     .historia {
         grid-template-columns: 1fr;
-        grid-template-areas:
-            "txt-1"
-            "img-1"
-            "txt-2"
-            "img-2"
-            "txt-3"
-            "img-3"
-            "txt-4"
-            "img-4"
-            "img-5";
+        grid-template-areas: "txt-1" "img-1" "txt-2" "img-2" "txt-3" "img-3" "txt-4" "img-4" "img-5";
         gap: 20px;
         padding: 15px;
     }
