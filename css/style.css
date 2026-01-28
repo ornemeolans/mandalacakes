@@ -595,45 +595,46 @@ footer img:hover {
     outline: none;
 }
 
-/* --- RADIO BUTTONS PERSONALIZADOS (Los "puntos" corregidos) --- */
+/* --- CORRECCIÓN DE PUNTOS (ALINEACIÓN) --- */
 .form-check {
-    padding-left: 2.5em; /* Espacio para el punto custom */
-    margin-bottom: 0.5rem;
-    position: relative;
-    padding-top: 5px;
-    padding-bottom: 5px;
+    display: flex;             /* La clave para alinear */
+    align-items: center;       /* Centrar verticalmente */
+    padding-left: 0;           /* Reset bootstrap */
+    margin-bottom: 0.8rem;
+    padding: 10px;             /* Más espacio para clic */
     border-radius: 10px;
     transition: background-color 0.2s;
+    cursor: pointer;
 }
 
 .form-check:hover {
-    background-color: rgba(252, 235, 244, 0.5); /* Rosa muy suave al pasar el mouse */
+    background-color: rgba(252, 235, 244, 0.5); 
 }
 
 /* El círculo del input */
 .form-check-input {
     width: 1.2em;
     height: 1.2em;
-    border: 2px solid #8f3a42; /* Borde bordó */
-    margin-top: 0.15em;
+    min-width: 1.2em;          /* Evita deformación */
+    border: 2px solid #8f3a42; 
+    margin-top: 0;             /* Quitar margen superior rebelde */
+    margin-right: 15px;        /* Espacio entre punto y texto */
     background-color: white;
     background-image: none;
     cursor: pointer;
-    /* Reset de estilos bootstrap */
-    float: left;
-    margin-left: -2em;
+    float: none;               /* Quitar float */
+    margin-left: 0;            /* Reset margen negativo */
 }
 
 /* Cuando está seleccionado */
 .form-check-input:checked {
-    background-color: #8f3a42; /* Relleno bordó */
+    background-color: #8f3a42;
     border-color: #8f3a42;
-    /* Círculo blanco interno */
     background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='2' fill='%23fff'/%3e%3c/svg%3e");
 }
 
 .form-check-input:focus {
-    box-shadow: 0 0 0 0.25rem rgba(143, 58, 66, 0.25); /* Sombra suave bordó */
+    box-shadow: 0 0 0 0.25rem rgba(143, 58, 66, 0.25);
     border-color: #8f3a42;
 }
 
@@ -641,6 +642,8 @@ footer img:hover {
     color: #555;
     font-weight: 500;
     cursor: pointer;
+    line-height: 1.2;
+    margin-top: 2px; /* Ajuste milimétrico visual */
 }
 
 /* Resumen del pedido lateral */
