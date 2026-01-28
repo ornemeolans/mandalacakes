@@ -13,6 +13,7 @@ body {
     background-color: #8f3a42; /* COLOR ORIGINAL */
     min-height: 100vh;
     color: black;
+    overflow-x: hidden; /* Seguridad extra para evitar scroll horizontal */
 }
 
 /* --- HEADER & NAVBAR --- */
@@ -57,11 +58,11 @@ header img:hover {
     transform: translateY(-2px);
 }
 
-/* BOTÓN MENÚ MÓVIL CORREGIDO */
+/* BOTÓN MENÚ MÓVIL */
 .navbar-light .navbar-toggler {
     color: #e7cec7;
     border: 2px solid #e7cec7;
-    background-color: rgba(143, 58, 66, 0.9); /* Fondo sólido para legibilidad */
+    background-color: rgba(143, 58, 66, 0.9);
     border-radius: 10px;
     padding: 5px 15px;
     font-size: 14px;
@@ -100,13 +101,17 @@ footer img:hover {
     transform: rotate(15deg) scale(1.1);
 }
 
-/* --- BANNER PRINCIPAL --- */
+/* --- BANNER PRINCIPAL (CORREGIDO FULL WIDTH) --- */
 .banner {
-    background-position: center;
-    background-size: cover; /* Cubre todo el espacio sin deformar */
-    background-repeat: no-repeat;
     width: 100%;
-    /* Altura definida en media queries */
+    margin: 0;
+    padding: 0;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    display: block; /* Asegura comportamiento de bloque */
+    border-radius: 0; /* Sin bordes redondeados para que pegue en los costados */
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3); /* Sombra solo abajo */
 }
 
 /* =========================================
@@ -407,7 +412,7 @@ footer img:hover {
     color: #e7cec7;
     margin: 20px 0;
     text-shadow: 2px 2px 0px #8f3a42;
-    text-align: center; /* Asegura centrado global */
+    text-align: center;
 }
 
 .multimedia p {
@@ -416,8 +421,8 @@ footer img:hover {
     font-size: 18px;
     color: #e7cec7;
     margin-bottom: 30px;
-    text-align: center; /* Asegura centrado global */
-    padding: 0 10px; /* Margen lateral en móvil para que no toque bordes */
+    text-align: center;
+    padding: 0 10px;
 }
 
 .multimedia .maps {
@@ -450,7 +455,7 @@ footer img:hover {
     color: white;
     margin-bottom: 10px;
     font-size: 14px;
-    text-align: center; /* Centrado en descripciones del local */
+    text-align: center;
 }
 
 .multimedia .maps .suc iframe {
@@ -743,12 +748,6 @@ footer img:hover {
 @media screen and (min-width: 1024px) {
     .banner {
         height: 500px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        border-radius: 20px;
-        margin: 20px;
-        box-shadow: 0 10px 20px rgba(0,0,0,0.3);
     }
     .grid {
         display: grid;
@@ -770,8 +769,6 @@ footer img:hover {
 @media screen and (min-width: 768px) and (max-width: 1023px) {
     .banner { 
         height: 400px; 
-        margin: 20px; 
-        border-radius: 20px; 
     }
     .grid {
         display: grid;
@@ -792,9 +789,6 @@ footer img:hover {
     /* MÓVIL (Celulares) */
     .banner {
         height: 250px;
-        border-radius: 0;
-        background-position: center;
-        background-size: cover;
     }
     
     .grid {
@@ -811,12 +805,12 @@ footer img:hover {
     
     /* CORRECCIÓN INDEX MÓVIL (Centrado) */
     .multimedia h2 { text-align: center; }
-    .multimedia p { text-align: center; padding: 0 15px; } /* Añadido padding para que no toque bordes */
+    .multimedia p { text-align: center; padding: 0 15px; }
     
     .multimedia .maps { flex-direction: column; align-items: center; }
     .multimedia .maps .suc { width: 90%; margin-bottom: 20px; text-align: center; }
     .multimedia .maps .suc iframe { width: 100%; height: 200px; }
-    .multimedia .maps .suc h5, .multimedia .maps .suc p { text-align: center; } /* Forzar centrado de textos internos */
+    .multimedia .maps .suc h5, .multimedia .maps .suc p { text-align: center; }
     
     .reserva, .drive, .trabajo { width: 95%; flex-direction: column; text-align: center; border-radius: 30px; }
     .reserva img, .drive img, .trabajo img { margin: 0 0 10px 0; }
