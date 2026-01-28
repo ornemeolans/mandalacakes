@@ -7,10 +7,10 @@
 
 body {
     font-family: 'Plus Jakarta Sans', sans-serif;
-    font-weight: 300; /* Letra un poco más fina para toque elegante */
+    font-weight: 300;
     position: relative;
     padding-bottom: 75px;
-    background-color: #8f3a42; /* COLOR ORIGINAL RESTAURADO */
+    background-color: #8f3a42; /* COLOR ORIGINAL */
     min-height: 100vh;
     color: black;
 }
@@ -27,17 +27,16 @@ header img {
 }
 
 header img:hover {
-    transform: scale(1.05); /* Pequeño zoom al logo */
+    transform: scale(1.05);
 }
 
-/* Navbar transparente pero legible */
 .navbar-expand-lg .navbar-collapse {
     flex-direction: row-reverse;
 }
 
 .navbar-light .navbar-nav .nav-link.active,
 .navbar-light .navbar-nav .show>.nav-link {
-    color: #e7cec7 !important; /* Beige claro para resaltar sobre el bordó */
+    color: #e7cec7 !important;
     font-size: 20px;
     font-weight: 500;
     text-shadow: 0 2px 4px rgba(0,0,0,0.2);
@@ -71,7 +70,7 @@ footer {
     bottom: 0;
     width: 100%;
     height: 60px;
-    background-color: #e7cec7; /* COLOR ORIGINAL RESTAURADO */
+    background-color: #e7cec7;
     box-shadow: 0 -5px 15px rgba(0,0,0,0.1);
 }
 
@@ -84,16 +83,13 @@ footer img:hover {
     transform: rotate(15deg) scale(1.1);
 }
 
-/* --- TARJETAS DE PRODUCTO (AESTHETIC CON COLORES ORIGINALES) --- */
 .product-card {
     display: flex;
     flex-direction: column;
     margin: 0px;
-    background-color: #e499ba; /* COLOR ORIGINAL RESTAURADO */
-    
-    /* Mejoras estéticas */
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); /* Sombra para profundidad */
-    border-radius: 20px; /* Bordes más redondeados */
+    background-color: #e499ba; /* COLOR ORIGINAL */
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    border-radius: 20px;
     overflow: hidden;
     max-width: 100%;
     width: 100%;
@@ -101,9 +97,8 @@ footer img:hover {
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* Efecto al pasar el mouse */
 .product-card:hover {
-    transform: translateY(-10px); /* La tarjeta "flota" hacia arriba */
+    transform: translateY(-10px);
     box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
 }
 
@@ -119,7 +114,7 @@ footer img:hover {
     font-size: 22px;
     font-weight: 700;
     text-align: center;
-    color: #8f3a42; /* Título en bordó para contraste */
+    color: #8f3a42;
     margin-bottom: 10px;
 }
 
@@ -130,10 +125,9 @@ footer img:hover {
     line-height: 1.4;
 }
 
-/* Carrusel de imágenes */
 .carousel-inner img {
     width: 100%;
-    height: 250px; /* Altura fija para que todas se vean igual */
+    height: 250px;
     object-fit: cover;
     border-radius: 20px 20px 0 0;
 }
@@ -147,16 +141,16 @@ footer img:hover {
     flex-grow: 1;
     margin: 10px 5px;
     width: 100%;
-    background: rgba(255,255,255,0.3); /* Fondo sutil para los controles */
+    background: rgba(255,255,255,0.3);
     border-radius: 15px;
     padding: 5px;
 }
 
 .count-controls button {
-    background-color: #8f3a42; /* COLOR ORIGINAL */
+    background-color: #8f3a42;
     border: none;
     color: white;
-    border-radius: 50%; /* Botones redondos modernos */
+    border-radius: 50%;
     font-size: 14px;
     height: 30px;
     width: 30px;
@@ -184,7 +178,7 @@ footer img:hover {
 .card-body .cake-count {
     display: flex;
     flex-direction: row;
-    justify-content: center; /* Centrado */
+    justify-content: center;
     margin: 5px 0;
 }
 
@@ -196,7 +190,6 @@ footer img:hover {
     margin: 0 5px;
 }
 
-/* Botón Agregar al Carrito */
 .add-to-cart {
     margin-top: auto;
     text-align: center;
@@ -206,10 +199,10 @@ footer img:hover {
     width: 100%;
     height: 45px;
     font-size: 16px;
-    background-color: #8f3a42; /* COLOR ORIGINAL */
-    color: #e7cec7; /* Texto beige */
+    background-color: #8f3a42;
+    color: #e7cec7;
     border: none;
-    border-radius: 25px; /* Botón tipo cápsula */
+    border-radius: 25px;
     cursor: pointer;
     font-weight: bold;
     text-transform: uppercase;
@@ -221,15 +214,14 @@ footer img:hover {
 .add-to-cart button:hover {
     background-color: #732d33;
     transform: scale(1.02);
-    box-shadow: 0 6px 10px rgba(0,0,0,0.2);
 }
 
-/* --- CARRITO Y PANELES --- */
+/* --- CARRITO --- */
 #cart-button {
     position: fixed;
     bottom: 20px;
     right: 20px;
-    background: #f0c0d7; /* COLOR ORIGINAL */
+    background: #f0c0d7;
     color: #8f3a42;
     border: 2px solid #8f3a42;
     padding: 15px 25px;
@@ -255,10 +247,10 @@ footer img:hover {
     right: -350px;
     width: 320px;
     height: 100%;
-    background: #f0c0d7; /* COLOR ORIGINAL */
+    background: #f0c0d7;
     box-shadow: -5px 0px 15px rgba(0, 0, 0, 0.2);
     padding: 20px;
-    transition: right 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Efecto rebote suave */
+    transition: right 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     display: flex;
     flex-direction: column;
     gap: 10px;
@@ -281,7 +273,6 @@ footer img:hover {
     border-radius: 15px;
     font-size: 12px;
     margin-left: 10px;
-    transition: background 0.3s;
 }
 
 #close-cart {
@@ -299,7 +290,7 @@ footer img:hover {
 }
 
 #checkout-button {
-    background: #b73f93; /* COLOR ORIGINAL */
+    background: #b73f93;
     color: white;
     padding: 15px;
     border: none;
@@ -328,7 +319,7 @@ footer img:hover {
     max-width: 1200px;
     margin: 20px auto;
     padding: 20px;
-    background-color: #f0c0d7; /* COLOR ORIGINAL */
+    background-color: #f0c0d7;
     border-radius: 20px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
@@ -343,25 +334,21 @@ footer img:hover {
 }
 
 .filter-btn {
-    background-color: #8f3a42; /* COLOR ORIGINAL */
+    background-color: #8f3a42;
     color: white;
     border: none;
     padding: 10px 20px;
     margin: 5px;
-    border-radius: 25px; /* Botones redondeados */
+    border-radius: 25px;
     cursor: pointer;
     font-size: 14px;
     transition: all 0.3s;
     font-weight: 600;
 }
 
-.filter-btn:hover {
+.filter-btn:hover, .filter-btn.active {
     background-color: #b73f93;
     transform: translateY(-3px);
-}
-
-.filter-btn.active {
-    background-color: #b73f93;
     box-shadow: 0 5px 10px rgba(0,0,0,0.2);
 }
 
@@ -372,7 +359,160 @@ footer img:hover {
     margin: 50px 0;
 }
 
-/* --- ANIMACIÓN SCROLL REVEAL (El único toque extra) --- */
+.multimedia {
+    margin: 40px 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.multimedia h2 {
+    display: flex;
+    justify-content: center;
+    font-size: 40px;
+    color: #e7cec7;
+    margin: 20px 0;
+    text-shadow: 2px 2px 0px #8f3a42;
+}
+
+.multimedia p {
+    display: flex;
+    justify-content: center;
+    font-size: 18px;
+    color: #e7cec7;
+    margin-bottom: 30px;
+}
+
+.multimedia .maps {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-direction: row;
+    margin: 10px;
+}
+
+.multimedia .maps .suc {
+    background: rgba(255,255,255,0.1);
+    padding: 20px;
+    border-radius: 20px;
+    backdrop-filter: blur(5px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 1px solid rgba(231, 206, 199, 0.3);
+}
+
+.multimedia .maps .suc h5 {
+    color: #e7cec7;
+    font-size: 22px;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.multimedia .maps .suc p {
+    color: white;
+    margin-bottom: 10px;
+    font-size: 14px;
+}
+
+.multimedia .maps .suc iframe {
+    border-radius: 15px;
+    width: 500px;
+    height: 300px;
+    border: 2px solid #e7cec7 !important;
+}
+
+.contact {
+    display: grid;
+    grid-template-areas: "reserva" "drive" "trabajo";
+    gap: 20px;
+    padding: 20px;
+}
+
+.reserva, .drive, .trabajo {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    background-color: #f0c0d7; /* Color estilo tarjeta */
+    margin: 0 auto;
+    padding: 20px;
+    border-radius: 50px;
+    width: 60%;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    transition: transform 0.3s;
+    border: 2px solid #8f3a42;
+}
+
+.reserva:hover, .drive:hover, .trabajo:hover {
+    transform: scale(1.05);
+    background-color: #e499ba;
+}
+
+.reserva img, .drive img, .trabajo img {
+    width: 50px;
+    height: 50px;
+    margin-right: 20px;
+}
+
+.reserva a, .drive a, .trabajo a {
+    font-size: 20px;
+    text-decoration: none;
+    color: #8f3a42;
+    font-weight: bold;
+}
+
+.historia {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas:
+        "txt-1 txt-1"
+        "txt-2 img-1"
+        "img-2 txt-3"
+        "img-3 img-3"
+        "txt-4 txt-4"
+        "img-4 img-5";
+    gap: 30px;
+    padding: 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.txt-1, .txt-2, .txt-3, .txt-4 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: justify;
+    padding: 30px;
+    border-radius: 20px;
+    color: #8f3a42;
+    background-color: #e7cec7;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+.img-1, .img-2, .img-3, .img-4, .img-5 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+.img-1 img, .img-2 img, .img-3 img, .img-4 img, .img-5 img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 20px;
+    transition: transform 0.3s;
+}
+
+.img-1:hover img, .img-2:hover img, .img-3:hover img, .img-4:hover img, .img-5:hover img {
+    transform: scale(1.03);
+}
+
+/* --- ANIMACIÓN SCROLL REVEAL --- */
 .reveal {
     opacity: 0;
     transform: translateY(30px);
@@ -384,7 +524,6 @@ footer img:hover {
     transform: translateY(0);
 }
 
-/* --- MEDIA QUERIES (Preservados del original) --- */
 @media screen and (min-width: 1024px) {
     .banner {
         height: 500px;
@@ -394,7 +533,7 @@ footer img:hover {
         justify-content: center;
         align-items: center;
         border-radius: 20px;
-        margin-bottom: 30px;
+        margin: 20px;
         box-shadow: 0 10px 20px rgba(0,0,0,0.3);
     }
     .grid {
@@ -406,28 +545,55 @@ footer img:hover {
 }
 
 @media screen and (min-width: 768px) and (max-width: 1023px) {
-    .banner { height: 400px; }
+    .banner { height: 400px; margin: 20px; border-radius: 20px; }
     .grid {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
         gap: 20px;
         padding: 20px;
     }
+    .multimedia .maps .suc iframe { width: 350px; height: 250px; }
+    .reserva, .drive, .trabajo { width: 80%; }
 }
 
 @media screen and (max-width: 767px) {
-    .banner { height: 300px; border-radius: 0; }
+    .banner { height: 250px; border-radius: 0; }
+    
     .grid {
         display: grid;
-        grid-template-columns: repeat(2, 1fr); /* 2 columnas en móvil se ve mejor */
+        grid-template-columns: repeat(2, 1fr);
         gap: 15px;
         padding: 10px;
     }
     .card-body h5 { font-size: 14px; }
     .card-body p { font-size: 11px; }
-    .add-to-cart button { font-size: 12px; height: 35px; }
+    .add-to-cart button { font-size: 10px; height: 35px; }
     .count-controls button { width: 25px; height: 25px; }
-    
-    #cart-panel { width: 85%; }
     .container h1 { font-size: 35px; }
+    
+    /* Ajustes Index Móvil */
+    .multimedia .maps { flex-direction: column; align-items: center; }
+    .multimedia .maps .suc { width: 90%; margin-bottom: 20px; }
+    .multimedia .maps .suc iframe { width: 100%; height: 200px; }
+    
+    /* Ajustes Contacto Móvil */
+    .reserva, .drive, .trabajo { width: 95%; flex-direction: column; text-align: center; border-radius: 30px; }
+    .reserva img, .drive img, .trabajo img { margin: 0 0 10px 0; }
+    
+    /* Ajustes Nosotros Móvil */
+    .historia {
+        grid-template-columns: 1fr;
+        grid-template-areas:
+            "txt-1"
+            "img-1"
+            "txt-2"
+            "img-2"
+            "txt-3"
+            "img-3"
+            "txt-4"
+            "img-4"
+            "img-5";
+        gap: 20px;
+        padding: 15px;
+    }
 }
