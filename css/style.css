@@ -595,13 +595,13 @@ footer img:hover {
     outline: none;
 }
 
-/* --- CORRECCIÓN DE PUNTOS (ALINEACIÓN) --- */
+/* --- RADIO BUTTONS CORREGIDOS (Alineación Perfecta) --- */
 .form-check {
-    display: flex;             /* La clave para alinear */
-    align-items: center;       /* Centrar verticalmente */
-    padding-left: 0;           /* Reset bootstrap */
+    display: flex;           /* Flexbox para alinear ítems */
+    align-items: center;     /* Centrado vertical perfecto */
+    padding-left: 0;         /* Reset padding bootstrap */
     margin-bottom: 0.8rem;
-    padding: 10px;             /* Más espacio para clic */
+    padding: 8px 10px;       /* Espacio cómodo para clic */
     border-radius: 10px;
     transition: background-color 0.2s;
     cursor: pointer;
@@ -613,17 +613,17 @@ footer img:hover {
 
 /* El círculo del input */
 .form-check-input {
-    width: 1.2em;
-    height: 1.2em;
-    min-width: 1.2em;          /* Evita deformación */
+    width: 1em;              /* Tamaño reducido (era 1.2em) */
+    height: 1em;
+    min-width: 1em;          /* Evita que se aplaste */
     border: 2px solid #8f3a42; 
-    margin-top: 0;             /* Quitar margen superior rebelde */
-    margin-right: 15px;        /* Espacio entre punto y texto */
+    margin-top: 0;           /* Clave: Quitar margen superior */
+    margin-right: 12px;      /* Espacio entre punto y texto */
     background-color: white;
     background-image: none;
     cursor: pointer;
-    float: none;               /* Quitar float */
-    margin-left: 0;            /* Reset margen negativo */
+    float: none;             /* Reset float */
+    margin-left: 0;          /* Reset margen */
 }
 
 /* Cuando está seleccionado */
@@ -633,17 +633,13 @@ footer img:hover {
     background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='2' fill='%23fff'/%3e%3c/svg%3e");
 }
 
-.form-check-input:focus {
-    box-shadow: 0 0 0 0.25rem rgba(143, 58, 66, 0.25);
-    border-color: #8f3a42;
-}
-
 .form-check-label {
     color: #555;
     font-weight: 500;
     cursor: pointer;
     line-height: 1.2;
-    margin-top: 2px; /* Ajuste milimétrico visual */
+    margin-top: 0;           /* Asegurar que no tenga margen extra */
+    padding-top: 2px;        /* Ajuste óptico fino para fuente */
 }
 
 /* Resumen del pedido lateral */
@@ -663,13 +659,20 @@ footer img:hover {
     margin-bottom: 15px;
 }
 
+/* --- TOTAL DESTACADO (Corrección de visibilidad) --- */
 #total-amount {
-    font-size: 24px;
-    color: #8f3a42;
+    font-size: 26px; /* Más grande */
+    color: #fff;     /* Texto Blanco */
     font-weight: 800;
     display: block;
-    margin-top: 15px;
-    text-align: right;
+    margin-top: 20px;
+    text-align: center; /* Centrado */
+    
+    /* Nuevo estilo tipo etiqueta */
+    background-color: #8f3a42; /* Fondo Bordó */
+    padding: 15px;
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 }
 
 /* Botones de acción */
