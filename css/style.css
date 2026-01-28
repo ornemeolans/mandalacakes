@@ -30,7 +30,6 @@ header img:hover {
     transform: scale(1.05);
 }
 
-/* Navbar Global */
 .navbar {
     transition: 0.3s ease;
     padding: 10px 0;
@@ -40,7 +39,6 @@ header img:hover {
     flex-direction: row-reverse;
 }
 
-/* Estilos de los links del menú */
 .navbar-light .navbar-nav .nav-link.active,
 .navbar-light .navbar-nav .show>.nav-link {
     color: #e7cec7 !important;
@@ -59,24 +57,19 @@ header img:hover {
     transform: translateY(-2px);
 }
 
-/* CORRECCIÓN BOTÓN MENÚ MÓVIL */
+/* BOTÓN MENÚ MÓVIL CORREGIDO */
 .navbar-light .navbar-toggler {
     color: #e7cec7;
-    border: 2px solid #e7cec7; /* Borde más visible */
-    background-color: rgba(143, 58, 66, 0.8); /* Fondo bordó semi-transparente para contraste */
-    border-radius: 10px; /* Bordes redondeados */
+    border: 2px solid #e7cec7;
+    background-color: rgba(143, 58, 66, 0.9); /* Fondo sólido para legibilidad */
+    border-radius: 10px;
     padding: 5px 15px;
     font-size: 14px;
-    font-weight: 700; /* Texto en negrita */
+    font-weight: 700;
     letter-spacing: 1px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.2); /* Sombrita para que flote */
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
 }
 
-.navbar-light .navbar-toggler:focus {
-    box-shadow: 0 0 0 0.25rem rgba(231, 206, 199, 0.5); /* Focus en beige */
-}
-
-/* El texto "MENU" dentro del botón */
 .navbar-toggler span {
     color: #e7cec7;
 }
@@ -107,14 +100,13 @@ footer img:hover {
     transform: rotate(15deg) scale(1.1);
 }
 
-/* --- BANNER PRINCIPAL (CORRECCIÓN IMAGEN) --- */
+/* --- BANNER PRINCIPAL --- */
 .banner {
-    /* Estas propiedades aplican AHORA a móvil y escritorio */
     background-position: center;
-    background-size: cover;
+    background-size: cover; /* Cubre todo el espacio sin deformar */
     background-repeat: no-repeat;
     width: 100%;
-    /* La altura se define por dispositivo abajo */
+    /* Altura definida en media queries */
 }
 
 /* =========================================
@@ -124,7 +116,7 @@ footer img:hover {
     display: flex;
     flex-direction: column;
     margin: 0px;
-    background-color: #e499ba; /* COLOR ORIGINAL */
+    background-color: #e499ba;
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
     border-radius: 20px;
     overflow: hidden;
@@ -415,6 +407,7 @@ footer img:hover {
     color: #e7cec7;
     margin: 20px 0;
     text-shadow: 2px 2px 0px #8f3a42;
+    text-align: center; /* Asegura centrado global */
 }
 
 .multimedia p {
@@ -423,6 +416,8 @@ footer img:hover {
     font-size: 18px;
     color: #e7cec7;
     margin-bottom: 30px;
+    text-align: center; /* Asegura centrado global */
+    padding: 0 10px; /* Margen lateral en móvil para que no toque bordes */
 }
 
 .multimedia .maps {
@@ -455,6 +450,7 @@ footer img:hover {
     color: white;
     margin-bottom: 10px;
     font-size: 14px;
+    text-align: center; /* Centrado en descripciones del local */
 }
 
 .multimedia .maps .suc iframe {
@@ -629,7 +625,7 @@ footer img:hover {
     outline: none;
 }
 
-/* --- RADIO BUTTONS (ALINEACIÓN PERFECTA) --- */
+/* RADIO BUTTONS */
 .form-check {
     display: flex;
     align-items: center;
@@ -696,7 +692,7 @@ footer img:hover {
     margin-bottom: 15px;
 }
 
-/* --- TOTAL DESTACADO (ETIQUETA) --- */
+/* TOTAL DESTACADO */
 #total-amount {
     font-size: 26px;
     color: #fff;
@@ -747,10 +743,6 @@ footer img:hover {
 @media screen and (min-width: 1024px) {
     .banner {
         height: 500px;
-        /* Corrección para que la imagen no se corte en Desktop */
-        background-position: center;
-        background-size: cover;
-        
         display: flex;
         justify-content: center;
         align-items: center;
@@ -780,8 +772,6 @@ footer img:hover {
         height: 400px; 
         margin: 20px; 
         border-radius: 20px; 
-        background-position: center;
-        background-size: cover;
     }
     .grid {
         display: grid;
@@ -799,10 +789,10 @@ footer img:hover {
 }
 
 @media screen and (max-width: 767px) {
+    /* MÓVIL (Celulares) */
     .banner {
         height: 250px;
         border-radius: 0;
-        /* CORRECCIÓN DE BANNER MÓVIL */
         background-position: center;
         background-size: cover;
     }
@@ -819,9 +809,14 @@ footer img:hover {
     .count-controls button { width: 25px; height: 25px; }
     .container h1 { font-size: 35px; }
     
+    /* CORRECCIÓN INDEX MÓVIL (Centrado) */
+    .multimedia h2 { text-align: center; }
+    .multimedia p { text-align: center; padding: 0 15px; } /* Añadido padding para que no toque bordes */
+    
     .multimedia .maps { flex-direction: column; align-items: center; }
-    .multimedia .maps .suc { width: 90%; margin-bottom: 20px; }
+    .multimedia .maps .suc { width: 90%; margin-bottom: 20px; text-align: center; }
     .multimedia .maps .suc iframe { width: 100%; height: 200px; }
+    .multimedia .maps .suc h5, .multimedia .maps .suc p { text-align: center; } /* Forzar centrado de textos internos */
     
     .reserva, .drive, .trabajo { width: 95%; flex-direction: column; text-align: center; border-radius: 30px; }
     .reserva img, .drive img, .trabajo img { margin: 0 0 10px 0; }
