@@ -1,4 +1,4 @@
-let productsData = []; // Variable para almacenar los productos cargados
+let productsData = []; 
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
 // FUNCIÓN DE UTILIDAD: Centraliza el formato de precios
@@ -8,28 +8,20 @@ function formatPrice(price) {
 }
 
 document.addEventListener("DOMContentLoaded", function () {
-    // Configurar el botón del carrito
+    // Configurar botones del carrito
     const cartButton = document.getElementById('cart-button');
-    if (cartButton) {
-        cartButton.addEventListener('click', toggleCart);
-    }
+    if (cartButton) cartButton.addEventListener('click', toggleCart);
 
     const closeCartButton = document.getElementById('close-cart');
-    if (closeCartButton) {
-        closeCartButton.addEventListener('click', toggleCart);
-    }
+    if (closeCartButton) closeCartButton.addEventListener('click', toggleCart);
 
     const checkoutButton = document.getElementById('checkout-button');
-    if (checkoutButton) {
-        checkoutButton.addEventListener('click', checkout);
-    }
+    if (checkoutButton) checkoutButton.addEventListener('click', checkout);
 
-    // 1. Cargar productos de forma asíncrona
+    // Cargar productos
     fetch('../productos.json')
         .then(response => {
-            if (!response.ok) {
-                throw new Error(`Error de red o archivo no encontrado: ${response.status}`);
-            }
+            if (!response.ok) throw new Error(`Error: ${response.status}`);
             return response.json();
         })
         .then(products => {
@@ -44,7 +36,7 @@ document.addEventListener("DOMContentLoaded", function () {
             Swal.fire({
                 icon: 'error',
                 title: 'Error de Carga',
-                text: `No se pudo cargar el catálogo de productos. Detalle: ${error.message}`,
+                text: `No se pudo cargar el catálogo.`,
                 confirmButtonText: 'Aceptar'
             });
         });
@@ -55,17 +47,11 @@ function handleGridClick(event) {
     const action = target.getAttribute('data-action');
    
     if (action) {
-        if (action === 'decrementSlices' && target.classList.contains('btn-count')) {
-            decrementSlices(target);
-        } else if (action === 'incrementSlices' && target.classList.contains('btn-count')) {
-            incrementSlices(target);
-        } else if (action === 'decrementCakes' && target.classList.contains('btn-count')) {
-            decrementCakes(target);
-        } else if (action === 'incrementCakes' && target.classList.contains('btn-count')) {
-            incrementCakes(target);
-        } else if (action === 'addToCart' && target.classList.contains('btn-add-to-cart')) {
-            addToCart(target);
-        }
+        if (action === 'decrementSlices') decrementSlices(target);
+        else if (action === 'incrementSlices') incrementSlices(target);
+        else if (action === 'decrementCakes') decrementCakes(target);
+        else if (action === 'incrementCakes') incrementCakes(target);
+        else if (action === 'addToCart') addToCart(target);
     }
 }
 
@@ -114,7 +100,7 @@ function generateProducts(products) {
     container.innerHTML = "";
    
     if (products.length === 0) {
-        container.innerHTML = '<p class="no-results-msg">No se encontraron productos que coincidan con los filtros.</p>';
+        container.innerHTML = '<p class="no-results-msg">No se encontraron productos.</p>';
         return;
     }
 
@@ -138,7 +124,7 @@ function generateProducts(products) {
             </div>
         ` : '';
 
-        // NOTA: Se añade la clase 'reveal' aquí para la animación
+        // AQUI SE AGREGA LA CLASE 'reveal'
         const productHTML = `
             <div class="product-card reveal">
                 <div id="${carouselId}" class="carousel slide" data-bs-ride="carousel">
@@ -176,90 +162,64 @@ function generateProducts(products) {
         container.innerHTML += productHTML;
     });
 
-    // Iniciar la animación de scroll después de generar las tarjetas
+    // Iniciar animación después de renderizar
     setTimeout(initScrollReveal, 100);
 }
+
+// ... (Funciones de incremento/decremento y carrito iguales, pero asegurando variables globales)
 
 function incrementSlices(button) {
     let card = button.closest('.card-body');
     let sliceSpan = card.querySelector('.slice-count span');
-    let count = parseInt(sliceSpan.textContent) || 0;
-    sliceSpan.textContent = count + 1;
+    sliceSpan.textContent = (parseInt(sliceSpan.textContent) || 0) + 1;
 }
 
 function decrementSlices(button) {
     let card = button.closest('.card-body');
     let sliceSpan = card.querySelector('.slice-count span');
     let count = parseInt(sliceSpan.textContent) || 0;
-    if (count > 0) {
-        sliceSpan.textContent = count - 1;
-    }
+    if (count > 0) sliceSpan.textContent = count - 1;
 }
 
 function incrementCakes(button) {
     let card = button.closest('.card-body');
     let cakeSpan = card.querySelector('.cake-count span');
-    let count = parseInt(cakeSpan.textContent) || 0;
-    cakeSpan.textContent = count + 1;
+    cakeSpan.textContent = (parseInt(cakeSpan.textContent) || 0) + 1;
 }
 
 function decrementCakes(button) {
     let card = button.closest('.card-body');
     let cakeSpan = card.querySelector('.cake-count span');
     let count = parseInt(cakeSpan.textContent) || 0;
-    if (count > 0) {
-        cakeSpan.textContent = count - 1;
-    }
+    if (count > 0) cakeSpan.textContent = count - 1;
 }
 
 function addToCart(button) {
     let card = button.closest('.card-body');
     let title = card.querySelector('.card-title').textContent;
-
-    let sliceSpan = card.querySelector('.slice-count span');
-    let cakeSpan = card.querySelector('.cake-count span');
-
-    let sliceCount = sliceSpan ? parseInt(sliceSpan.textContent) || 0 : 0;
-    let cakeCount = cakeSpan ? parseInt(cakeSpan.textContent) || 0 : 0;
+    let sliceCount = parseInt(card.querySelector('.slice-count span')?.textContent || 0);
+    let cakeCount = parseInt(card.querySelector('.cake-count span')?.textContent || 0);
 
     let product = productsData.find(p => p.name === title);
     if (!product) return;
 
-    let slicePrice = product.slicePrice || 0;
-    let cakePrice = product.cakePrice || 0;
-
-    let sliceTotal = sliceCount * slicePrice;
-    let cakeTotal = cakeCount * cakePrice;
-
     if (sliceCount > product.stockSlices) {
-        Swal.fire({
-            icon: 'error',
-            title: 'Ups...',
-            text: `❌ No hay suficientes porciones de ${title}. Stock disponible: ${product.stockSlices}`,
-            confirmButtonText: 'Aceptar',
-            customClass: { confirmButton: 'btn btn-primary' }
-        });
+        Swal.fire({ icon: 'error', title: 'Ups...', text: `Stock insuficiente de porciones.` });
         return;
     }
-
     if (cakeCount > product.stockCakes) {
-        Swal.fire({
-            icon: 'error',
-            title: 'Ups...',
-            text: `❌ No hay suficientes tortas enteras de ${title}. Stock disponible: ${product.stockCakes}`,
-            confirmButtonText: 'Aceptar',
-            customClass: { confirmButton: 'btn btn-primary' }
-        });
+        Swal.fire({ icon: 'error', title: 'Ups...', text: `Stock insuficiente de enteras.` });
         return;
     }
 
     product.stockSlices -= sliceCount;
     product.stockCakes -= cakeCount;
-
     updateStockWarning(card, product);
 
     if (sliceCount > 0 || cakeCount > 0) {
         let existingItem = cart.find(item => item.title === title);
+        let sliceTotal = sliceCount * (product.slicePrice || 0);
+        let cakeTotal = cakeCount * (product.cakePrice || 0);
 
         if (existingItem) {
             existingItem.sliceCount += sliceCount;
@@ -268,36 +228,23 @@ function addToCart(button) {
             existingItem.cakeTotal += cakeTotal;
         } else {
             cart.push({
-                title,
-                sliceCount,
-                cakeCount,
-                sliceTotal,
-                cakeTotal,
-                slicePrice: product.slicePrice,
-                cakePrice: product.cakePrice
+                title, sliceCount, cakeCount, sliceTotal, cakeTotal,
+                slicePrice: product.slicePrice, cakePrice: product.cakePrice
             });
         }
-
         localStorage.setItem("cart", JSON.stringify(cart));
-
         updateCart(productsData);
 
-        if (sliceSpan) sliceSpan.textContent = 0;
-        if (cakeSpan) cakeSpan.textContent = 0;
+        // Reset contadores visuales
+        if (card.querySelector('.slice-count span')) card.querySelector('.slice-count span').textContent = 0;
+        if (card.querySelector('.cake-count span')) card.querySelector('.cake-count span').textContent = 0;
         
-        // Feedback visual simple
+        // Feedback visual en botón
         const originalText = button.textContent;
         button.textContent = "¡Agregado!";
         setTimeout(() => button.textContent = originalText, 1000);
-
     } else {
-        Swal.fire({
-            icon: 'warning',
-            title: 'Atención',
-            text: 'Por favor, selecciona al menos una porción o una torta entera.',
-            confirmButtonText: 'Aceptar',
-            customClass: { confirmButton: 'btn btn-primary' }
-        });
+        Swal.fire({ icon: 'warning', title: 'Atención', text: 'Selecciona cantidad primero.' });
     }
 }
 
@@ -305,9 +252,7 @@ function initializeStockWarnings(products) {
     document.querySelectorAll('.card-body').forEach(card => {
         let title = card.querySelector('.card-title').textContent;
         let product = products.find(p => p.name === title);
-        if (product) {
-            updateStockWarning(card, product);
-        }
+        if (product) updateStockWarning(card, product);
     });
 }
 
@@ -315,33 +260,22 @@ function updateCart(products) {
     let cartContainer = document.getElementById('cart');
     if (!cartContainer) return;
     cartContainer.innerHTML = '';
-
     let totalItems = cart.reduce((total, item) => total + item.sliceCount + item.cakeCount, 0);
 
     if (cart.length === 0) {
-        cartContainer.innerHTML = '<li>El carrito está vacío ☹️</li>';
+        cartContainer.innerHTML = '<li>Tu carrito está vacío ☹️</li>';
         updateCartCounter(0);
         return;
     }
 
     cart.forEach((item, index) => {
-        let listItem = document.createElement('li');
-        let text = `<strong>${item.title}</strong><br>`;
-
-        if (item.sliceCount > 0) {
-            text += `Porciones: ${item.sliceCount} (${formatPrice(item.sliceTotal)}) `;
-            text += `<button class="btn-eliminar" onclick="removeSlices(${index})">X</button><br>`;
-        }
-
-        if (item.cakeCount > 0) {
-            text += `Enteras: ${item.cakeCount} (${formatPrice(item.cakeTotal)}) `;
-            text += `<button class="btn-eliminar" onclick="removeCakes(${index})">X</button>`;
-        }
-
-        listItem.innerHTML = text.trim();
-        cartContainer.appendChild(listItem);
+        let li = document.createElement('li');
+        let html = `<strong>${item.title}</strong><br>`;
+        if (item.sliceCount > 0) html += `Porc: ${item.sliceCount} (${formatPrice(item.sliceTotal)}) <button class="btn-eliminar" onclick="removeSlices(${index})">X</button><br>`;
+        if (item.cakeCount > 0) html += `Ent: ${item.cakeCount} (${formatPrice(item.cakeTotal)}) <button class="btn-eliminar" onclick="removeCakes(${index})">X</button>`;
+        li.innerHTML = html;
+        cartContainer.appendChild(li);
     });
-
     updateCartCounter(totalItems);
 }
 
@@ -349,16 +283,10 @@ function removeSlices(index) {
     if (cart[index].sliceCount > 0) {
         cart[index].sliceCount--;
         cart[index].sliceTotal -= cart[index].slicePrice;
-       
         let product = productsData.find(p => p.name === cart[index].title);
-        if(product && product.stockSlices !== undefined) product.stockSlices++;
-
-        if (cart[index].sliceCount === 0 && cart[index].cakeCount === 0) {
-            cart.splice(index, 1);
-        }
-        localStorage.setItem("cart", JSON.stringify(cart));
-        updateCart(productsData);
-        filterAndSearchProducts(productsData);
+        if(product) product.stockSlices++;
+        if (cart[index].sliceCount === 0 && cart[index].cakeCount === 0) cart.splice(index, 1);
+        saveAndRefresh();
     }
 }
 
@@ -366,78 +294,54 @@ function removeCakes(index) {
     if (cart[index].cakeCount > 0) {
         cart[index].cakeCount--;
         cart[index].cakeTotal -= cart[index].cakePrice;
-       
         let product = productsData.find(p => p.name === cart[index].title);
-        if(product && product.stockCakes !== undefined) product.stockCakes++;
-
-        if (cart[index].sliceCount === 0 && cart[index].cakeCount === 0) {
-            cart.splice(index, 1);
-        }
-        localStorage.setItem("cart", JSON.stringify(cart));
-        updateCart(productsData);
-        filterAndSearchProducts(productsData);
+        if(product) product.stockCakes++;
+        if (cart[index].sliceCount === 0 && cart[index].cakeCount === 0) cart.splice(index, 1);
+        saveAndRefresh();
     }
+}
+
+function saveAndRefresh() {
+    localStorage.setItem("cart", JSON.stringify(cart));
+    updateCart(productsData);
+    // Opcional: refrescar filtro si quieres actualizar vista
 }
 
 function updateCartCounter(totalItems) {
-    let cartButton = document.getElementById('cart-button');
-    if (cartButton) {
-        cartButton.textContent = `🛒 (${totalItems})`;
-    }
+    let btn = document.getElementById('cart-button');
+    if (btn) btn.textContent = `🛒 (${totalItems})`;
 }
 
 function updateStockWarning(card, product) {
-    let stockWarningSlices = card.querySelector('.stock-warning-slices');
-    let stockWarningCakes = card.querySelector('.stock-warning-cakes');
-
-    if (stockWarningSlices && product.stockSlices === 1) {
-        stockWarningSlices.style.display = "block";
-    } else if (stockWarningSlices) {
-        stockWarningSlices.style.display = "none";
-    }
-
-    if (stockWarningCakes && product.stockCakes === 1) {
-        stockWarningCakes.style.display = "block";
-    } else if (stockWarningCakes) {
-        stockWarningCakes.style.display = "none";
-    }
+    let warnSlices = card.querySelector('.stock-warning-slices');
+    let warnCakes = card.querySelector('.stock-warning-cakes');
+    if (warnSlices) warnSlices.style.display = (product.stockSlices === 1) ? "block" : "none";
+    if (warnCakes) warnCakes.style.display = (product.stockCakes === 1) ? "block" : "none";
 }
 
 function toggleCart() {
-    let cartPanel = document.getElementById('cart-panel');
-    if (!cartPanel) return;
-    if (cartPanel.style.right === "0px") {
-        cartPanel.style.right = "-350px";
-    } else {
-        cartPanel.style.right = "0px";
-        updateCart(productsData);
+    let panel = document.getElementById('cart-panel');
+    if (panel) {
+        panel.style.right = (panel.style.right === "0px") ? "-350px" : "0px";
+        if (panel.style.right === "0px") updateCart(productsData);
     }
 }
 
 function checkout() {
     if (cart.length === 0) {
-        Swal.fire({
-            icon: 'error',
-            title: 'Carrito Vacío',
-            text: 'Agrega algo dulce antes de finalizar la compra.',
-            confirmButtonText: 'Aceptar',
-            customClass: { confirmButton: 'btn btn-primary' }
-        });
+        Swal.fire({ icon: 'error', title: 'Vacío', text: 'Agrega productos primero.' });
         return;
     }
-
     localStorage.setItem("cart", JSON.stringify(cart));
     window.location.href = "pago.html";
 }
 
-// --- FUNCIÓN PARA ANIMACIÓN SCROLL REVEAL ---
+// --- FUNCIÓN DE ANIMACIÓN ---
 function initScrollReveal() {
     const reveals = document.querySelectorAll(".reveal");
-
     const revealOnScroll = () => {
         const windowHeight = window.innerHeight;
-        const elementVisible = 50; // Distancia desde abajo para activar
-
+        const elementVisible = 50;
         reveals.forEach((reveal) => {
             const elementTop = reveal.getBoundingClientRect().top;
             if (elementTop < windowHeight - elementVisible) {
@@ -445,12 +349,11 @@ function initScrollReveal() {
             }
         });
     };
-
     window.addEventListener("scroll", revealOnScroll);
-    revealOnScroll(); // Ejecutar una vez al inicio
+    revealOnScroll(); 
 }
 
-// Exponer funciones globales
+// Exponer globales
 window.removeSlices = removeSlices;
 window.removeCakes = removeCakes;
 window.toggleCart = toggleCart;
