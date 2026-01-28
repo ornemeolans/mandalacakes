@@ -1,16 +1,15 @@
 // Variable global para productos cargados de forma asíncrona
 let productsData = []; 
 
-// FUNCIÓN DE UTILIDAD: Centraliza el formato de precios (Mejora en formato)
+// FUNCIÓN DE UTILIDAD: Centraliza el formato de precios
 function formatPrice(price) {
     if (price === null || price === undefined) return "";
     return `$${price.toLocaleString('es-AR')}`;
 }
 
-// --- I. FUNCIONES AUXILIARES DE UTILIDAD (Definición prioritaria) ---
+// --- I. FUNCIONES AUXILIARES DE UTILIDAD ---
 
 function saveClientData() {
-    // Guarda los datos del cliente en localStorage
     const nombreInput = document.getElementById("nombre");
     const apellidoInput = document.getElementById("apellido");
     const telefonoInput = document.getElementById("telefono");
@@ -21,7 +20,6 @@ function saveClientData() {
 }
 
 function loadClientData() {
-    // Carga los datos del cliente desde localStorage al formulario
     const nombreInput = document.getElementById("nombre");
     const apellidoInput = document.getElementById("apellido");
     const telefonoInput = document.getElementById("telefono");
@@ -57,7 +55,6 @@ function eliminarCarritoSiExpirado() {
 function getMinPickupDate() {
     const offsetBuenosAires = -180; // UTC-3 en minutos
     const fechaActual = new Date();
-    // Ajustar la fecha actual a la zona horaria simulada (UTC-3)
     const fechaBuenosAires = new Date(fechaActual.getTime() + (offsetBuenosAires * 60 * 1000) + (fechaActual.getTimezoneOffset() * 60000));
     return new Date(fechaBuenosAires.getTime() + 48 * 60 * 60 * 1000); 
 }
@@ -70,56 +67,59 @@ function mostrarResumenPedido() {
     const totalPedidoPanel = document.getElementById("total-pedido-panel");
     const totalPrice = document.getElementById("total-price");
 
-    if (!orderSummary || !orderSummaryMobile || !totalPedidoMobile || !totalPedidoPanel || !totalPrice || productsData.length === 0) {
-        return;
-    }
+    if (!orderSummary || !totalPrice) return;
 
     orderSummary.innerHTML = "";
-    orderSummaryMobile.innerHTML = "";
+    if(orderSummaryMobile) orderSummaryMobile.innerHTML = "";
+    
     let total = 0;
 
     if (cart.length === 0) {
         orderSummary.innerHTML = "<li>No hay productos en el carrito.</li>";
-        orderSummaryMobile.innerHTML = "<li>No hay productos en el carrito.</li>";
     } else {
         cart.forEach(item => {
             const product = productsData.find(p => p.name === item.title);
 
             const baseItem = (isMobile) => {
                 const li = document.createElement("li");
-                li.className = "list-group-item";
+                // Estilos inline para asegurar compatibilidad con el nuevo diseño
+                li.style.borderBottom = "1px solid #e499ba";
+                li.style.padding = "10px 0";
+                li.style.display = "flex";
+                li.style.alignItems = "center";
+
                 if (product && product.images && product.images.length > 0) {
                     const img = document.createElement("img");
                     img.src = product.images[0];
                     img.alt = item.title;
-                    img.style.width = isMobile ? "80px" : "100px";
-                    img.style.height = "auto";
-                    img.style.marginRight = "10px";
+                    img.style.width = "60px";
+                    img.style.height = "60px";
+                    img.style.objectFit = "cover";
+                    img.style.borderRadius = "10px";
+                    img.style.marginRight = "15px";
                     li.appendChild(img);
                 }
-                let itemText = `${item.title} - `;
-                if (item.sliceCount > 0) {
-                    // Uso de formatPrice (Mejora en formato)
-                    itemText += `${item.sliceCount} porción(es) (${formatPrice(item.sliceTotal)}) `;
-                }
-                if (item.cakeCount > 0) {
-                    // Uso de formatPrice (Mejora en formato)
-                    itemText += `${item.cakeCount} torta(s) entera(s) (${formatPrice(item.cakeTotal)})`;
-                }
-                li.appendChild(document.createTextNode(itemText));
+                
+                let itemText = `<div><strong>${item.title}</strong><br>`;
+                if (item.sliceCount > 0) itemText += `${item.sliceCount} porción(es) (${formatPrice(item.sliceTotal)}) <br>`;
+                if (item.cakeCount > 0) itemText += `${item.cakeCount} entera(s) (${formatPrice(item.cakeTotal)})`;
+                itemText += "</div>";
+                
+                const textDiv = document.createElement("div");
+                textDiv.innerHTML = itemText;
+                li.appendChild(textDiv);
                 return li;
             };
 
             orderSummary.appendChild(baseItem(false));
-            orderSummaryMobile.appendChild(baseItem(true));
+            if(orderSummaryMobile) orderSummaryMobile.appendChild(baseItem(true));
 
             total += item.sliceTotal + item.cakeTotal;
         });
     }
 
-    // Se mantiene la asignación sin formatPrice ya que el '$' ya está en el HTML (pago.html)
-    totalPedidoMobile.textContent = total;
-    totalPedidoPanel.textContent = total;
+    if(totalPedidoMobile) totalPedidoMobile.textContent = total;
+    if(totalPedidoPanel) totalPedidoPanel.textContent = total;
     totalPrice.textContent = total;
 }
 
@@ -138,7 +138,7 @@ function validarRetiro() {
 
     // 0. Validación de campos obligatorios
     if (!sucursalSeleccionada || !fechaRetiroValue || !horaRetiroValue) {
-        submitButton.disabled = true;
+        // No deshabilitamos, dejamos que el navegador valide los 'required'
         return false;
     }
 
@@ -147,10 +147,8 @@ function validarRetiro() {
     const CERRAR = isTakeAway ? 20 : 21; 
     const HORARIO_TEXTO = isTakeAway ? 'Lunes a Sábado de 8:00 a 20:00 hs.' : 'Lunes a Domingo de 8:00 a 21:00 hs.';
 
-    // --- 1. VALIDACIÓN DE HORARIO ACTUAL (¿El local está abierto AHORA para recibir el pedido?) ---
-    const offsetBuenosAires = -180; // UTC-3 en minutos
+    const offsetBuenosAires = -180; 
     const now = new Date();
-    // Hora actual en UTC-3
     const nowUTC3 = new Date(now.getTime() + (offsetBuenosAires * 60 * 1000) + (now.getTimezoneOffset() * 60000)); 
     const currentDay = nowUTC3.getDay(); 
     const currentHour = nowUTC3.getHours();
@@ -159,95 +157,48 @@ function validarRetiro() {
     const closingTimeInMinutes = CERRAR * 60;
     const openingTimeInMinutes = ABRIR * 60;
     
-    // a) Take Away cerrado los domingos (current day check)
+    // Validaciones de horario actual y fecha retiro (igual que original)
     if (isTakeAway && currentDay === 0) {
-        Swal.fire({ 
-            title: '¡Local Cerrado! 🚫',
-            text: `La sucursal Take Away está cerrada hoy (Domingo). No podemos procesar pedidos ahora. Nuestro horario es: ${HORARIO_TEXTO}`, 
-            icon: "error", buttonsStyling: false, 
-            confirmButtonText: "Aceptar", 
-            customClass: { confirmButton: "btn btn-primary" } 
-        });
-        submitButton.disabled = true;
+        Swal.fire({ title: '¡Local Cerrado! 🚫', text: `Take Away cerrado hoy. ${HORARIO_TEXTO}`, icon: "error", confirmButtonText: "Aceptar" });
         return false;
     }
 
-    // b) Hora actual fuera del rango (preciso al minuto)
     if (currentTimeInMinutes < openingTimeInMinutes || currentTimeInMinutes > closingTimeInMinutes) {
-        Swal.fire({ 
-            title: '¡Local Cerrado! 😔',
-            text: `No podemos recibir tu pedido ahora. La sucursal ${isTakeAway ? 'Take Away' : 'The Gula House'} está fuera del horario de atención. Nuestro horario es: ${HORARIO_TEXTO}`, 
-            icon: "error", buttonsStyling: false, 
-            confirmButtonText: "Aceptar", 
-            customClass: { confirmButton: "btn btn-primary" } 
-        });
-        submitButton.disabled = true;
+        Swal.fire({ title: '¡Local Cerrado! 😔', text: `Fuera de horario. ${HORARIO_TEXTO}`, icon: "error", confirmButtonText: "Aceptar" });
         return false;
     }
     
-    // --- 2. VALIDACIÓN DE FECHA Y HORA DE RETIRO (Reglas de negocio 48h y horario de sucursal) ---
-
-    // Crear objeto Date de la hora de retiro seleccionada (UTC-3)
     const fechaHoraSeleccionada = new Date(`${fechaRetiroValue}T${horaRetiroValue}:00-03:00`); 
-    const diaSemanaRetiro = fechaHoraSeleccionada.getDay(); // 0 = domingo, 1 = lunes
+    const diaSemanaRetiro = fechaHoraSeleccionada.getDay();
     const horaRetiro = fechaHoraSeleccionada.getHours();
     const minutosRetiro = fechaHoraSeleccionada.getMinutes();
     const retiroTimeInMinutes = horaRetiro * 60 + minutosRetiro;
 
-    // a) Validación de 48 horas de anticipación
     const fechaMinimaConfirmacion = new Date(fechaMinima.getTime());
     if (fechaHoraSeleccionada.getTime() < fechaMinimaConfirmacion.getTime()) {
-        Swal.fire({ 
-            text: "🚫 Debes seleccionar una fecha y hora con al menos 48 horas de anticipación.", 
-            icon: "warning", buttonsStyling: false, 
-            confirmButtonText: "Aceptar", 
-            customClass: { confirmButton: "btn btn-primary" } 
-        });
-        submitButton.disabled = true;
+        Swal.fire({ text: "🚫 Debes seleccionar una fecha con al menos 48 horas de anticipación.", icon: "warning", confirmButtonText: "Aceptar" });
         return false;
     }
 
-    // b) Validación de DÍA de Retiro (solo para Take Away)
-    if (isTakeAway && diaSemanaRetiro === 0) { // Domingo
-        Swal.fire({ 
-            text: "🚫 La sucursal Take Away no permite retiros los domingos.", 
-            icon: "warning", buttonsStyling: false, 
-            confirmButtonText: "Aceptar", 
-            customClass: { confirmButton: "btn btn-primary" } 
-        });
-        submitButton.disabled = true;
+    if (isTakeAway && diaSemanaRetiro === 0) {
+        Swal.fire({ text: "🚫 Take Away no permite retiros los domingos.", icon: "warning", confirmButtonText: "Aceptar" });
         return false;
     }
 
-    // c) Validación de HORARIO de Retiro (Precisa al minuto)
     if (retiroTimeInMinutes < openingTimeInMinutes) {
-        Swal.fire({ 
-            text: `🚫 La hora seleccionada (${horaRetiroValue}) es antes de la apertura. ${isTakeAway ? 'Take Away' : 'The Gula House'} abre a las ${ABRIR}:00 hs.`, 
-            icon: "warning", buttonsStyling: false, 
-            confirmButtonText: "Aceptar", 
-            customClass: { confirmButton: "btn btn-primary" } 
-        });
-        submitButton.disabled = true;
+        Swal.fire({ text: `🚫 La hora es antes de la apertura (${ABRIR}:00 hs).`, icon: "warning", confirmButtonText: "Aceptar" });
         return false;
     }
 
     if (retiroTimeInMinutes > closingTimeInMinutes) {
-        Swal.fire({ 
-            text: `🚫 La hora seleccionada (${horaRetiroValue}) es posterior al cierre. ${isTakeAway ? 'Take Away' : 'The Gula House'} cierra a las ${CERRAR}:00 hs.`, 
-            icon: "warning", buttonsStyling: false, 
-            confirmButtonText: "Aceptar", 
-            customClass: { confirmButton: "btn btn-primary" } 
-        });
-        submitButton.disabled = true;
+        Swal.fire({ text: `🚫 La hora es posterior al cierre (${CERRAR}:00 hs).`, icon: "warning", confirmButtonText: "Aceptar" });
         return false;
     }
     
-    // Si TODAS las validaciones (actuales y futuras) pasan
-    submitButton.disabled = false;
     return true;
 }
 
-// --- II. LÓGICA PRINCIPAL (Define la función que orquesta todo) ---
+// --- II. LÓGICA PRINCIPAL ---
 
 function initializePageLogic() {
     const paymentForm = document.getElementById("payment-form");
@@ -255,38 +206,30 @@ function initializePageLogic() {
     const horaRetiroInput = document.getElementById("hora-retiro"); 
     const sucursal1Radio = document.getElementById("sucursal1");
     const sucursal2Radio = document.getElementById("sucursal2");
-    const submitButton = paymentForm ? paymentForm.querySelector('button[type="submit"]') : null;
 
-    if (!paymentForm || !fechaRetiroInput || !horaRetiroInput || !sucursal1Radio || !sucursal2Radio || !submitButton) {
+    if (!paymentForm || !fechaRetiroInput || !horaRetiroInput || !sucursal1Radio || !sucursal2Radio) {
         return;
     }
     
-    // 1. Ejecutar funciones auxiliares
     loadClientData();
     eliminarCarritoSiExpirado();
     mostrarResumenPedido(); 
     
-    // 2. Establecer el mínimo del input date.
     const fechaMinima = getMinPickupDate();
     fechaRetiroInput.min = fechaMinima.toISOString().split("T")[0];
 
-    // 3. Event listeners para re-validar con cada cambio
+    // Listeners
     fechaRetiroInput.addEventListener("change", validarRetiro);
     horaRetiroInput.addEventListener("change", validarRetiro);
     sucursal1Radio.addEventListener("change", validarRetiro);
     sucursal2Radio.addEventListener("change", validarRetiro);
     
-    // 4. Validar al inicio para desactivar el botón si es necesario
-    validarRetiro(); 
-    
-    // 5. Listener para el envío del formulario
     paymentForm.addEventListener("submit", function (event) {
         event.preventDefault();
 
         if (validarRetiro()) {
             saveClientData();
             
-            // Lógica de creación del mensaje de WhatsApp y redirección...
             const nombre = document.getElementById("nombre").value;
             const apellido = document.getElementById("apellido").value;
             const telefono = document.getElementById("telefono").value;
@@ -308,29 +251,20 @@ function initializePageLogic() {
             mensaje += `*Detalles del pedido:*%0A`;
 
             cart.forEach(item => {
-                if (item.sliceCount > 0) {
-                    // Uso de formatPrice (Mejora en formato)
-                    mensaje += `- ${item.title}: ${item.sliceCount} porción(es) (${formatPrice(item.sliceTotal)})%0A`;
-                }
-                if (item.cakeCount > 0) {
-                    // Uso de formatPrice (Mejora en formato)
-                    mensaje += `- ${item.title}: ${item.cakeCount} torta(s) entera(s) (${formatPrice(item.cakeTotal)})`;
-                }
+                if (item.sliceCount > 0) mensaje += `- ${item.title}: ${item.sliceCount} porción(es) (${formatPrice(item.sliceTotal)})%0A`;
+                if (item.cakeCount > 0) mensaje += `- ${item.title}: ${item.cakeCount} torta(s) entera(s) (${formatPrice(item.cakeTotal)})`;
                 total += item.sliceTotal + item.cakeTotal;
             });
 
-            // Uso de formatPrice (Mejora en formato)
             mensaje += `%0A*Total:* ${formatPrice(total)}`;
 
             const numeroWhatsApp = sucursal === "sucursal1" ? "3517657602" : "3512106878";
-
             const urlWhatsApp = `https://wa.me/${numeroWhatsApp}?text=${mensaje}`;
             window.open(urlWhatsApp, "_blank");
 
             Swal.fire({
                 text: "¡Compra confirmada! Serás redirigido a WhatsApp para finalizar.",
                 icon: "success",
-                buttonsStyling: false,
                 confirmButtonText: "Aceptar",
                 customClass: { confirmButton: "btn btn-primary" }
             }).then(() => {
@@ -342,65 +276,18 @@ function initializePageLogic() {
     });
 }
 
-// Lógica de toggle para móvil
+// Inicialización
 document.addEventListener("DOMContentLoaded", function () {
-    const toggleOrderSummaryButton = document.getElementById("toggle-order-summary");
-    const orderSummaryPanel = document.getElementById("order-summary-panel");
-
-    if (!toggleOrderSummaryButton || !orderSummaryPanel) {
-        return;
-    }
-
-    orderSummaryPanel.classList.remove("active");
-    orderSummaryPanel.style.display = "none";
-
-    toggleOrderSummaryButton.addEventListener("click", function () {
-        if (orderSummaryPanel.classList.contains("active")) {
-            orderSummaryPanel.classList.remove("active");
-            orderSummaryPanel.style.display = "none";
-        } else {
-            orderSummaryPanel.classList.add("active");
-            orderSummaryPanel.style.display = "block";
-            mostrarResumenPedido();
-        }
-    });
-
-    function checkScreenSize() {
-        if (window.innerWidth <= 767) {
-            toggleOrderSummaryButton.style.display = "block";
-        } else {
-            toggleOrderSummaryButton.style.display = "none";
-        }
-    }
-    checkScreenSize();
-    window.addEventListener("resize", checkScreenSize);
-});
-
-// --- III. PUNTO DE ENTRADA DE LA APLICACIÓN (Llamada asíncrona) ---
-
-document.addEventListener("DOMContentLoaded", function () {
-    // 1. Cargar productos de forma asíncrona y manejar errores de red (Mejora en error handling)
     fetch('../productos.json')
         .then(response => {
-            if (!response.ok) {
-                // Lanza un error si la respuesta HTTP no es exitosa
-                throw new Error(`Error de red o archivo no encontrado: ${response.status}`);
-            }
+            if (!response.ok) throw new Error(`Error: ${response.status}`);
             return response.json();
         })
         .then(products => {
-            productsData = products; // Almacenar los productos cargados
-            initializePageLogic(); // Llamar a la lógica principal AHORA que todo está definido
+            productsData = products;
+            initializePageLogic();
         })
-        .catch(error => {
-            console.error("Error al cargar productos:", error);
-            Swal.fire({
-                icon: 'error',
-                title: 'Error de Carga',
-                text: `No se pudo cargar el catálogo de productos. Si estás en local, utiliza Live Server o un servidor web. Detalle: ${error.message}`,
-                confirmButtonText: 'Aceptar'
-            });
-        });
+        .catch(error => console.error("Error al cargar productos:", error));
 });
 
 window.mostrarResumenPedido = mostrarResumenPedido;
