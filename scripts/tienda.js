@@ -1,4 +1,3 @@
-
 let productsData = []; // Variable para almacenar los productos cargados
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
@@ -9,7 +8,7 @@ function formatPrice(price) {
 }
 
 document.addEventListener("DOMContentLoaded", function () {
-    // Configurar el botón del carrito (Mejora: addEventListener en lugar de onclick en HTML)
+    // Configurar el botón del carrito
     const cartButton = document.getElementById('cart-button');
     if (cartButton) {
         cartButton.addEventListener('click', toggleCart);
@@ -128,18 +127,20 @@ function generateProducts(products) {
         `).join('');
 
         const sliceControlsHTML = product.slicePrice !== null ? `
-            <p class="stock-warning-slices" style="display: none; color: red; font-weight: bold;">⚠️ Última porción en stock</p>
+            <p class="stock-warning-slices" style="display: none; color: red; font-weight: bold; font-size: 10px; text-align:center;">⚠️ Última porción</p>
             <div class="count-controls">
-                <button class="btn-count" data-action="decrementSlices">-1</button>
-                <p>Porciones: ${formatPrice(product.slicePrice)}</p> <button class="btn-count" data-action="incrementSlices">+1</button>
+                <button class="btn-count" data-action="decrementSlices">-</button>
+                <p>Porciones: ${formatPrice(product.slicePrice)}</p> 
+                <button class="btn-count" data-action="incrementSlices">+</button>
             </div>
             <div class="slice-count">
-                <p>Porciones:</p> <span id="sliceCount">0</span>
+                <p>Cant:</p> <span id="sliceCount">0</span>
             </div>
         ` : '';
 
+        // NOTA: Se añade la clase 'reveal' aquí para la animación
         const productHTML = `
-            <div class="product-card">
+            <div class="product-card reveal">
                 <div id="${carouselId}" class="carousel slide" data-bs-ride="carousel">
                     <div class="carousel-inner">
                         ${imagesHTML}
@@ -157,22 +158,26 @@ function generateProducts(products) {
                     <h5 class="card-title">${product.name}</h5>
                     <p class="card-text">${product.description}</p>
                     ${sliceControlsHTML}
-                    <p class="stock-warning-cakes" style="display: none; color: red; font-weight: bold;">⚠️ Último en stock</p>
+                    <p class="stock-warning-cakes" style="display: none; color: red; font-weight: bold; font-size: 10px; text-align:center;">⚠️ Último en stock</p>
                     <div class="count-controls">
-                        <button class="btn-count" data-action="decrementCakes">-1</button>
-                        <p>Entera: ${formatPrice(product.cakePrice)}</p> <button class="btn-count" data-action="incrementCakes">+1</button>
+                        <button class="btn-count" data-action="decrementCakes">-</button>
+                        <p>Entera: ${formatPrice(product.cakePrice)}</p> 
+                        <button class="btn-count" data-action="incrementCakes">+</button>
                     </div>
                     <div class="cake-count">
-                        <p>Entera:</p> <span id="cakeCount">0</span>
+                        <p>Cant:</p> <span id="cakeCount">0</span>
                     </div>
                     <div class="add-to-cart">
-                        <button class="btn-add-to-cart" data-action="addToCart">Agregar al carrito</button>
+                        <button class="btn-add-to-cart" data-action="addToCart">Agregar</button>
                     </div>
                 </div>
             </div>
         `;
         container.innerHTML += productHTML;
     });
+
+    // Iniciar la animación de scroll después de generar las tarjetas
+    setTimeout(initScrollReveal, 100);
 }
 
 function incrementSlices(button) {
@@ -229,7 +234,7 @@ function addToCart(button) {
     if (sliceCount > product.stockSlices) {
         Swal.fire({
             icon: 'error',
-            title: 'Error',
+            title: 'Ups...',
             text: `❌ No hay suficientes porciones de ${title}. Stock disponible: ${product.stockSlices}`,
             confirmButtonText: 'Aceptar',
             customClass: { confirmButton: 'btn btn-primary' }
@@ -240,7 +245,7 @@ function addToCart(button) {
     if (cakeCount > product.stockCakes) {
         Swal.fire({
             icon: 'error',
-            title: 'Error',
+            title: 'Ups...',
             text: `❌ No hay suficientes tortas enteras de ${title}. Stock disponible: ${product.stockCakes}`,
             confirmButtonText: 'Aceptar',
             customClass: { confirmButton: 'btn btn-primary' }
@@ -279,11 +284,17 @@ function addToCart(button) {
 
         if (sliceSpan) sliceSpan.textContent = 0;
         if (cakeSpan) cakeSpan.textContent = 0;
+        
+        // Feedback visual simple
+        const originalText = button.textContent;
+        button.textContent = "¡Agregado!";
+        setTimeout(() => button.textContent = originalText, 1000);
+
     } else {
         Swal.fire({
-            icon: 'error',
-            title: 'Error',
-            text: '❌ Por favor, selecciona al menos una porción o una torta entera antes de agregar al carrito.',
+            icon: 'warning',
+            title: 'Atención',
+            text: 'Por favor, selecciona al menos una porción o una torta entera.',
             confirmButtonText: 'Aceptar',
             customClass: { confirmButton: 'btn btn-primary' }
         });
@@ -308,23 +319,23 @@ function updateCart(products) {
     let totalItems = cart.reduce((total, item) => total + item.sliceCount + item.cakeCount, 0);
 
     if (cart.length === 0) {
-        cartContainer.innerHTML = '<li>El carrito está vacío</li>';
+        cartContainer.innerHTML = '<li>El carrito está vacío ☹️</li>';
         updateCartCounter(0);
         return;
     }
 
     cart.forEach((item, index) => {
         let listItem = document.createElement('li');
-        let text = `${item.title} - `;
+        let text = `<strong>${item.title}</strong><br>`;
 
         if (item.sliceCount > 0) {
             text += `Porciones: ${item.sliceCount} (${formatPrice(item.sliceTotal)}) `;
-            text += `<button class="btn-eliminar" onclick="removeSlices(${index})">Eliminar porciones</button>`;
+            text += `<button class="btn-eliminar" onclick="removeSlices(${index})">X</button><br>`;
         }
 
         if (item.cakeCount > 0) {
-            text += `| Enteras: ${item.cakeCount} (${formatPrice(item.cakeTotal)})`;
-            text += `<button class="btn-eliminar" onclick="removeCakes(${index})">Eliminar enteras</button>`;
+            text += `Enteras: ${item.cakeCount} (${formatPrice(item.cakeTotal)}) `;
+            text += `<button class="btn-eliminar" onclick="removeCakes(${index})">X</button>`;
         }
 
         listItem.innerHTML = text.trim();
@@ -371,7 +382,7 @@ function removeCakes(index) {
 function updateCartCounter(totalItems) {
     let cartButton = document.getElementById('cart-button');
     if (cartButton) {
-        cartButton.textContent = `🛒 Ver Carrito (${totalItems})`;
+        cartButton.textContent = `🛒 (${totalItems})`;
     }
 }
 
@@ -407,8 +418,8 @@ function checkout() {
     if (cart.length === 0) {
         Swal.fire({
             icon: 'error',
-            title: 'Error',
-            text: 'Tu carrito está vacío. Agrega productos antes de finalizar la compra.',
+            title: 'Carrito Vacío',
+            text: 'Agrega algo dulce antes de finalizar la compra.',
             confirmButtonText: 'Aceptar',
             customClass: { confirmButton: 'btn btn-primary' }
         });
@@ -419,10 +430,28 @@ function checkout() {
     window.location.href = "pago.html";
 }
 
-// Exponer funciones globales para botones en línea (remove/eliminar)
+// --- FUNCIÓN PARA ANIMACIÓN SCROLL REVEAL ---
+function initScrollReveal() {
+    const reveals = document.querySelectorAll(".reveal");
+
+    const revealOnScroll = () => {
+        const windowHeight = window.innerHeight;
+        const elementVisible = 50; // Distancia desde abajo para activar
+
+        reveals.forEach((reveal) => {
+            const elementTop = reveal.getBoundingClientRect().top;
+            if (elementTop < windowHeight - elementVisible) {
+                reveal.classList.add("active");
+            }
+        });
+    };
+
+    window.addEventListener("scroll", revealOnScroll);
+    revealOnScroll(); // Ejecutar una vez al inicio
+}
+
+// Exponer funciones globales
 window.removeSlices = removeSlices;
 window.removeCakes = removeCakes;
-// toggleCart y checkout ya no se necesitan exponer si usamos addEventListener,
-// pero no hace daño dejarlas por si acaso hay otros botones
 window.toggleCart = toggleCart;
 window.checkout = checkout;
