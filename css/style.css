@@ -1,3 +1,42 @@
+/* --- VARIABLES CSS (Paleta de Colores) --- */
+:root {
+    /* Colores principales */
+    --color-primary: #8f3a42;
+    --color-primary-dark: #732d33;
+    --color-primary-light: #b73f93;
+    
+    /* Colores secundarios */
+    --color-secondary: #e7cec7;
+    --color-secondary-light: #f0c0d7;
+    --color-secondary-dark: #e499ba;
+    
+    /* Colores de estado */
+    --color-success: #4CAF50;
+    --color-success-light: #81c784;
+    --color-error: #f44336;
+    --color-warning: #ff9800;
+    
+    /* Colores de fondo */
+    --color-bg: #8f3a42;
+    --color-bg-light: #fcebf4;
+    
+    /* Sombras */
+    --shadow-sm: 0 2px 4px rgba(0,0,0,0.1);
+    --shadow-md: 0 5px 15px rgba(0,0,0,0.2);
+    --shadow-lg: 0 10px 20px rgba(0,0,0,0.3);
+    
+    /* Bordes */
+    --border-radius-sm: 10px;
+    --border-radius-md: 20px;
+    --border-radius-lg: 25px;
+    --border-radius-full: 50px;
+    
+    /* Transiciones */
+    --transition-fast: 0.2s ease;
+    --transition-normal: 0.3s ease;
+    --transition-slow: 0.5s ease;
+}
+
 /* --- RESET & BASICS --- */
 * {
     box-sizing: border-box;
@@ -10,10 +49,10 @@ body {
     font-weight: 300;
     position: relative;
     padding-bottom: 75px;
-    background-color: #8f3a42; /* COLOR ORIGINAL */
+    background-color: var(--color-primary);
     min-height: 100vh;
     color: black;
-    overflow-x: hidden; /* Seguridad extra para evitar scroll horizontal */
+    overflow-x: hidden;
 }
 
 /* --- HEADER & NAVBAR --- */
@@ -159,14 +198,24 @@ footer img:hover {
     line-height: 1.4;
 }
 
-/* IMÁGENES VERTICALES */
+/* IMÁGENES VERTICALES - Usando aspect-ratio para mantener proporción */
 .carousel-inner img {
     width: 100%;
-    height: 400px;
+    aspect-ratio: 3 / 4;
     object-fit: cover;
     object-position: center top;
     border-radius: 20px 20px 0 0;
     transition: transform 0.5s ease;
+}
+
+/* Loading lazy para imágenes */
+.carousel-inner img[loading="lazy"] {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.carousel-inner img[loading="lazy"].loaded {
+    opacity: 1;
 }
 
 /* Controles de cantidad */
@@ -251,6 +300,48 @@ footer img:hover {
 .add-to-cart button:hover {
     background-color: #732d33;
     transform: scale(1.02);
+}
+
+/* Animación de feedback para botón agregar */
+.add-to-cart button.loading {
+    pointer-events: none;
+    opacity: 0.8;
+}
+
+.add-to-cart button.success {
+    background-color: var(--color-success) !important;
+}
+
+/* Spinner de carga */
+.btn-spinner {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(255,255,255,0.3);
+    border-radius: 50%;
+    border-top-color: white;
+    animation: spin 0.8s linear infinite;
+    margin-right: 8px;
+    vertical-align: middle;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Icono de check */
+.btn-check {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    margin-right: 8px;
+    vertical-align: middle;
+}
+
+.btn-check::after {
+    content: "✓";
+    font-size: 14px;
+    font-weight: bold;
 }
 
 /* --- CARRITO --- */
