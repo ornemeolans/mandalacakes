@@ -29,60 +29,74 @@ document.addEventListener("DOMContentLoaded", function () {
     const checkoutButton = document.getElementById('checkout-button');
     if (checkoutButton) checkoutButton.addEventListener('click', checkout);
 
-    // 2. Cargar productos desde el JSON
-    fetch('../productos.json')
-        .then(response => {
-            if (!response.ok) {
-                throw new Error(`Error de red: ${response.status}`);
-            }
-            return response.json();
-        })
-        .then(products => {
-            // Filtrar solo productos disponibles
-            productsData = products.filter(product => product.disponible !== false);
-            
-            // Aplicar persistencia de stock (restar lo del carrito)
-            productsData = productsData.map(product => {
-                const remaining = getRemainingStock(product, cart);
-                return {
-                    ...product,
-                    stockSlices: remaining.slices,
-                    stockCakes: remaining.cakes
-                };
-            });
-            
-            generateProducts(productsData);
-            initializeStockWarnings(productsData);
-            updateCart(productsData);
-            setupEventListeners(productsData);
-            
-            // Iniciar animación una vez cargados los productos
-            setTimeout(initScrollReveal, 100);
-        })
-        .catch(error => {
-            console.error("Error al cargar productos:", error);
-            // Mostrar "Empty State" visual más amigable
-            const container = document.getElementById("grid");
-            if (container) {
-                container.innerHTML = `
-                    <div class="empty-state" style="grid-column: 1/-1; text-align: center; padding: 60px 20px;">
-                        <div style="font-size: 80px; margin-bottom: 20px;">😢</div>
-                        <h3 style="color: #e7cec7; margin-bottom: 15px;">Ups! Algo salió mal</h3>
-                        <p style="color: #e7cec7; margin-bottom: 25px;">No pudimos cargar los productos en este momento.</p>
-                        <button onclick="location.reload()" class="filter-btn" style="display: inline-block;">
-                            Recargar Página
-                        </button>
-                    </div>
-                `;
-            }
-            Swal.fire({
-                icon: 'error',
-                title: 'Error',
-                text: 'Hubo un problema cargando los productos. Por favor intentá de nuevo.',
-                confirmButtonText: 'Aceptar'
-            });
-        });
+    // 2. Cargar productos usando el ProductService (Capa de Servicio)
+    loadProducts();
 });
+
+// Función centralizada de carga de productos
+async function loadProducts() {
+    try {
+        // Usar ProductService (preparado para API futura)
+        let products;
+        
+        if (window.ProductService) {
+            products = await window.ProductService.getProducts();
+        } else {
+            // Fallback si no carga productService.js
+            const response = await fetch('../productos.json');
+            products = await response.json();
+            products = products.filter(p => p.disponible !== false);
+        }
+        
+        // Guardar referencia al ID/SKU para uso futuro
+        productsData = products.map(product => {
+            // Guardar referencia por ID o SKU para integración con sistemas externos
+            product._ref = product.sku || `ID-${product.id}`;
+            return product;
+        });
+        
+        // Aplicar persistencia de stock (restar lo del carrito)
+        productsData = productsData.map(product => {
+            const remaining = getRemainingStock(product, cart);
+            return {
+                ...product,
+                stockSlices: remaining.slices,
+                stockCakes: remaining.cakes
+            };
+        });
+        
+        generateProducts(productsData);
+        initializeStockWarnings(productsData);
+        updateCart(productsData);
+        setupEventListeners(productsData);
+        
+        // Iniciar animación una vez cargados los productos
+        setTimeout(initScrollReveal, 100);
+        
+    } catch (error) {
+        console.error("Error al cargar productos:", error);
+        // Mostrar "Empty State" visual más amigable
+        const container = document.getElementById("grid");
+        if (container) {
+            container.innerHTML = `
+                <div class="empty-state" style="grid-column: 1/-1; text-align: center; padding: 60px 20px;">
+                    <div style="font-size: 80px; margin-bottom: 20px;">😢</div>
+                    <h3 style="color: #e7cec7; margin-bottom: 15px;">Ups! Algo salió mal</h3>
+                    <p style="color: #e7cec7; margin-bottom: 25px;">No pudimos cargar los productos en este momento.</p>
+                    <button onclick="location.reload()" class="filter-btn" style="display: inline-block;">
+                        Recargar Página
+                    </button>
+                </div>
+            `;
+        }
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'Hubo un problema cargando los productos. Por favor intentá de nuevo.',
+            confirmButtonText: 'Aceptar'
+        });
+    }
+}
 
 // Manejador centralizado de clicks en la grilla (Mejor rendimiento)
 function handleGridClick(event) {
@@ -157,6 +171,9 @@ function generateProducts(products) {
         // ID único para el carrusel
         const carouselId = `carousel-${product.name.replace(/[^a-zA-Z0-9]/g, '')}`;
         
+        // SKU para referencia futura (integración con sistemas externos)
+        const skuDisplay = product.sku ? `<small style="color: #666; font-size: 10px;">SKU: ${product.sku}</small>` : '';
+        
         // Imágenes con lazy loading y alt más descriptivo
         const imagesHTML = product.images.map((img, i) => `
             <div class="carousel-item ${i === 0 ? 'active' : ''}">
@@ -183,7 +200,7 @@ function generateProducts(products) {
 
         // Estructura de la tarjeta (Agregada clase 'reveal')
         const productHTML = `
-            <div class="product-card reveal">
+            <div class="product-card reveal" data-product-id="${product.id}" data-sku="${product.sku || ''}">
                 <div id="${carouselId}" class="carousel slide" data-bs-ride="carousel">
                     <div class="carousel-inner">
                         ${imagesHTML}
@@ -199,6 +216,7 @@ function generateProducts(products) {
                 </div>
                 <div class="card-body">
                     <h5 class="card-title">${product.name}</h5>
+                    ${skuDisplay}
                     <p class="card-text">${product.description}</p>
                     
                     ${sliceControlsHTML}
@@ -253,9 +271,28 @@ function decrementCakes(button) {
     if (count > 0) cakeSpan.textContent = count - 1;
 }
 
-function addToCart(button) {
+/**
+ * Función para validar stock en tiempo real (preparada para API futura)
+ * Actualmente usa validación local, pero puede usar ProductService.validarStock()
+ */
+async function validarStockEnTiempoReal(product, cantidad, tipo, sucursal) {
+    // Si el ProductService está disponible y tiene validación en tiempo real
+    if (window.ProductService && window.PRODUCT_CONFIG?.ENABLE_REALTIME_STOCK) {
+        return await window.ProductService.validarStock(product, cantidad, tipo, sucursal);
+    }
+    
+    // Validación local (funcionamiento actual)
+    const stockKey = tipo === 'slice' ? 'stockSlices' : 'stockCakes';
+    return product[stockKey] >= cantidad;
+}
+
+async function addToCart(button) {
     let card = button.closest('.card-body');
     let title = card.querySelector('.card-title').textContent;
+
+    // Obtener la sucursal seleccionada del proceso de compra (si está definida)
+    // En el futuro esto vendría del選択 de retiro en pago.html
+    const sucursalSeleccionada = localStorage.getItem('sucursalSeleccionada') || 'takeAway';
 
     // Manejo seguro de selectores
     let sliceCount = parseInt(card.querySelector('.slice-count span')?.textContent || 0);
@@ -264,14 +301,21 @@ function addToCart(button) {
     let product = productsData.find(p => p.name === title);
     if (!product) return;
 
-    if (sliceCount > product.stockSlices) {
-        Swal.fire({ icon: 'error', title: 'Ups', text: `Solo quedan ${product.stockSlices} porciones.` });
-        return;
+    // Validar stock (preparado para API futura)
+    if (sliceCount > 0) {
+        const tieneStock = await validarStockEnTiempoReal(product, sliceCount, 'slice', sucursalSeleccionada);
+        if (!tieneStock) {
+            Swal.fire({ icon: 'error', title: 'Ups', text: `Solo quedan ${product.stockSlices} porciones.` });
+            return;
+        }
     }
 
-    if (cakeCount > product.stockCakes) {
-        Swal.fire({ icon: 'error', title: 'Ups', text: `Solo quedan ${product.stockCakes} tortas enteras.` });
-        return;
+    if (cakeCount > 0) {
+        const tieneStock = await validarStockEnTiempoReal(product, cakeCount, 'cake', sucursalSeleccionada);
+        if (!tieneStock) {
+            Swal.fire({ icon: 'error', title: 'Ups', text: `Solo quedan ${product.stockCakes} tortas enteras.` });
+            return;
+        }
     }
 
     product.stockSlices -= sliceCount;
@@ -292,6 +336,8 @@ function addToCart(button) {
         } else {
             cart.push({
                 title,
+                productId: product.id,      // ID para integración futura
+                sku: product.sku,          // SKU para integración futura
                 sliceCount,
                 cakeCount,
                 sliceTotal,
