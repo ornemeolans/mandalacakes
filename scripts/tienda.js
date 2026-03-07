@@ -7,6 +7,17 @@ function formatPrice(price) {
     return `$${price.toLocaleString('es-AR')}`;
 }
 
+// Función para calcular el stock remaining considerando el carrito
+function getRemainingStock(product, cartItems) {
+    const cartItem = cartItems.find(item => item.title === product.name);
+    if (!cartItem) return { slices: product.stockSlices, cakes: product.stockCakes };
+    
+    return {
+        slices: product.stockSlices - (cartItem.sliceCount || 0),
+        cakes: product.stockCakes - (cartItem.cakeCount || 0)
+    };
+}
+
 document.addEventListener("DOMContentLoaded", function () {
     // 1. Configurar botones del carrito (usando IDs seguros)
     const cartButton = document.getElementById('cart-button');
@@ -27,7 +38,19 @@ document.addEventListener("DOMContentLoaded", function () {
             return response.json();
         })
         .then(products => {
-            productsData = products;
+            // Filtrar solo productos disponibles
+            productsData = products.filter(product => product.disponible !== false);
+            
+            // Aplicar persistencia de stock (restar lo del carrito)
+            productsData = productsData.map(product => {
+                const remaining = getRemainingStock(product, cart);
+                return {
+                    ...product,
+                    stockSlices: remaining.slices,
+                    stockCakes: remaining.cakes
+                };
+            });
+            
             generateProducts(productsData);
             initializeStockWarnings(productsData);
             updateCart(productsData);
@@ -38,10 +61,24 @@ document.addEventListener("DOMContentLoaded", function () {
         })
         .catch(error => {
             console.error("Error al cargar productos:", error);
+            // Mostrar "Empty State" visual más amigable
+            const container = document.getElementById("grid");
+            if (container) {
+                container.innerHTML = `
+                    <div class="empty-state" style="grid-column: 1/-1; text-align: center; padding: 60px 20px;">
+                        <div style="font-size: 80px; margin-bottom: 20px;">😢</div>
+                        <h3 style="color: #e7cec7; margin-bottom: 15px;">Ups! Algo salió mal</h3>
+                        <p style="color: #e7cec7; margin-bottom: 25px;">No pudimos cargar los productos en este momento.</p>
+                        <button onclick="location.reload()" class="filter-btn" style="display: inline-block;">
+                            Recargar Página
+                        </button>
+                    </div>
+                `;
+            }
             Swal.fire({
                 icon: 'error',
                 title: 'Error',
-                text: 'Hubo un problema cargando los productos.',
+                text: 'Hubo un problema cargando los productos. Por favor intentá de nuevo.',
                 confirmButtonText: 'Aceptar'
             });
         });
@@ -120,9 +157,14 @@ function generateProducts(products) {
         // ID único para el carrusel
         const carouselId = `carousel-${product.name.replace(/[^a-zA-Z0-9]/g, '')}`;
         
+        // Imágenes con lazy loading y alt más descriptivo
         const imagesHTML = product.images.map((img, i) => `
             <div class="carousel-item ${i === 0 ? 'active' : ''}">
-                <img src="${img}" class="d-block w-100" alt="${product.name}">
+                <img src="${img}" 
+                     class="d-block w-100" 
+                     alt="Foto de ${product.name} de Mandala Cakes"
+                     loading="lazy"
+                     onload="this.classList.add('loaded')">
             </div>
         `).join('');
 
@@ -136,7 +178,7 @@ function generateProducts(products) {
             <div class="slice-count">
                 <p>Porciones:</p> <span id="sliceCount">0</span>
             </div>
-            <p class="stock-warning-slices" style="display: none; color: red; font-size: 11px; text-align: center;">¡Última porción!</p>
+            <p class="stock-warning-slices" style="display: none; color: #ff6b6b; font-size: 11px; text-align: center;">¡Última porción!</p>
         ` : '';
 
         // Estructura de la tarjeta (Agregada clase 'reveal')
@@ -169,7 +211,7 @@ function generateProducts(products) {
                     <div class="cake-count">
                         <p>Enteras:</p> <span id="cakeCount">0</span>
                     </div>
-                    <p class="stock-warning-cakes" style="display: none; color: red; font-size: 11px; text-align: center;">¡Última unidad!</p>
+                    <p class="stock-warning-cakes" style="display: none; color: #ff6b6b; font-size: 11px; text-align: center;">¡Última unidad!</p>
                     
                     <div class="add-to-cart">
                         <button class="btn-add-to-cart" data-action="addToCart">AGREGAR AL PEDIDO</button>
@@ -181,7 +223,7 @@ function generateProducts(products) {
     });
 }
 
-// --- FUNCIONES LÓGICAS (Sin cambios, solo asegurando selectores) ---
+// --- FUNCIONES LÓGICAS ---
 
 function incrementSlices(button) {
     let card = button.closest('.card-body');
@@ -215,7 +257,7 @@ function addToCart(button) {
     let card = button.closest('.card-body');
     let title = card.querySelector('.card-title').textContent;
 
-    // Manejo seguro de selectores (el operador ?. evita errores si no existe el elemento)
+    // Manejo seguro de selectores
     let sliceCount = parseInt(card.querySelector('.slice-count span')?.textContent || 0);
     let cakeCount = parseInt(card.querySelector('.cake-count span')?.textContent || 0);
 
@@ -266,14 +308,8 @@ function addToCart(button) {
         if (card.querySelector('.slice-count span')) card.querySelector('.slice-count span').textContent = 0;
         if (card.querySelector('.cake-count span')) card.querySelector('.cake-count span').textContent = 0;
         
-        // Feedback visual
-        const originalText = button.textContent;
-        button.textContent = "¡LISTO!";
-        button.style.backgroundColor = "#4CAF50"; // Verde temporal
-        setTimeout(() => {
-            button.textContent = originalText;
-            button.style.backgroundColor = ""; // Volver al original
-        }, 1000);
+        // Feedback visual mejorado con animación
+        showButtonFeedback(button);
 
     } else {
         Swal.fire({ 
@@ -283,6 +319,28 @@ function addToCart(button) {
             confirmButtonColor: '#8f3a42'
         });
     }
+}
+
+// Función de feedback visual mejorado para el botón
+function showButtonFeedback(button) {
+    const originalText = button.textContent;
+    
+    // Estado de carga
+    button.classList.add('loading');
+    button.innerHTML = '<span class="btn-spinner"></span>Agregando...';
+    
+    // Simular pequeña delay para dar feedback visual
+    setTimeout(() => {
+        button.classList.remove('loading');
+        button.classList.add('success');
+        button.innerHTML = '<span class="btn-check"></span>¡LISTO!';
+        
+        // Volver al estado original después de 1.5 segundos
+        setTimeout(() => {
+            button.classList.remove('success');
+            button.textContent = originalText;
+        }, 1500);
+    }, 300);
 }
 
 function updateCart(products) {
@@ -330,6 +388,7 @@ function removeSlices(index) {
         
         localStorage.setItem("cart", JSON.stringify(cart));
         updateCart(productsData);
+        updateStockDisplay();
     }
 }
 
@@ -344,7 +403,19 @@ function removeCakes(index) {
         
         localStorage.setItem("cart", JSON.stringify(cart));
         updateCart(productsData);
+        updateStockDisplay();
     }
+}
+
+// Actualizar la visualización del stock en las tarjetas
+function updateStockDisplay() {
+    document.querySelectorAll('.card-body').forEach(card => {
+        let title = card.querySelector('.card-title').textContent;
+        let product = productsData.find(p => p.name === title);
+        if (product) {
+            updateStockWarning(card, product);
+        }
+    });
 }
 
 function updateCartCounter(totalItems) {
@@ -406,3 +477,4 @@ window.removeSlices = removeSlices;
 window.removeCakes = removeCakes;
 window.toggleCart = toggleCart;
 window.checkout = checkout;
+
