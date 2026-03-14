@@ -17,6 +17,18 @@ El desarrollo se enfocó en crear una experiencia de usuario robusta utilizando 
 - **Arquitectura Modular**: Organización del código en scripts especializados (`productService.js`, `tienda.js`, `pago.js`) para facilitar el mantenimiento.
 - **JSON**: Utilizado como base de datos local para la gestión de productos y precios.
 
+## ⚙️ Instalación y Ejecución Local
+
+1. **Clonar el repositorio:**
+   ```bash
+   git clone https://github.com/ornemeolans/mandalacakes.git
+2. **Navegar al directorio:**
+   ```bash
+   cd mandalacakes
+3. **Ejecución:**
+  Utiliza módulos de JS y carga un archivo `productos.json` mediante fetch.
+  Utiliza Live Server en VS Code o cualquier servidor HTTP local para garantizar que el `productService.js` funcione correctamente y el carrito persista los datos.
+
 ## 📂 Estructura del Proyecto
 ```text
 /
